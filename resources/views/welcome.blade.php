@@ -22,5 +22,8 @@
     </head>
     <body class="antialiased">
        api labs with nextjs react query
+       <form action="">
+           <input type="text" >
+       </form>
     </body>
 </html>
