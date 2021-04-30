@@ -1,32 +1,101 @@
 /** @format */
 
 import Head from 'next/head';
-import React from 'react';
-
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Loader from 'react-loader-spinner';
 import styles from '../styles/Home.module.css';
-import axios from 'axios';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { ProdCtx, apiGet } from '../contexts/ProductsContext';
 
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+// getStaticProps
+// getServerSideProps;
 
-const apiGet = () => {
-	const response = axios.get('https://jsonplaceholder.typicode.com/users').then((res) => res.data);
-	return response;
+export const getServerSideProps = async () => {
+	const dt = await apiGet();
+
+	return { props: { dt } };
 };
 
-export default function Home() {
-	const { isLoading, error, data, isFetching } = useQuery('users', apiGet);
+export default function Home({ dt }) {
+	const queryClient = useQueryClient();
+	const router = useRouter();
 
-	if (isLoading) return 'Loading...';
+	const [prodMethods, prodStates] = ProdCtx();
+	const { apiGet, apiShow, apiDelete, apiUpdate } = prodMethods;
+	const {} = prodStates;
+
+	const { isLoading, error, data, isFetching } = useQuery('products', apiGet, {
+		initialData: dt,
+		initialStale: true,
+	});
+
+	const mDelete = useMutation((id) => apiDelete(id), {
+		onSuccess: () => queryClient.invalidateQueries('products'),
+	});
+
+	const mUpdate = useMutation((values) => apiUpdate(values));
+
+	if (isLoading)
+		return (
+			<div
+				className='spinner'
+				style={{
+					float: 'right',
+					marginRight: '19px',
+				}}>
+				<Loader
+					type='Bars'
+					color='#00BFFF'
+					height={70}
+					width={70}
+					timeout={3000} //3 secs
+				/>
+			</div>
+		);
 
 	if (error) return 'An error has occurred: ' + error.message;
 
+	if (mDelete.isError) return 'An error has occurred: ' + mDelete.error.message;
+
 	return (
 		<div className={styles.container}>
-			{data.length > 0 &&
-				data?.map((item) => <li key={item.id}> {item.website} </li>)}
+			<button onClick={() => router.push('/add')}>add</button>
 
-			<ReactQueryDevtools initialIsOpen />
+			{data?.length > 0 &&
+				data?.map((item) => (
+					<div key={item.id}>
+						<br />
+						{item.description}
+						{item.price}
+
+						<li>
+							<Link href='/update/[upd]' as={`/update/${item.id}`}>
+								<a
+									onMouseEnter={async () => {
+										await queryClient.prefetchQuery(
+											['product', item.id],
+											() => apiShow(item.id),
+											{
+												staleTime: 10 * 1000, // only prefetch if older than 10 seconds
+											}
+										);
+									}}>
+									{' '}
+									update {item.id}{' '}
+								</a>
+							</Link>
+						</li>
+						<button
+							onClick={() => {
+								mDelete.mutate(item.id);
+							}}
+							disabled={mDelete.isLoading}>
+							delete
+						</button>
+					</div>
+				))}
 		</div>
 	);
 }
