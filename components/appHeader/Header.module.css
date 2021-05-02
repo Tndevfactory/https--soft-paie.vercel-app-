@@ -1,0 +1,49 @@
+/** @format */
+
+.menuPlaceholder{
+	background: rgb(31, 180, 2);
+}
+.desktopMenu {
+	background: rgb(113, 8, 211);
+	color: white;
+	padding: 9px;
+	;
+}
+.menuItems{
+	background: rgb(211, 8, 109);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 23px;
+	border: none !important
+}
+
+.subitem {
+	color: rgb(0, 217, 255) !important;
+	border: none !important;
+}
+.subitem:hover {
+	color: rgb(87, 189, 46) !important;
+	background-color: rgb(87, 189, 46) !important;
+}
+
+.mobileMenu{
+	display:none;
+}
+
+@media (max-width: 600px) {
+	.desktopMenu {
+		background: rgb(167, 211, 8);
+		color: white;
+
+		
+		display: none;
+		
+	}
+	.mobileMenu{
+	display:block;
+	background-color: rgb(87, 189, 46) !important;
+	width:500px;
+}
+
+}

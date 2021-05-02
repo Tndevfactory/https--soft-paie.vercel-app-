@@ -1,0 +1,37 @@
+/** @format */
+
+.AppHeader {
+	background: rgb(113, 8, 211);
+	color: white;
+	padding: 9px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 23px;
+	border: none !important;
+}
+.subitem {
+	color: rgb(0, 217, 255) !important;
+	border: none !important;
+}
+.subitem:hover {
+	color: rgb(87, 189, 46) !important;
+	background-color: rgb(87, 189, 46) !important;
+}
+
+@media (max-width: 600px) {
+	.AppHeader {
+		background: rgb(167, 211, 8);
+		color: white;
+
+		padding: 9px;
+		height: 70vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 23px;
+		width: 100%;
+		flex-direction: column;
+		display: none;
+	}
+}

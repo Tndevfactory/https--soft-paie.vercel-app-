@@ -1,7 +1,13 @@
 # @format
-ya sweetalert2 @sweetalert2/theme-material-ui
-yarn add react-loader-spinner sweetalert2
-yarn add animate.css
-react-animated-css
+
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
+
+ya react-loader-spinner sweetalert2 animate.css
+
+ya date-fns js-cookie styled-components antd sass
+
+ya react-icons @ant-design/icons react-responsive
+
+ya framer-motion  popmotion  @popmotion/popcorn react-spring

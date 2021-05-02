@@ -1,17 +1,17 @@
 /** @format */
 
 import React from 'react';
-import Footer from './Footer';
-import Header from './Header';
+import AppFooter from '../appFooter/AppFooter';
+import AppHeader from '../appHeader/AppHeader';
 
 const Layout = ({ children }) => {
 	return (
 		<div>
-			<Header />
+			<AppHeader />
 
 			{children}
 
-			<Footer />
+			<AppFooter />
 		</div>
 	);
 };

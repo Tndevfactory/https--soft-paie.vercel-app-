@@ -1,0 +1,36 @@
+/** @format */
+
+.container {
+	padding: 1rem 4rem;
+	background-color: #b8c6d6;
+}
+
+.main {
+	flex: 1;
+	text-align: center;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.columnCenter {
+	/* background-color: #a600f3; */
+	flex: 1;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.card{
+	border-radius: 2%;
+}
+@media (max-width: 600px) {
+	.container {
+		padding: 1rem 1rem;
+		background-color: #b8c6d6;
+	}
+	.main {
+		width: 100%;
+		flex-direction: column;
+	}
+}

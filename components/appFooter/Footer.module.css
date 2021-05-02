@@ -1,0 +1,14 @@
+/** @format */
+
+.myfooter {
+	background: rgb(199, 15, 138);
+	padding: 9px;
+}
+
+@media (max-width: 600px) {
+	.myfooter {
+		background: rgb(199, 15, 138);
+		color: white;
+		padding: 59px;
+	}
+}
