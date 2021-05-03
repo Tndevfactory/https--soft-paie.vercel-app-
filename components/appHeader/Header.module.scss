@@ -1,0 +1,63 @@
+/** @format */
+%switch {
+	margin: -4px 5px 5px 15px;
+}
+.switchChecked {
+	@extend %switch;
+	background: rgb(39, 73, 13) !important;
+}
+.switchUnChecked {
+	@extend %switch;
+	background: rgb(156, 182, 7) !important;
+}
+
+%navbar {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	height: 90px;
+	padding: 23px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9;
+
+	@media (max-width: 600px) {
+		.navbar {
+			background: rgb(167, 211, 8);
+			color: white;
+
+			display: none;
+		}
+	}
+}
+.navbar_dk {
+	@extend %navbar;
+	background: rgb(36, 39, 5);
+	color: rgb(218, 186, 201);
+}
+.navbar_ctl {
+	@extend %navbar;
+	background: rgb(202, 221, 28);
+	color: rgb(7, 19, 2);
+}
+.halfMenu {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	.loginSwitch {
+		@extend .halfMenu;
+	}
+}
+
+.menuItem {
+	color: rgb(94, 255, 0);
+	border: none !important;
+	&:hover {
+		color: red !important;
+	}
+	.loginIcon {
+		font-size: 22px;
+	}
+}

@@ -53,7 +53,7 @@ export const apiDelete = async (id) => {
 };
 
 export const ProductProvider = ({ children }) => {
-	const [var1, setVar1] = useState('t');
+	const [switchMode, setSwitchMode] = useState(false);
 
 	const methods = {
 		apiGet,
@@ -64,7 +64,8 @@ export const ProductProvider = ({ children }) => {
 	};
 
 	const states = {
-		var1,
+		switchMode,
+		setSwitchMode,
 	};
 
 	return (

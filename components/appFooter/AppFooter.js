@@ -4,10 +4,9 @@ import { FaBeer } from 'react-icons/fa';
 import { Button, Space, Upload, Popconfirm } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
-import styles from './Footer.module.css';
+import styles from './Footer.module.scss';
 
 const AppFooter = () => {
-
 	return (
 		<div className={styles.myfooter}>
 			<h3>
