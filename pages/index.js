@@ -1,10 +1,7 @@
 /** @format */
 import { Row, Col } from "antd";
-import Head from "next/head";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
-import Loader from "react-loader-spinner";
 import styles from "../styles/Home.module.scss";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { ProdCtx, apiGet } from "../contexts/ProductsContext";
@@ -18,13 +15,12 @@ export const getServerSideProps = async () => {
 
 export default function Home({ dt }) {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiShow, apiDelete, apiUpdate } = prodMethods;
+  const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const {} = prodStates;
 
-  const { isLoading, error, data, isFetching } = useQuery("products", apiGet, {
+  const { isLoading, error, data } = useQuery("products", apiGet, {
     initialData: dt,
     initialStale: true,
   });
@@ -35,24 +31,7 @@ export default function Home({ dt }) {
 
   const mUpdate = useMutation((values) => apiUpdate(values));
 
-  if (isLoading)
-    return (
-      <div
-        className="spinner"
-        style={{
-          float: "right",
-          marginRight: "19px",
-        }}
-      >
-        <Loader
-          type="Bars"
-          color="#00BFFF"
-          height={70}
-          width={70}
-          timeout={3000} //3 secs
-        />
-      </div>
-    );
+  if (isLoading) return <div>loading ...</div>;
 
   if (error) return "An error has occurred: " + error.message;
 

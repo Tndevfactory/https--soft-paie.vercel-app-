@@ -11,3 +11,22 @@ ya date-fns js-cookie styled-components antd sass
 ya react-icons @ant-design/icons react-responsive
 
 ya framer-motion  popmotion  @popmotion/popcorn react-spring
+
+
+loader:
+  import Loader from "react-loader-spinner";
+  <div
+        className="Bars"
+        style={{
+          float: "right",
+          marginRight: "19px",
+        }}
+      >
+        <Loader
+          type="Bars"
+          color="#00BFFF"
+          height={70}
+          width={70}
+          timeout={3000} //3 secs
+        />
+      </div>

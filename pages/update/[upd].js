@@ -1,10 +1,8 @@
 /** @format */
 
-import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import styles from "./Add.module.css";
-import Loader from "react-loader-spinner";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { motion } from "framer-motion";
 import { ProdCtx, apiShow } from "../../contexts/ProductsContext";
@@ -22,7 +20,7 @@ export default function Updatep({ dt }) {
   const { upd } = router.query;
 
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiAdd, apiUpdate, apiShow } = prodMethods;
+  const { apiUpdate, apiShow } = prodMethods;
   const {} = prodStates;
 
   const [description, setDescription] = useState("");
@@ -57,27 +55,9 @@ export default function Updatep({ dt }) {
 
   const apd = (e) => {
     e.preventDefault();
-    console.log(values);
     mUpdate.mutate(upd, values);
   };
-  if (isLoading)
-    return (
-      <div
-        className="Bars"
-        style={{
-          float: "right",
-          marginRight: "19px",
-        }}
-      >
-        <Loader
-          type="Bars"
-          color="#00BFFF"
-          height={70}
-          width={70}
-          timeout={3000} //3 secs
-        />
-      </div>
-    );
+  if (isLoading) return <div>loading ....</div>;
 
   return (
     <motion.div

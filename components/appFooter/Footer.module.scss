@@ -6,11 +6,11 @@
 }
 .footer_ctl {
 	@extend %footer;
-	background: $ctl_background !important;
-	color: $dk_text !important;
+	background: darken($ctl_background, 15%) !important;
+	color: $ctl_text !important;
 }
 .footer_dk {
 	@extend %footer;
-	background: $dk_background !important;
+	background: darken($dk_background, 20%) !important;
 	color: $ctl_text !important;
 }
