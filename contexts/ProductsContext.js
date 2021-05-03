@@ -9,7 +9,9 @@ export const ProdCtx = () => {
 	return useContext(ProductContext);
 };
 
+const BASE_URL_SERVER = 'https://tndev3.tn-devfactory.com/api';
 const api = axios.create({
+	//baseURL: BASE_URL_SERVER,
 	baseURL: process.env.BASE_URL,
 });
 
