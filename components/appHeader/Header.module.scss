@@ -1,11 +1,12 @@
 /** @format */
+@use '../../styles/variables' as *;
 
 @mixin txt {
 	.text_dk {
-		color: white;
+		color: $ctl_text;
 	}
 	.text_ctl {
-		color: rgb(58, 56, 56);
+		color: $dk_text;
 	}
 }
 
@@ -14,11 +15,11 @@
 }
 .switchChecked {
 	@extend %switch;
-	background: rgb(39, 73, 13) !important;
+	background: $dk_background !important;
 }
 .switchUnChecked {
 	@extend %switch;
-	background: rgb(156, 182, 7) !important;
+	background: $ctl_background !important;
 }
 
 %navbar {
@@ -37,8 +38,8 @@
 
 	@media (max-width: 600px) {
 		.navbar {
-			background: rgb(167, 211, 8);
-			color: white;
+			background: $dk_background;
+			color: $ctl_text;
 
 			display: none;
 		}
@@ -46,13 +47,13 @@
 }
 .navbar_dk {
 	@extend %navbar;
-	background: rgb(36, 39, 5);
-	color: rgb(218, 186, 201);
+	background: $dk_background;
+	color: $ctl_text;
 }
 .navbar_ctl {
 	@extend %navbar;
-	background: rgb(202, 221, 28);
-	color: rgb(7, 19, 2);
+	background: $ctl_background;
+	color: $dk_text;
 }
 .halfMenu {
 	display: flex;

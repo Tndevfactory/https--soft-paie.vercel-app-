@@ -1,13 +1,16 @@
 /** @format */
+@use '../../styles/variables' as *;
 
 %footer {
 	padding: 9px;
 }
 .footer_ctl {
 	@extend %footer;
-	background: rgb(85, 154, 245);
+	background: $ctl_background !important;
+	color: $dk_text !important;
 }
 .footer_dk {
 	@extend %footer;
-	background: rgb(71, 6, 50);
+	background: $dk_background !important;
+	color: $ctl_text !important;
 }

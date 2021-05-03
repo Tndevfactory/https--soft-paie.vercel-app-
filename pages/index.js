@@ -2,7 +2,7 @@
 import { Row, Col } from "antd";
 import Head from "next/head";
 import React, { useState } from "react";
-
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Loader from "react-loader-spinner";
 import styles from "../styles/Home.module.scss";
@@ -59,13 +59,19 @@ export default function Home({ dt }) {
   if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
 
   return (
-    <Row justify="center" className={styles.main} gutter={[16, 16]}>
-      {data?.length > 0 &&
-        data?.map((item) => (
-          <Col key={item.id} className={styles.col}>
-            <Cards mDelete={mDelete} item={item} />
-          </Col>
-        ))}
-    </Row>
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <Row justify="center" className={styles.main} gutter={[16, 16]}>
+        {data?.length > 0 &&
+          data?.map((item) => (
+            <Col key={item.id} className={styles.col}>
+              <Cards mDelete={mDelete} item={item} />
+            </Col>
+          ))}
+      </Row>
+    </motion.div>
   );
 }

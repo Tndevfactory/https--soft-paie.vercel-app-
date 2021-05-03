@@ -11,23 +11,14 @@ const AppFooter = ({ switchMode, setSwitchMode }) => {
 		<div className={switchMode ? styles.footer_dk : styles.footer_ctl}>
 			<h3>
 				{' '}
-				Lets go for a <FaBeer />?{' '}
+				HELLO <FaBeer />?{' '}
 			</h3>
 
 			<Space>
-				Space
-				<Button type='primary'>Button</Button>
-				<Upload>
-					<Button>
-						<UploadOutlined /> Click to Upload
-					</Button>
-				</Upload>
-				<Popconfirm
-					title='Are you sure delete this task?'
-					okText='Yes'
-					cancelText='No'>
-					<Button>Confirm</Button>
-				</Popconfirm>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime
+				cupiditate rem ea similique. A repudiandae vero consequatur aliquam
+				asperiores cumque eveniet? Quae, animi ipsam nesciunt reprehenderit
+				aliquid facere a alias.
 			</Space>
 		</div>
 	);
