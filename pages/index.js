@@ -59,7 +59,7 @@ export default function Home({ dt }) {
   if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
 
   return (
-    <Row className={styles.main}>
+    <Row justify="center" className={styles.main} gutter={[16, 16]}>
       {data?.length > 0 &&
         data?.map((item) => (
           <Col key={item.id} className={styles.col}>

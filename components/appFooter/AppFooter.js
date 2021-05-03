@@ -6,9 +6,9 @@ import { UploadOutlined } from '@ant-design/icons';
 
 import styles from './Footer.module.scss';
 
-const AppFooter = () => {
+const AppFooter = ({ switchMode, setSwitchMode }) => {
 	return (
-		<div className={styles.myfooter}>
+		<div className={switchMode ? styles.footer_dk : styles.footer_ctl}>
 			<h3>
 				{' '}
 				Lets go for a <FaBeer />?{' '}

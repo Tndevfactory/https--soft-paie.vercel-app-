@@ -14,9 +14,11 @@ const Layout = ({ children }) => {
 	return (
 		<>
 			<AppHeader setSwitchMode={setSwitchMode} switchMode={switchMode} />
-			{children}
+			<div className={switchMode ? styles.layout_dk : styles.layout_ctl}>
+				{children}
+			</div>
 
-			<AppFooter />
+			<AppFooter setSwitchMode={setSwitchMode} switchMode={switchMode} />
 		</>
 	);
 };

@@ -13,7 +13,7 @@ const AppHeader = ({ switchMode, setSwitchMode }) => {
 
 	const onChange = (checked) => {
 		//console.log(`switch to ${checked}`);
-		console.log('state ' + switchMode);
+		//console.log('state ' + switchMode);
 		setSwitchMode(checked);
 	};
 
@@ -26,12 +26,18 @@ const AppHeader = ({ switchMode, setSwitchMode }) => {
 		<Row className={switchMode ? styles.navbar_dk : styles.navbar_ctl}>
 			<Col flex='200px' className={styles.brand}>
 				{' '}
-				<Title level={4}>h4. Ant Design</Title>
+				<Title
+					level={4}
+					className={switchMode ? styles.text_dk : styles.text_ctl}>
+					Soft-Paie
+				</Title>
 			</Col>
 			<Col flex='auto' className={styles.halfMenu}>
 				<div className={styles.loginSwitch}>
-					<Title level={4}>
-						login
+					<Title
+						className={switchMode ? styles.text_dk : styles.text_ctl}
+						level={4}>
+						Se Connecter
 						<AiOutlineLogin />
 					</Title>
 					<Switch

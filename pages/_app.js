@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }) {
             <Component {...pageProps} />
           </Layout>
         </ProductProvider>
-        {/* <ReactQueryDevtools initialIsOpen /> */}
+        <ReactQueryDevtools initialIsOpen />
       </QueryClientProvider>
     </>
   );

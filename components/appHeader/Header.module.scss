@@ -1,4 +1,14 @@
 /** @format */
+
+@mixin txt {
+	.text_dk {
+		color: white;
+	}
+	.text_ctl {
+		color: rgb(58, 56, 56);
+	}
+}
+
 %switch {
 	margin: -4px 5px 5px 15px;
 }
@@ -22,6 +32,8 @@
 	justify-content: center;
 	align-items: center;
 	z-index: 9;
+
+	@include txt;
 
 	@media (max-width: 600px) {
 		.navbar {
@@ -48,16 +60,5 @@
 	align-items: center;
 	.loginSwitch {
 		@extend .halfMenu;
-	}
-}
-
-.menuItem {
-	color: rgb(94, 255, 0);
-	border: none !important;
-	&:hover {
-		color: red !important;
-	}
-	.loginIcon {
-		font-size: 22px;
 	}
 }

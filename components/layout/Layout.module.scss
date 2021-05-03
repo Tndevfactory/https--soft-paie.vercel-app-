@@ -1,4 +1,12 @@
 /** @format */
-// .layout {
-// 	padding: 1rem 4rem;
-// }
+%layout {
+	padding-top: 107px;
+}
+.layout_dk {
+	@extend %layout;
+	background-color: rgb(124, 124, 124);
+}
+.layout_ctl {
+	@extend %layout;
+	background-color: rgb(238, 238, 238);
+}

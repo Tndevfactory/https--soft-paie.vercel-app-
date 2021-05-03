@@ -1,6 +1,13 @@
 /** @format */
 
-.myfooter {
-	background: rgb(199, 15, 138);
+%footer {
 	padding: 9px;
+}
+.footer_ctl {
+	@extend %footer;
+	background: rgb(85, 154, 245);
+}
+.footer_dk {
+	@extend %footer;
+	background: rgb(71, 6, 50);
 }
