@@ -1,15 +1,28 @@
 /** @format */
 
+.premain {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  padding-bottom: 60px;
+}
+.secmain {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 120px;
+}
 .main {
-	padding: 1rem 5rem 5rem 6rem;
+  padding: 1rem 5rem 5rem 6rem;
 
-	flex-wrap: wrap;
-	display: flex;
-	@media (max-width: 600px) {
-		padding: 0;
-	}
+  flex-wrap: wrap;
+  display: flex;
+  @media (max-width: 600px) {
+    padding: 0;
+  }
 }
 .col {
-	display: flex;
-	justify-content: flex-start;
+  display: flex;
+  justify-content: flex-start;
 }

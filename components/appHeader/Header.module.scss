@@ -2,64 +2,64 @@
 @use '../../styles/variables' as *;
 
 @mixin txt {
-	.text_dk {
-		color: $ctl_text;
-	}
-	.text_ctl {
-		color: $dk_text;
-	}
+  .text_dk {
+    color: $ctl_text;
+  }
+  .text_ctl {
+    color: $dk_text;
+  }
 }
 
 %switch {
-	margin: -4px 5px 5px 15px;
+  margin: -4px 5px 5px 15px;
 }
 .switchChecked {
-	@extend %switch;
-	background: $dk_background !important;
+  @extend %switch;
+  background: $dk_background !important;
 }
 .switchUnChecked {
-	@extend %switch;
-	background: $ctl_background !important;
+  @extend %switch;
+  background: $ctl_background !important;
 }
 
 %navbar {
-	position: fixed;
-	width: 100%;
-	top: 0;
-	left: 0;
-	height: 90px;
-	padding: 23px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 9;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 90px;
+  padding: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9;
 
-	@include txt;
+  @include txt;
 
-	@media (max-width: 600px) {
-		.navbar {
-			background: $dk_background;
-			color: $ctl_text;
+  @media (max-width: 600px) {
+    .navbar {
+      background: $dk_background;
+      color: $ctl_text;
 
-			display: none;
-		}
-	}
+      display: none;
+    }
+  }
 }
 .navbar_dk {
-	@extend %navbar;
-	background: $dk_background;
-	color: $ctl_text;
+  @extend %navbar;
+  background: $dk_background;
+  color: $ctl_text;
 }
 .navbar_ctl {
-	@extend %navbar;
-	background: $ctl_background;
-	color: $dk_text;
+  @extend %navbar;
+  background: $ctl_background;
+  color: $dk_text;
 }
 .halfMenu {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	.loginSwitch {
-		@extend .halfMenu;
-	}
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .loginSwitch {
+    @extend .halfMenu;
+  }
 }

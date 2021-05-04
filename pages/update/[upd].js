@@ -58,12 +58,39 @@ export default function Updatep({ dt }) {
     mUpdate.mutate(upd, values);
   };
   if (isLoading) return <div>loading ....</div>;
+  const easing = [0.6, -0.05, 0.01, 0.99];
+
+  const fadeUp = {
+    exit: {
+      opacity: 0,
+    },
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+
+      transition: {
+        duration: 0.1,
+        ease: easing,
+      },
+    },
+  };
+
+  const fadestaggerUp = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
 
   return (
     <motion.div
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      variants={fadeUp}
+      initial="initial"
+      animate="animate"
+      exit="exit"
     >
       <form onSubmit={apd}>
         <input
