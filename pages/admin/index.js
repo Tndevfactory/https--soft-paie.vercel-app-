@@ -9,9 +9,10 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { ProdCtx } from "../../contexts/ProductsContext";
-
 import styles from "./Admin.module.scss";
+import { Typography } from "antd";
 
+const { Title } = Typography;
 const { Header, Sider, Content } = Layout;
 
 const Admin = () => {
@@ -39,72 +40,89 @@ const Admin = () => {
     }
   }, [hasWindow]);
   const { width, height } = dimensions;
-  console.log("dimension");
-  console.log(width);
-  console.log(height);
+  // console.log("dimension");
+  // console.log(width);
+  // console.log(height);
   return (
     <Layout>
       <Sider
-        className={styles.siteLayout}
+        className={switchMode ? styles.siteLayout_ctl : styles.siteLayout_dk}
         trigger={null}
         collapsible
         collapsed={collapsed}
       >
-        <div className={styles.logo}>Admin</div>
-        <Menu className={styles.siteLayout} theme="dark" mode="inline">
+        <div className={switchMode ? styles.logo_ctl : styles.logo_dk}>
+          <Title level={4}>Administration</Title>
+        </div>
+        <Menu
+          className={switchMode ? styles.siteLayout_ctl : styles.siteLayout_dk}
+          theme="dark"
+          mode="inline"
+        >
           <Menu.Item
             className={
               selected === 1
-                ? styles.antMenuItemSelected
+                ? switchMode
+                  ? styles.antMenuItemSelected_ctl
+                  : styles.antMenuItemSelected_dk
                 : styles.antMenuItemUnSelected
             }
             key="1"
             icon={<UserOutlined />}
             onClick={handleSelect}
           >
-            nav 1
+            Consulter fiche
           </Menu.Item>
           <Menu.Item
             className={
               selected === 2
-                ? styles.antMenuItemSelected
+                ? switchMode
+                  ? styles.antMenuItemSelected_ctl
+                  : styles.antMenuItemSelected_dk
                 : styles.antMenuItemUnSelected
             }
             key="2"
             icon={<VideoCameraOutlined />}
             onClick={handleSelect}
           >
-            nav 2
+            Consulter fiche 2
           </Menu.Item>
           <Menu.Item
             className={
               selected === 3
-                ? styles.antMenuItemSelected
+                ? switchMode
+                  ? styles.antMenuItemSelected_ctl
+                  : styles.antMenuItemSelected_dk
                 : styles.antMenuItemUnSelected
             }
             key="3"
             icon={<UploadOutlined />}
             onClick={handleSelect}
           >
-            nav 3
+            Consulter fiche 3
           </Menu.Item>
           <Menu.Item
             className={
               selected === 4
-                ? styles.antMenuItemSelected
+                ? switchMode
+                  ? styles.antMenuItemSelected_ctl
+                  : styles.antMenuItemSelected_dk
                 : styles.antMenuItemUnSelected
             }
             key="4"
             icon={<UploadOutlined />}
             onClick={handleSelect}
           >
-            nav 3
+            Consulter fiche 3
           </Menu.Item>
         </Menu>
       </Sider>
 
-      <Layout className={styles.siteLayout}>
-        <Header className={styles.siteLayoutBackground} style={{ padding: 0 }}>
+      <Layout>
+        <Header
+          className={switchMode ? styles.header_ctl : styles.header_dk}
+          style={{ padding: 0 }}
+        >
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {

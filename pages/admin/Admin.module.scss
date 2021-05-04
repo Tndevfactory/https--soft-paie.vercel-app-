@@ -1,38 +1,58 @@
 @use '../../styles/variables' as *;
 
-$dk_background: #001d3d;
-$ctl_text: rgb(255, 255, 255);
-
-$ctl_background: #00afb9;
-$dk_text: rgb(37, 37, 37);
-
 .trigger {
   padding: 0 24px;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 64px;
   cursor: pointer;
   transition: color 0.3s;
   &:hover {
-    color: #ff9318;
+    color: $ctl_background;
   }
 }
 
-.antMenuItemSelected {
-  background: rgb(21, 134, 6) !important;
+.antMenuItemSelected_ctl {
+  background: $dk_background !important;
+}
+.antMenuItemSelected_dk {
+  background: $ctl_background !important;
 }
 .antMenuItemUnSelected {
   background: transparent !important;
 }
 
-.logo {
+%logo {
   height: 32px;
   margin: 16px;
-  background: rgba(255, 255, 255, 0.3) !important;
+  text-align: center;
+  @media (max-height: 600px) {
+    font-size: 10px;
+  }
+}
+.logo_dk {
+  @extend %logo;
+  background: darken($ctl_background, 9%) !important;
+  color: $ctl_text;
+}
+.logo_ctl {
+  @extend %logo;
+  background: $ctl_background !important;
+  color: $dk_background;
 }
 
-.siteLayout {
-  background: rgb(197, 4, 4) !important;
+.header_dk {
+  background: darken($ctl_background, 18%) !important;
+}
+.header_ctl {
+  background: darken($ctl_background, 35%) !important;
+}
+
+.siteLayout_dk {
+  background: darken($ctl_background, 18%) !important;
+}
+.siteLayout_ctl {
+  background: darken($ctl_background, 35%) !important;
 }
 .siteLayoutBackground {
-  background: rgb(21, 134, 6) !important;
+  background: $ctl_text !important;
 }
