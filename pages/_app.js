@@ -1,7 +1,6 @@
 /** @format */
 import "antd/dist/antd.css";
 import "../styles/globals.scss";
-import { AnimatePresence } from "framer-motion";
 
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -20,9 +19,7 @@ function MyApp({ Component, pageProps, router }) {
       <QueryClientProvider client={queryClient}>
         <ProductProvider>
           <Layout>
-            <AnimatePresence exitBeforeEnter>
-              <Component {...pageProps} key={router.route} />
-            </AnimatePresence>
+            <Component {...pageProps} key={router.route} />
           </Layout>
         </ProductProvider>
         <ReactQueryDevtools initialIsOpen />
