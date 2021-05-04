@@ -1,0 +1,38 @@
+@use '../../styles/variables' as *;
+
+$dk_background: #001d3d;
+$ctl_text: rgb(255, 255, 255);
+
+$ctl_background: #00afb9;
+$dk_text: rgb(37, 37, 37);
+
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+  &:hover {
+    color: #ff9318;
+  }
+}
+
+.antMenuItemSelected {
+  background: rgb(21, 134, 6) !important;
+}
+.antMenuItemUnSelected {
+  background: transparent !important;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.siteLayout {
+  background: rgb(197, 4, 4) !important;
+}
+.siteLayoutBackground {
+  background: rgb(21, 134, 6) !important;
+}

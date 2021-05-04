@@ -1,12 +1,13 @@
 /** @format */
 %layout {
-	padding-top: 107px;
+  //padding-top: 107px;
+  padding-top: 87px;
 }
 .layout_dk {
-	@extend %layout;
-	background-color: rgb(124, 124, 124);
+  @extend %layout;
+  background-color: rgb(124, 124, 124);
 }
 .layout_ctl {
-	@extend %layout;
-	background-color: rgb(238, 238, 238);
+  @extend %layout;
+  background-color: rgb(238, 238, 238);
 }
