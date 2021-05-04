@@ -4,7 +4,7 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 
-ya react-loader-spinner sweetalert2 animate.css
+ya react-pure-loaders
 
 ya date-fns js-cookie styled-components antd sass
 
@@ -14,7 +14,8 @@ ya framer-motion  popmotion  @popmotion/popcorn react-spring chroma-js
 ya babel-preset-next
 
 loader: -------------------------------------------
-  import Loader from "react-loader-spinner";
+ import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
   <div
         className="Bars"
         style={{
