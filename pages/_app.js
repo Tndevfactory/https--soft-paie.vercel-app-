@@ -2,7 +2,7 @@
 import "antd/dist/antd.css";
 import "../styles/globals.scss";
 import { AnimatePresence } from "framer-motion";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
