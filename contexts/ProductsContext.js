@@ -15,11 +15,6 @@ const api = axios.create({
   baseURL: process.env.BASE_URL,
 });
 
-// console.log('process.env.NODE_ENV');
-// console.log(process.env.NODE_ENV);
-// console.log('process.env.BASE_URL');
-// console.log(process.env.BASE_URL);
-
 api.interceptors.request.use(function (config) {
   //const token = localStorage.getItem('token');
   const token = "eyJ0eXAiOiJKV1QiLCJNTEwMTguNTqhfE0crsX6gTpywbEeZHVLDyyYR9yg";
@@ -63,15 +58,12 @@ const getDimensions = () => {
   };
 };
 
-// const getElementDimensions = (myRef) => {
-//   const width = myRef ? null : myRef.offsetWidth;
-//   const height = myRef ? null : myRef.offsetHeight;
-
-//   return { width, height };
-// };
-
 export const ProductProvider = ({ children }) => {
   const [switchMode, setSwitchMode] = useState(false);
+  const [notification, setNotification] = useState({
+    notifType: "",
+    notifMsg: "",
+  });
 
   const methods = {
     apiGet,
@@ -84,6 +76,8 @@ export const ProductProvider = ({ children }) => {
   };
 
   const states = {
+    notification,
+    setNotification,
     switchMode,
     setSwitchMode,
     hasWindow,

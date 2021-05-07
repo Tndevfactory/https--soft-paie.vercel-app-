@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import chroma from "chroma-js";
-
-const switchMode = true;
-
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 const device = {
   mobile: `(max-width: 600px)`,
 
@@ -49,6 +47,7 @@ const Login_st = styled(motion.div)`
     }
 
     .input_form {
+      position: relative;
       label {
         margin: 5px 0px;
         display: block;
@@ -61,12 +60,19 @@ const Login_st = styled(motion.div)`
         padding: 0px 9px;
         color: ${ui.dark};
         &::placeholder {
-          color: darken(grey, 10%);
+          color: ${chroma(ui.dark).brighten(1)};
           font-size: 15px;
         }
         &:focus {
           border: 1px solid rgba(55, 66, 88, 0.6);
         }
+      }
+      .show_password {
+        position: absolute;
+        right: 5px;
+        top: 43px;
+        color: ${ui.dark};
+        cursor: pointer;
       }
       .error {
         color: ${({ switchMode }) =>
@@ -167,31 +173,108 @@ const Login_st = styled(motion.div)`
 `;
 
 const Login1 = ({ switchMode }) => {
+  const [credential, setCredential] = useState({
+    email: "",
+    password: "",
+    emailError: "",
+    passwordError: "",
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleOnchange = (e) => {
+    credential.passwordError = "";
+    credential.emailError = "";
+    setCredential({
+      ...credential,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleValidate = () => {
+    let errorFlag = false;
+
+    if (credential.email.length === 0) {
+      setCredential({
+        ...credential,
+        emailError: "champ obligatoire",
+      });
+      errorFlag = true;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential.email)) {
+      setCredential({
+        ...credential,
+        emailError: "mauvais format",
+      });
+      errorFlag = true;
+    } else if (credential.password.length < 6) {
+      setCredential({
+        ...credential,
+        passwordError:
+          "mot de passe doit etre au moins de longeur de 6 caracteres ",
+      });
+      errorFlag = true;
+    }
+
+    if (errorFlag) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (handleValidate()) {
+      console.log("all data verified before sent");
+      setCredential({
+        email: "",
+        password: "",
+        emailError: "",
+        passwordError: "",
+      });
+    }
+  };
+
   return (
     <div>
       <Login_st switchMode={switchMode}>
-        <div className="form_container">
+        <form className="form_container" onSubmit={handleSubmit}>
           <div className="title_form">CONNEXION</div>
           <div className="input_form">
             <label htmlFor="email">Adresse Email:</label>
             <input
               name="email"
               type="email"
+              value={credential.email}
               placeholder="Entrer votre adresse email"
+              onChange={handleOnchange}
             />
-            <div className="error">error</div>
+            <div className="error">
+              {credential.emailError && credential.emailError}
+            </div>
           </div>
           <div className="input_form">
             <label htmlFor="password">Mot de passe:</label>
             <input
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
+              value={credential.password}
               placeholder="Entrer votre mot de passe"
+              onChange={handleOnchange}
             />
-            <div className="error">error</div>
+            <div
+              className="show_password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </div>
+
+            <div className="error">
+              {credential.passwordError && credential.passwordError}
+            </div>
           </div>
           <div className="button_form">
-            <button>se connecter</button>
+            <button type="submit">se connecter</button>
             <span>
               Vous n avez pas de compte, veuillez
               <Link href="/register">
@@ -199,7 +282,7 @@ const Login1 = ({ switchMode }) => {
               </Link>
             </span>
           </div>
-        </div>
+        </form>
       </Login_st>
     </div>
   );
