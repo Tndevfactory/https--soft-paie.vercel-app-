@@ -2,7 +2,7 @@
 
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
-import { device } from "./vars_st";
+import { device } from "../vars_st";
 import chroma from "chroma-js";
 
 export const Button_st = styled(motion.button)`

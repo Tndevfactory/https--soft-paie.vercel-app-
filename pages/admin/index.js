@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
@@ -17,7 +17,7 @@ const { Header, Sider, Content } = Layout;
 
 const Admin = () => {
   const [prodMethods, prodStates] = ProdCtx();
-  const { getDimensions } = prodMethods;
+  const { getDimensions, getElementDimensions } = prodMethods;
   const { switchMode, hasWindow } = prodStates;
 
   const [dimensions, setDimensions] = useState(getDimensions);
@@ -40,9 +40,20 @@ const Admin = () => {
     }
   }, [hasWindow]);
   const { width, height } = dimensions;
-  // console.log("dimension");
-  // console.log(width);
-  // console.log(height);
+
+  const [elem, setElem] = useState(0);
+  const elRef = useRef();
+  const prevRef = useRef();
+
+  React.useEffect(() => {
+    setElem(elRef.current.clientWidth);
+    if (elem === 48) {
+      setElem(168);
+    } else {
+      setElem(48);
+    }
+  }, [collapsed]);
+
   return (
     <Layout>
       <Sider
@@ -51,8 +62,13 @@ const Admin = () => {
         collapsible
         collapsed={collapsed}
       >
-        <div className={switchMode ? styles.logo_ctl : styles.logo_dk}>
-          <Title level={4}>Administration</Title>
+        <div
+          ref={elRef}
+          className={switchMode ? styles.logo_ctl : styles.logo_dk}
+        >
+          <Title level={4}>
+            {elem === 48 ? <span>Paie</span> : <span>Administration</span>}
+          </Title>
         </div>
         <Menu
           className={switchMode ? styles.siteLayout_ctl : styles.siteLayout_dk}
@@ -130,7 +146,6 @@ const Admin = () => {
               onClick: () => setCollapsed(!collapsed),
             }
           )}
-          <p></p>
         </Header>
 
         <Content

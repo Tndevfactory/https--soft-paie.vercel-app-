@@ -63,6 +63,13 @@ const getDimensions = () => {
   };
 };
 
+// const getElementDimensions = (myRef) => {
+//   const width = myRef ? null : myRef.offsetWidth;
+//   const height = myRef ? null : myRef.offsetHeight;
+
+//   return { width, height };
+// };
+
 export const ProductProvider = ({ children }) => {
   const [switchMode, setSwitchMode] = useState(false);
 
@@ -73,6 +80,7 @@ export const ProductProvider = ({ children }) => {
     apiUpdate,
     apiDelete,
     getDimensions,
+    //getElementDimensions,
   };
 
   const states = {

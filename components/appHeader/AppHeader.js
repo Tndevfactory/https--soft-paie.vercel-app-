@@ -1,47 +1,47 @@
 /** @format */
 import React, { useState } from "react";
-import { Row, Col, Menu, Switch, Typography } from "antd";
-import { LoginOutlined } from "@ant-design/icons";
+import { Switch } from "antd";
+
 import styles from "./Header.module.scss";
 import { AiOutlineLogin } from "react-icons/ai";
-
-const { SubMenu } = Menu;
-const { Title } = Typography;
+import Image from "next/image";
+import Link from "next/link";
 
 const AppHeader = ({ switchMode, setSwitchMode }) => {
   const [current, setCurrent] = useState("mail");
 
   const onChange = (checked) => {
-    //console.log(`switch to ${checked}`);
-    //console.log('state ' + switchMode);
     setSwitchMode(checked);
   };
 
-  const handleClick = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
-  };
-
   return (
-    <Row className={switchMode ? styles.navbar_dk : styles.navbar_ctl}>
-      <Col flex="200px" className={styles.brand}>
-        {" "}
-        <Title
-          level={4}
-          className={switchMode ? styles.text_dk : styles.text_ctl}
-        >
-          Soft-Paie
-        </Title>
-      </Col>
-      <Col flex="auto" className={styles.halfMenu}>
-        <div className={styles.loginSwitch}>
-          <Title
-            className={switchMode ? styles.text_dk : styles.text_ctl}
-            level={4}
-          >
-            Se Connecter
-            <AiOutlineLogin />
-          </Title>
+    <div className={switchMode ? styles.navbar_dk : styles.navbar_ctl}>
+      <div className={styles.brand_area}>
+        <div className={styles.brand_txt}>
+          <Link href="/">
+            <a>
+              <span className={styles.brand_txt_txt}>Soft-Paie</span>
+            </a>
+          </Link>
+        </div>
+        <div>
+          <Image src="/img/logo.png" alt="logo" width={35} height={35} />
+        </div>
+      </div>
+      <div className={styles.login_area}>
+        <Link href="/">
+          <a>
+            <div className={styles.login_txt_seconnecter}>Se Connecter</div>
+          </a>
+        </Link>
+        <div className={styles.login_logo}>
+          <Link href="/">
+            <a>
+              <AiOutlineLogin className={styles.login_logo_componenent} />
+            </a>
+          </Link>
+        </div>
+        <div className={styles.login_switch}>
           <Switch
             className={
               switchMode ? styles.switchUnChecked : styles.switchChecked
@@ -49,8 +49,8 @@ const AppHeader = ({ switchMode, setSwitchMode }) => {
             onChange={onChange}
           />
         </div>
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 };
 
