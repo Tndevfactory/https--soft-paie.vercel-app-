@@ -65,6 +65,11 @@ export const ProductProvider = ({ children }) => {
     notifMsg: "",
   });
 
+  const ui = {
+    dark: "#001d3d",
+    light: "#00afb9",
+  };
+
   const methods = {
     apiGet,
     apiAdd,
@@ -81,6 +86,7 @@ export const ProductProvider = ({ children }) => {
     switchMode,
     setSwitchMode,
     hasWindow,
+    ui,
   };
 
   return (

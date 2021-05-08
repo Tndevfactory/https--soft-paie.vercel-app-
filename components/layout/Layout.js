@@ -10,14 +10,29 @@ import Alert1 from "../alerts/Alert1";
 const Layout = ({ children }) => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { switchMode, setSwitchMode } = prodStates;
+  const {
+    notification,
+    setNotification,
+    switchMode,
+    setSwitchMode,
+  } = prodStates;
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setNotification({
+        notifType: "",
+        notifMsg: "",
+      });
+    }, 3000);
+  }, [notification]);
 
   return (
     <>
       <AppHeader setSwitchMode={setSwitchMode} switchMode={switchMode} />
 
       <div className={switchMode ? styles.layout_dk : styles.layout_ctl}>
-        <Alert1 />
+        {notification.notifType !== "" ? <Alert1 /> : null}
+
         {children}
       </div>
 

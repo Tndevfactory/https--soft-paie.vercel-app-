@@ -13,11 +13,11 @@
 }
 .footer_ctl {
   @extend %footer;
-  background: darken($ctl_background, 15%) !important;
+  background: darken($ctl_background, 11%) !important;
   color: $ctl_text !important;
 }
 .footer_dk {
   @extend %footer;
-  background: darken($dk_background, 20%) !important;
+  background: darken($dk_background, 25%) !important;
   color: $ctl_text !important;
 }
