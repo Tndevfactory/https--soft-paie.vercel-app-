@@ -109,7 +109,7 @@ const EditerProfil_st = styled(motion.div)`
           background: ${({ switchMode, ui }) =>
             switchMode
               ? chroma(ui.light).darken(1)
-              : chroma(ui.dark).brighten(3)};
+              : chroma(ui.dark).brighten(3).alpha(0.5)};
         }
         button:hover {
           background: ${({ switchMode, ui }) =>
