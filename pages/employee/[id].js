@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import chroma from "chroma-js";
 import Image from "next/image";
+import { format, compareAsc } from "date-fns";
 import FichePaie from "../../components/profile/FichePaie";
 import CalculSalaire from "../../components/profile/CalculSalaire";
 import DemandeConge from "../../components/profile/DemandeConge";
@@ -55,6 +56,16 @@ const Employee_st = styled(motion.div)`
     .side_bar_row {
       display: flex;
       align-items: center;
+      .side_bar_row_dateTime {
+        color: white;
+        margin: 20px 1px 20px 2px;
+        .side_bar_row_dateTime_title {
+          font-weight: 600;
+          margin: 0px 12px 0px 12px;
+        }
+        .side_bar_row_dateTime_title {
+        }
+      }
       .side_bar_row_photoProfile {
         margin: 0px 3px 13px 7px;
         img {
@@ -129,6 +140,14 @@ const Profile = () => {
   return (
     <Employee_st switchMode={switchMode} ui={ui}>
       <div className="side_bar">
+        <div className="side_bar_row">
+          <span className="side_bar_row_dateTime">
+            <span className="side_bar_row_dateTime_title">Date:</span>
+            <span className="side_bar_row_dateTime_date">
+              {format(new Date(), "dd-MM-yyyy' 'HH:mm:ss")}{" "}
+            </span>
+          </span>
+        </div>
         <div className="side_bar_row">
           <span className="side_bar_row_photoProfile">
             <img src="/img/profil/profil.jpg" />
@@ -206,9 +225,9 @@ const Profile = () => {
       <div className="content">
         <div className="content_details">
           {sectionSelector === "editer_profil" ? (
-            <FichePaie />
-          ) : sectionSelector === "fiche_paie" ? (
             <EditerProfil />
+          ) : sectionSelector === "fiche_paie" ? (
+            <FichePaie />
           ) : sectionSelector === "calcul_salaire" ? (
             <CalculSalaire />
           ) : sectionSelector === "demande_conge" ? (
@@ -218,7 +237,10 @@ const Profile = () => {
           ) : sectionSelector === "consulter_planification" ? (
             <Planification />
           ) : (
-            <Default />
+            <Default
+              sectionSelector={sectionSelector}
+              setSectionSelector={setSectionSelector}
+            />
           )}
         </div>
       </div>

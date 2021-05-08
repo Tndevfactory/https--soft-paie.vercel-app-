@@ -320,7 +320,7 @@ const Register1 = ({ switchMode }) => {
           <div className="button_form">
             <button type="submit">S'inscrire</button>
             <span>
-              Vous avez pas un compte, veuillez
+              Vous avez un compte, veuillez
               <Link href="/">
                 <a> Se connecter</a>
               </Link>

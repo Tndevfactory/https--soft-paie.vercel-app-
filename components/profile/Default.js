@@ -41,32 +41,38 @@ const Default_st = styled(motion.div)`
   & > * {
     border: 2px solid
       ${({ switchMode, ui }) =>
-        switchMode ? chroma(ui.light) : chroma(ui.dark)};
-    margin: 36px;
+        switchMode
+          ? chroma(ui.light).brighten(4)
+          : chroma(ui.dark).brighten(1)};
+    background: ${({ switchMode, ui }) =>
+      switchMode
+        ? chroma(ui.light).darken(1).alpha(0.2)
+        : chroma(ui.light).brighten(4).alpha(0.6)};
+    color: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.light).brighten(5) : chroma(ui.light).darken(2)};
+    margin: 106px;
     border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 600ms ease;
+    transition: all 600ms ease;
     cursor: pointer;
     &:hover {
       box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.6);
+      scale: 1.1;
     }
-    background: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.light) : chroma(ui.dark)};
-    color: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.light).darken(1) : chroma(ui.dark).brighten(3)};
+
     .editer_profil_logo {
       font-weight: 600;
       display: block;
-      font-size: 63px;
+      font-size: 53px;
       text-align: center;
     }
     .editer_profil_title {
       font-weight: 600;
       display: block;
-      font-size: 33px;
+      font-size: 23px;
     }
   }
   .editer_profil {
@@ -85,69 +91,86 @@ const Default_st = styled(motion.div)`
   }
 `;
 
-const Default = () => {
+const Defaultss = ({ setSectionSelector }) => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode } = prodStates;
-  const [sectionSelector, setSectionSelector] = useState("");
 
   return (
     <Default_st switchMode={switchMode} ui={ui}>
-      <div className="editer_profil">
+      <div
+        className="editer_profil"
+        onClick={() => setSectionSelector("editer_profil")}
+      >
         <div>
           <span className="editer_profil_logo">
-            <FaRegMoneyBillAlt />
+            <FaUser />
           </span>
-          <span className="editer_profil_title">Editer_ Profil</span>
+          <span className="editer_profil_title">Editer Profil</span>
         </div>
       </div>
-      <div className="fiche_paie">
+      <div
+        className="fiche_paie"
+        onClick={() => setSectionSelector("fiche_paie")}
+      >
+        {" "}
+        <div>
+          <span className="editer_profil_logo">
+            <FaRegListAlt />
+          </span>
+          <span className="editer_profil_title">Fiche de Paie</span>
+        </div>
+      </div>
+      <div
+        className="calcul_salaire"
+        onClick={() => setSectionSelector("calcul_salaire")}
+      >
         {" "}
         <div>
           <span className="editer_profil_logo">
             <FaRegMoneyBillAlt />
           </span>
-          <span className="editer_profil_title">Editer_ Profil</span>
+          <span className="editer_profil_title">Calcul de Salaire</span>
         </div>
       </div>
-      <div className="calcul_salaire">
+      <div
+        className="demande_conge"
+        onClick={() => setSectionSelector("demande_conge")}
+      >
         {" "}
         <div>
           <span className="editer_profil_logo">
-            <FaRegMoneyBillAlt />
+            <FaSkating />
           </span>
-          <span className="editer_profil_title">Editer_ Profil</span>
+          <span className="editer_profil_title">Demande de Conge</span>
         </div>
       </div>
-      <div className="demande_conge">
+      <div
+        className="gestion_reclamation"
+        onClick={() => setSectionSelector("gestion_reclamation")}
+      >
         {" "}
         <div>
           <span className="editer_profil_logo">
-            <FaRegMoneyBillAlt />
+            <FaRecycle />
           </span>
-          <span className="editer_profil_title">Editer_ Profil</span>
+          <span className="editer_profil_title">Gestion de Reclamation</span>
         </div>
       </div>
-      <div className="gestion_reclamation">
+      <div
+        className="consulter_planification"
+        onClick={() => setSectionSelector("consulter_planification")}
+      >
         {" "}
         <div>
           <span className="editer_profil_logo">
-            <FaRegMoneyBillAlt />
+            <FaParking />
           </span>
-          <span className="editer_profil_title">Editer_ Profil</span>
-        </div>
-      </div>
-      <div className="consulter_planification">
-        {" "}
-        <div>
-          <span className="editer_profil_logo">
-            <FaRegMoneyBillAlt />
-          </span>
-          <span className="editer_profil_title">Editer_ Profil</span>
+          <span className="editer_profil_title">Consulter Planification</span>
         </div>
       </div>
     </Default_st>
   );
 };
 
-export default Default;
+export default Defaultss;
