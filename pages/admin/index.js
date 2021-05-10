@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { ProdCtx } from "../../contexts/ProductsContext";
-import styles from "./Admin.module.scss";
+
 import { Typography } from "antd";
 
 const { Title } = Typography;
