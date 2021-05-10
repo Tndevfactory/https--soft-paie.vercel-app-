@@ -17,13 +17,23 @@ const Mobile = styled(Desktop)`
 
     span {
       margin: 0 4px;
-      color: white;
+      color: ${({ switchMode, ui }) =>
+        switchMode
+          ? chroma(ui.dark).luminance() < 0.4
+            ? chroma(ui.dark).brighten(4)
+            : chroma(ui.dark).darken(3)
+          : chroma(ui.light).luminance() < 0.4
+          ? chroma(ui.light).brighten(4)
+          : chroma(ui.light).darken(3)};
       .bars_icon {
         font-size: 1.3rem;
         transition: all 0.5s ease;
         cursor: pointer;
         &:hover {
-          color: red;
+          color: ${({ switchMode, ui }) =>
+            switchMode
+              ? chroma(ui.dark).brighten(1)
+              : chroma(ui.light).darken(1)};
         }
       }
     }
@@ -38,7 +48,7 @@ const Mobile = styled(Desktop)`
       left: -300px;
 
       padding: 0.3rem 0rem 0rem 0.5rem;
-      z-index: 1;
+      z-index: 999;
       .d_block_content {
         color: black;
         ul {

@@ -5,7 +5,7 @@ import chroma from "chroma-js";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import { Device } from "../devices/Device";
 
-const Desktop = styled(motion.div)`
+const Desktop = styled(motion.footer)`
   color: ${({ switchMode, ui }) =>
     switchMode
       ? chroma(ui.dark).luminance() < 0.4
@@ -18,13 +18,29 @@ const Desktop = styled(motion.div)`
   background: ${({ switchMode, ui }) =>
     switchMode ? chroma(ui.dark).darken(1) : chroma(ui.light).brighten(1)};
   min-height: 15vh;
+  padding-top: 1rem;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+  gap: 15px;
 
-  h3 {
-    color: red;
+  .footer_brand {
+    font-family: ${({ ui }) => ui.navFont};
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+  .footer_copyright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    & span:nth-child(2) {
+      font-weight: 600;
+      color: ${({ switchMode, ui }) =>
+        switchMode ? chroma(ui.dark).brighten(2) : chroma(ui.light).darken(2)};
+    }
   }
 `;
 
@@ -38,14 +54,17 @@ const Footer = () => {
   const { apiUpdate } = prodMethods;
   const { ui, switchMode, setSwitchMode } = prodStates;
   return (
-    <footer>
-      <Mobile ui={ui} switchMode={switchMode}>
-        <div>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo,
-        </div>
-        <div>Iheb creation &copy; {new Date().getFullYear()}</div>
-      </Mobile>
-    </footer>
+    <Mobile ui={ui} switchMode={switchMode}>
+      <div className="footer_brand">
+        {" "}
+        <span>Soft-Paie</span>
+      </div>
+      <div className="footer_copyright">
+        <span>Iheb creation</span>
+        <span>&copy;</span>
+        <span>{new Date().getFullYear()}</span>
+      </div>
+    </Mobile>
   );
 };
 

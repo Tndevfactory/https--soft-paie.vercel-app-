@@ -38,6 +38,7 @@ const Desktop = styled(motion.header)`
   justify-content: space-between;
   align-items: center;
   position: fixed;
+  z-index: 999;
   width: 100%;
   top: 0;
   left: 0;
@@ -47,6 +48,12 @@ const Desktop = styled(motion.header)`
     gap: 5px;
     .brand {
       font-size: 2rem;
+      &:hover {
+        color: ${({ switchMode, ui }) =>
+          switchMode
+            ? chroma(ui.dark).brighten(1)
+            : chroma(ui.light).darken(1)};
+      }
     }
   }
   .switch-zone {
@@ -55,9 +62,21 @@ const Desktop = styled(motion.header)`
     gap: 15px;
     .config_link {
       font-size: 1.7rem;
+      &:hover {
+        color: ${({ switchMode, ui }) =>
+          switchMode
+            ? chroma(ui.dark).brighten(1)
+            : chroma(ui.light).darken(1)};
+      }
     }
     .login_link {
       font-size: 1.7rem;
+      &:hover {
+        color: ${({ switchMode, ui }) =>
+          switchMode
+            ? chroma(ui.dark).brighten(1)
+            : chroma(ui.light).darken(1)};
+      }
     }
   }
 `;
