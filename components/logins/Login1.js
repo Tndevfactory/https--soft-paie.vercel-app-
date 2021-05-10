@@ -95,7 +95,7 @@ const Login1 = ({ switchMode }) => {
     <div>
       <Mobile switchMode={switchMode}>
         <form className="form_container" onSubmit={handleSubmit}>
-          <div className="title_form">CONNEXION</div>
+          <h1 className="title_form">CONNEXION</h1>
           <div className="input_form">
             <label htmlFor="email">Adresse Email:</label>
             <input

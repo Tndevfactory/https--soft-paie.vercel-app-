@@ -7,7 +7,7 @@ import { FaEyeSlash, FaEye, FaBars } from "react-icons/fa";
 import { Device } from "../devices/Device";
 import { ProdCtx } from "../../contexts/ProductsContext";
 
-const Desktop = styled(motion.div)`
+const Desktop = styled(motion.nav)`
   display: none;
 `;
 
@@ -16,7 +16,7 @@ const Mobile = styled(Desktop)`
     display: inline-block;
 
     span {
-      margin: 0px 10px 0px 10px;
+      margin: 0 4px;
       color: white;
       .bars_icon {
         font-size: 1.3rem;
@@ -34,7 +34,7 @@ const Mobile = styled(Desktop)`
       background: white;
       font-size: 1rem;
       position: absolute;
-      top: 89px;
+      top: 150px;
       left: -300px;
 
       padding: 0.3rem 0rem 0rem 0.5rem;
@@ -73,8 +73,8 @@ const Drawer1 = () => {
       },
     },
   };
-  console.log("openDrawer");
-  console.log(openDrawer);
+  // console.log("openDrawer");
+  // console.log(openDrawer);
   return (
     <Mobile openDrawer={openDrawer} ui={ui} switchMode={switchMode}>
       <span title="drawer">

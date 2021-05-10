@@ -11,7 +11,7 @@ import Config from "../components/config/Config1";
 
 const Desktop = styled(motion.div)`
   //background: green;
-  min-height: 77vh;
+  min-height: 87vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,12 +57,14 @@ export default function Home() {
 
   return (
     <>
-      {/* <Head>
+      <Head>
         <meta name="description" content="software of paie" />
         <meta name="author" content="ch" />
-
-        <title>Soft-paie</title>
-      </Head> */}
+        <meta name="og:title" property="og:title" content="soft paie" />
+        <meta name="twitter:card" content="soft paie" />
+        <meta name="robots" content="index, follow" />
+        <title> Connexion</title>
+      </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Login1 switchMode={switchMode} />

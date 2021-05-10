@@ -10,12 +10,13 @@ import useSound from "use-sound";
 
 const Switch_st = styled(motion.div)`
   display: inline-block;
-  margin: 1px 5px 1px 5px;
+
   .switch {
     position: relative;
     display: inline-block;
+    top: 10px;
     width: 59px;
-    height: 27px;
+    height: 28px;
   }
 
   .switch input {
