@@ -5,8 +5,8 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 
 
-ya i18next gsap
-ya date-fns js-cookie styled-components antd sass react-icons @ant-design/icons 
+ya i18next gsap react-color file-loader use-sound
+ya date-fns js-cookie styled-components antd react-icons @ant-design/icons 
 ya framer-motion  react-spring chroma-js babel-preset-next react-loader-spinner
 
 

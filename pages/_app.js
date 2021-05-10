@@ -1,8 +1,9 @@
 /** @format */
 import "antd/dist/antd.css";
-import "../styles/globals.scss";
+import "../styles/globals.css";
 
 import Head from "next/head";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ProductProvider } from "../contexts/ProductsContext";
@@ -14,8 +15,12 @@ function MyApp({ Component, pageProps, router }) {
   return (
     <>
       <Head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta httpEquiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="software of paie" />
+        <meta name="author" content="ch" />
+        
+        <title>Soft-paie</title>
       </Head>
       <QueryClientProvider client={queryClient}>
         <ProductProvider>
@@ -23,7 +28,7 @@ function MyApp({ Component, pageProps, router }) {
             <Component {...pageProps} key={router.route} />
           </Layout>
         </ProductProvider>
-        <ReactQueryDevtools initialIsOpen />
+        {/* <ReactQueryDevtools initialIsOpen /> */}
       </QueryClientProvider>
     </>
   );

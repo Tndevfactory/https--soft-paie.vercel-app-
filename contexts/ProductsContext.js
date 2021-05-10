@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const ProductContext = createContext(null);
 
@@ -47,16 +48,16 @@ export const apiDelete = async (id) => {
   return data;
 };
 
-const hasWindow = typeof window !== "undefined";
+// const hasWindow = typeof window !== "undefined";
 
-const getDimensions = () => {
-  const width = hasWindow ? window.innerWidth : null;
-  const height = hasWindow ? window.innerHeight : null;
-  return {
-    width,
-    height,
-  };
-};
+// const getDimensions = () => {
+//   const width = hasWindow ? window.innerWidth : null;
+//   const height = hasWindow ? window.innerHeight : null;
+//   return {
+//     width,
+//     height,
+//   };
+// };
 
 export const ProductProvider = ({ children }) => {
   const [switchMode, setSwitchMode] = useState(false);
@@ -64,11 +65,39 @@ export const ProductProvider = ({ children }) => {
     notifType: "",
     notifMsg: "",
   });
+  const [loader, setLoader] = useState(false);
 
-  const ui = {
-    dark: "#001d3d",
-    light: "#00afb9",
+  const uiVars = {
+    // initial// from database config user
+    dark: Cookies.get("dark") || "#001d3d",
+    light: Cookies.get("light") || "#001d3d",
+
+    source: "Source Sans Pro",
+    roboto: "Roboto",
+    lato: "Lato",
+    open: "Open Sans",
+    oswald: "Oswald",
   };
+
+  // console.log('Cookies.get("dark")');
+  // console.log(Cookies.get("dark"));
+  React.useEffect(() => {
+    setUi({
+      ...ui,
+      dark: Cookies.get("dark") || "#001d3d",
+      light: Cookies.get("light") || "#001d3d",
+    });
+  }, []);
+
+  const [ui, setUi] = useState({
+    dark: "#001d3d",
+    light: "#001d3d",
+
+    navFont: uiVars.oswald,
+    contentFont: uiVars.roboto,
+    buttonFont: uiVars.oswald,
+    footerFont: uiVars.lato,
+  });
 
   const methods = {
     apiGet,
@@ -76,17 +105,20 @@ export const ProductProvider = ({ children }) => {
     apiShow,
     apiUpdate,
     apiDelete,
-    getDimensions,
-    //getElementDimensions,
+    //getDimensions,
+    // getElementDimensions,
   };
 
   const states = {
+    loader,
+    setLoader,
     notification,
     setNotification,
     switchMode,
     setSwitchMode,
-    hasWindow,
+    // hasWindow,
     ui,
+    setUi,
   };
 
   return (

@@ -6,6 +6,7 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
+import Loader from "react-loader-spinner";
 import Link from "next/link";
 import chroma from "chroma-js";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
@@ -25,47 +26,27 @@ const ui = {
   light: "#00afb9",
 };
 
-const Alert_st = styled(motion.div)`
+const Loader_st = styled(motion.div)`
   position: absolute;
+  display: flex;
+  justify-content: flex-end;
+
+  width: 100%;
   top: 90px;
+  z-index: 10;
   left: 0;
   width: 100%;
-  background-color: ${({ alertType }) =>
-    alertType === "fail"
-      ? chroma("red").brighten(2)
-      : alertType === "success"
-      ? chroma("green").brighten(2)
-      : "transparent"};
-  color: white;
+  color: black;
+  //background: yellow;
   font-weight: 600;
   font-size: 1.3rem;
-  display: grid;
-  place-items: center;
-  padding: 0.5rem;
-
-  height: 3rem;
+  padding: 1rem;
 `;
-const easing = [0.04, 0.62, 0.23, 0.98];
-const variants = {
-  initial: {
-    y: "-100px",
-  },
-  animate: {
-    y: 0,
-    transition: {
-      duration: 1,
-      ease: easing,
-    },
-  },
-  exit: { opacity: 0 },
-};
 
-const Alert1 = () => {
+const Loader1 = () => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { notification, setNotification, switchMode } = prodStates;
-
-  const { notifType, notifMsg } = notification;
+  const { setLoader, loader, setNotification, switchMode } = prodStates;
 
   const [showPassword, setShowPassword] = useState(false);
   const y = useMotionValue(-100);
@@ -73,26 +54,21 @@ const Alert1 = () => {
 
   React.useEffect(() => {
     setTimeout(() => {
-      setNotification({
-        notifType: "",
-        notifMsg: "",
-      });
+      setLoader(false);
     }, 3000);
   }, []);
 
   return (
-    <Alert_st
-      switchMode={switchMode}
-      variants={variants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      style={{ y, opacity }}
-      alertType={notifType}
-    >
-      <p>{notifMsg}</p>
-    </Alert_st>
+    <Loader_st ui={ui} switchMode={switchMode}>
+      <Loader
+        type="Bars"
+        color={switchMode ? ui.dark : ui.light}
+        height={70}
+        width={70}
+        timeout={3000} //3 secs
+      />
+    </Loader_st>
   );
 };
 
-export default Alert1;
+export default Loader1;

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import styles from "./Add.module.css";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { motion } from "framer-motion";
-import { ProdCtx, apiShow } from "../../contexts/ProductsContext";
+import { ProdCtx, apiShow } from "../../../contexts/ProductsContext";
 
 export const getServerSideProps = async ({ params: { upd } }) => {
   const dt = await apiShow(upd);

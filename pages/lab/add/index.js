@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useMutation } from "react-query";
-import { ProdCtx } from "../../contexts/ProductsContext";
+import { ProdCtx } from "../../../contexts/ProductsContext";
 
 export default function Addp() {
   const router = useRouter();

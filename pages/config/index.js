@@ -1,20 +1,17 @@
 /** @format */
 import { motion } from "framer-motion";
 import React from "react";
-import Head from "next/head";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../contexts/ProductsContext";
-import { Device } from "../components/devices/Device";
-import Login1 from "../components/logins/Login1";
-import Config from "../components/config/Config1";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { Device } from "../../components/devices/Device";
+
+import Config from "../../components/config/Config1";
 
 const Desktop = styled(motion.div)`
   //background: green;
   min-height: 77vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  color: white;
 
   h3 {
     color: red;
@@ -23,6 +20,7 @@ const Desktop = styled(motion.div)`
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
+    background: indigo;
   }
 `;
 
@@ -32,8 +30,9 @@ const Mobile = styled(Desktop)`
 //   return { props: { dt } };
 // };{ dt }
 
-export default function Home() {
+export default function Config_page() {
   const queryClient = useQueryClient();
+
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
   const { ui, switchMode } = prodStates;
@@ -56,17 +55,8 @@ export default function Home() {
   // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
 
   return (
-    <>
-      {/* <Head>
-        <meta name="description" content="software of paie" />
-        <meta name="author" content="ch" />
-
-        <title>Soft-paie</title>
-      </Head> */}
-
-      <Mobile ui={ui} switchMode={switchMode}>
-        <Login1 switchMode={switchMode} />
-      </Mobile>
-    </>
+    <Mobile ui={ui} switchMode={switchMode}>
+      <Config />
+    </Mobile>
   );
 }

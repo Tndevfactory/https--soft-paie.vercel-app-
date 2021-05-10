@@ -1,42 +1,53 @@
 /** @format */
-
+import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import chroma from "chroma-js";
 import React from "react";
-import AppFooter from "../appFooter/AppFooter";
-import AppHeader from "../appHeader/AppHeader";
+import Footer from "../footer/Footer";
+import Navbar from "../navbar/Navbar";
 import { ProdCtx } from "../../contexts/ProductsContext";
-import styles from "./Layout.module.scss";
 import Alert1 from "../alerts/Alert1";
+import Loader from "../loader/Loader1";
+import { Device } from "../devices/Device";
+
+const Desktop = styled(motion.div)`
+  background: ${({ switchMode, ui }) =>
+    switchMode ? chroma("#ddd").darken(1) : chroma("#ddd")};
+`;
+
+const Mobile = styled(Desktop)`
+  @media ${Device.mobile} {
+  }
+`;
 
 const Layout = ({ children }) => {
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet } = prodMethods;
+  const {} = prodMethods;
   const {
+    ui,
+    loader,
     notification,
     setNotification,
     switchMode,
     setSwitchMode,
   } = prodStates;
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setNotification({
-        notifType: "",
-        notifMsg: "",
-      });
-    }, 3000);
-  }, [notification]);
-
+  // console.log("loader");
+  // console.log(loader);
   return (
     <>
-      <AppHeader setSwitchMode={setSwitchMode} switchMode={switchMode} />
+      <Navbar />
 
-      <div className={switchMode ? styles.layout_dk : styles.layout_ctl}>
-        {notification.notifType !== "" ? <Alert1 /> : null}
+      <main>
+        <Mobile ui={ui} switchMode={switchMode}>
+          {notification.notifType !== "" ? <Alert1 /> : null}
+          {loader ? <Loader /> : null}
 
-        {children}
-      </div>
+          {children}
+        </Mobile>
+      </main>
 
-      <AppFooter setSwitchMode={setSwitchMode} switchMode={switchMode} />
+      <Footer setSwitchMode={setSwitchMode} switchMode={switchMode} />
     </>
   );
 };
