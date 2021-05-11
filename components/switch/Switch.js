@@ -32,7 +32,14 @@ const Switch_st = styled(motion.div)`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background: ${({ switchMode, ui }) =>
+      switchMode
+        ? chroma(ui.dark).luminance() < 0.4
+          ? chroma(ui.dark).brighten(3)
+          : chroma(ui.dark).darken(3)
+        : chroma(ui.light).luminance() < 0.4
+        ? chroma(ui.light).brighten(3)
+        : chroma(ui.light).darken(3)};
     -webkit-transition: 0.4s;
     transition: 0.4s;
   }
@@ -50,8 +57,14 @@ const Switch_st = styled(motion.div)`
   }
 
   input:checked + .slider {
-    background-color: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.light).darken(2) : chroma(ui.dark).brighten(1)};
+    background: ${({ switchMode, ui }) =>
+      switchMode
+        ? chroma(ui.dark).luminance() < 0.4
+          ? chroma(ui.dark).brighten(3)
+          : chroma(ui.dark).darken(3)
+        : chroma(ui.light).luminance() < 0.4
+        ? chroma(ui.light).brighten(3)
+        : chroma(ui.light).darken(3)};
   }
 
   input:focus + .slider {

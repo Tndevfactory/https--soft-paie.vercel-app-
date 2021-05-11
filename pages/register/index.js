@@ -9,15 +9,21 @@ import { Device } from "../../components/devices/Device";
 import Register1 from "../../components/registers/Register1";
 
 const Desktop = styled(motion.div)`
-  //background: green;
-  min-height: 87vh;
+  padding: 4rem 0rem 0rem 0rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column nowrap;
+  .spacer {
+    height: 170px;
+  }
 `;
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
+    .spacer {
+      display: none;
+    }
   }
 `;
 
@@ -63,6 +69,7 @@ export default function Register() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Register1 switchMode={switchMode} />
+        <div className="spacer"></div>
       </Mobile>
     </>
   );

@@ -51,8 +51,12 @@ const Desktop = styled(motion.header)`
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
-            ? chroma(ui.dark).brighten(1)
-            : chroma(ui.light).darken(1)};
+            ? chroma(ui.dark).luminance() < 0.4
+              ? chroma(ui.dark).brighten(3)
+              : chroma(ui.dark).darken(3)
+            : chroma(ui.light).luminance() < 0.4
+            ? chroma(ui.light).brighten(3)
+            : chroma(ui.light).darken(3)};
       }
     }
   }
@@ -65,8 +69,12 @@ const Desktop = styled(motion.header)`
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
-            ? chroma(ui.dark).brighten(1)
-            : chroma(ui.light).darken(1)};
+            ? chroma(ui.dark).luminance() < 0.4
+              ? chroma(ui.dark).brighten(3)
+              : chroma(ui.dark).darken(3)
+            : chroma(ui.light).luminance() < 0.4
+            ? chroma(ui.light).brighten(3)
+            : chroma(ui.light).darken(3)};
       }
     }
     .login_link {
@@ -74,8 +82,12 @@ const Desktop = styled(motion.header)`
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
-            ? chroma(ui.dark).brighten(1)
-            : chroma(ui.light).darken(1)};
+            ? chroma(ui.dark).luminance() < 0.4
+              ? chroma(ui.dark).brighten(3)
+              : chroma(ui.dark).darken(3)
+            : chroma(ui.light).luminance() < 0.4
+            ? chroma(ui.light).brighten(3)
+            : chroma(ui.light).darken(3)};
       }
     }
   }

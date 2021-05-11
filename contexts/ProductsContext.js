@@ -48,23 +48,14 @@ export const apiDelete = async (id) => {
   return data;
 };
 
-// const hasWindow = typeof window !== "undefined";
-
-// const getDimensions = () => {
-//   const width = hasWindow ? window.innerWidth : null;
-//   const height = hasWindow ? window.innerHeight : null;
-//   return {
-//     width,
-//     height,
-//   };
-// };
-
 export const ProductProvider = ({ children }) => {
   const [switchMode, setSwitchMode] = useState(false);
+
   const [notification, setNotification] = useState({
     notifType: "",
     notifMsg: "",
   });
+
   const [loader, setLoader] = useState(false);
 
   const uiVars = {

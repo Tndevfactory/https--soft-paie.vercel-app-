@@ -9,12 +9,11 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
 
 const Desktop = styled(motion.div)`
-  border: 1px solid indigo;
+  margin-top: 300px;
   position: relative;
   padding: 0.6rem;
   color: rgba(0, 0, 0, 0.8);
   border-radius: 2%;
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
   min-width: 500px;
   min-height: 400px;
   display: flex;
@@ -38,7 +37,13 @@ const Desktop = styled(motion.div)`
     text-align: center;
     margin-bottom: 1rem;
     color: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+      switchMode
+        ? chroma(ui.dark).luminance() < 0.4
+          ? chroma(ui.dark).brighten(1)
+          : chroma(ui.dark).darken(1)
+        : chroma(ui.light).luminance() < 0.4
+        ? chroma(ui.light).brighten(1)
+        : chroma(ui.light).darken(1)};
   }
   .label {
     font-weight: 400;
@@ -190,6 +195,7 @@ const Login1 = () => {
     <Mobile ui={ui} switchMode={switchMode}>
       <form className="form_container" onSubmit={handleSubmit}>
         <div className="title">connexion</div>
+
         <div className="label">Adresse email:</div>
         <input
           name="email"
@@ -217,7 +223,6 @@ const Login1 = () => {
             {showPassword ? <FaEye /> : <FaEyeSlash />}
           </div>
         </div>
-
         <div className="error">
           {credential.passwordError && credential.passwordError}
         </div>

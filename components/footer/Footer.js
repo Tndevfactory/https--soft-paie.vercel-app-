@@ -17,14 +17,14 @@ const Desktop = styled(motion.footer)`
 
   background: ${({ switchMode, ui }) =>
     switchMode ? chroma(ui.dark) : chroma(ui.light)};
-  min-height: 15vh;
-  padding-top: 1rem;
+  min-height: 130px;
+
   display: flex;
   flex-flow: column wrap;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  gap: 15px;
-
+  gap: 25px;
+  padding-bottom: 10px;
   .footer_brand {
     font-family: ${({ ui }) => ui.navFont};
     text-transform: uppercase;

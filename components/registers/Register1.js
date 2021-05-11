@@ -9,18 +9,14 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
 
 const Desktop = styled(motion.div)`
-  margin-top: 2rem;
-  border: 1px solid indigo;
+  margin-top: 10rem;
   position: relative;
-  padding: 0.6rem;
-  color: rgba(0, 0, 0, 0.8);
-  border-radius: 2%;
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
   min-width: 500px;
-  min-height: 620px;
+  min-height: 550px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column wrap;
 
   .form_container {
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
@@ -29,7 +25,7 @@ const Desktop = styled(motion.div)`
     position: absolute;
     background-color: rgba(255, 255, 255, 0.75);
     width: 90%;
-    height: 90%;
+    height: 100%;
     display: flex;
     flex-flow: column wrap;
   }
@@ -37,9 +33,15 @@ const Desktop = styled(motion.div)`
     font-size: 33px;
     text-transform: capitalize;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
     color: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+      switchMode
+        ? chroma(ui.dark).luminance() < 0.4
+          ? chroma(ui.dark).brighten(1)
+          : chroma(ui.dark).darken(1)
+        : chroma(ui.light).luminance() < 0.4
+        ? chroma(ui.light).brighten(1)
+        : chroma(ui.light).darken(1)};
   }
   .label {
     font-weight: 400;
@@ -95,14 +97,9 @@ const Desktop = styled(motion.div)`
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
     border: none;
-    margin-top: 9rem;
-    padding: 3rem;
+    margin-top: 6rem;
 
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
     .form_container {
-      box-shadow: none;
       padding: 0.5rem;
       border-radius: 2%;
       position: absolute;
@@ -232,7 +229,6 @@ const Register1 = () => {
         <input
           name="nom"
           autoComplete="false"
-          placeholder="Veuillez insérer votre Nom"
           value={credentialR.nom}
           onChange={handleOnchange}
           type="text"
@@ -245,7 +241,6 @@ const Register1 = () => {
           name="prenom"
           type="text"
           autoComplete="false"
-          placeholder="Veuillez insérer votre Prénom"
           value={credentialR.prenom}
           onChange={handleOnchange}
         />
@@ -256,7 +251,6 @@ const Register1 = () => {
         <input
           name="email"
           type="email"
-          placeholder="Veuillez insérer votre Email"
           autoComplete="false"
           value={credentialR.email}
           onChange={handleOnchange}
@@ -270,7 +264,6 @@ const Register1 = () => {
             name="password"
             autoComplete="false"
             value={credentialR.password}
-            placeholder="Veuillez insérer votre mot de passe"
             onChange={handleOnchange}
             type={showPassword ? "text" : "password"}
           />
@@ -290,7 +283,6 @@ const Register1 = () => {
           <input
             name="password_confirmation"
             autoComplete="false"
-            placeholder="Veuillez confirmer votre mot de passe"
             value={credentialR.password_confirmation}
             onChange={handleOnchange}
             type={showPasswordConfirm ? "text" : "password"}

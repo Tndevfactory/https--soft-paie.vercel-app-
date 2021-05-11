@@ -10,13 +10,14 @@ import { SketchPicker } from "react-color";
 import Cookies from "js-cookie";
 
 const Desktop = styled.div`
+  margin-top: 75px;
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 500px;
   min-height: 77vh;
   padding: 3rem;
-  margin-top: 75px;
+
   .block {
     z-index: 1;
     display: flex;

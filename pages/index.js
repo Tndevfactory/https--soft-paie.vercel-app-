@@ -7,18 +7,25 @@ import styled, { css } from "styled-components";
 import { ProdCtx, apiGet } from "../contexts/ProductsContext";
 import { Device } from "../components/devices/Device";
 import Login1 from "../components/logins/Login1";
-import Config from "../components/config/Config1";
+import chroma from "chroma-js";
 
 const Desktop = styled(motion.div)`
   //background: green;
-  min-height: 87vh;
+  //min-height: 800px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column nowrap;
+  .spacer {
+    height: 260px;
+  }
 `;
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
+    .spacer {
+      display: none;
+    }
   }
 `;
 
@@ -64,6 +71,7 @@ export default function Home() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Login1 switchMode={switchMode} />
+        <div className="spacer"></div>
       </Mobile>
     </>
   );
