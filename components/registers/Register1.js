@@ -232,6 +232,7 @@ const Register1 = () => {
         <input
           name="nom"
           autoComplete="false"
+          placeholder="Veuillez insérer votre Nom"
           value={credentialR.nom}
           onChange={handleOnchange}
           type="text"
@@ -244,6 +245,7 @@ const Register1 = () => {
           name="prenom"
           type="text"
           autoComplete="false"
+          placeholder="Veuillez insérer votre Prénom"
           value={credentialR.prenom}
           onChange={handleOnchange}
         />
@@ -254,6 +256,7 @@ const Register1 = () => {
         <input
           name="email"
           type="email"
+          placeholder="Veuillez insérer votre Email"
           autoComplete="false"
           value={credentialR.email}
           onChange={handleOnchange}
@@ -267,6 +270,7 @@ const Register1 = () => {
             name="password"
             autoComplete="false"
             value={credentialR.password}
+            placeholder="Veuillez insérer votre mot de passe"
             onChange={handleOnchange}
             type={showPassword ? "text" : "password"}
           />
@@ -286,6 +290,7 @@ const Register1 = () => {
           <input
             name="password_confirmation"
             autoComplete="false"
+            placeholder="Veuillez confirmer votre mot de passe"
             value={credentialR.password_confirmation}
             onChange={handleOnchange}
             type={showPasswordConfirm ? "text" : "password"}
