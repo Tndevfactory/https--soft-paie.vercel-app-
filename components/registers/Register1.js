@@ -9,6 +9,7 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
 
 const Desktop = styled(motion.div)`
+  margin-top: 2rem;
   border: 1px solid indigo;
   position: relative;
   padding: 0.6rem;
@@ -206,10 +207,12 @@ const Register1 = () => {
       console.log("all data verified before sent");
       setCredentialR({
         nom: "",
+        prenom: "",
         email: "",
         password: "",
         password_confirmation: "",
         nomError: "",
+        prenomError: "",
         emailError: "",
         passwordError: "",
         password_confirmationError: "",
@@ -219,12 +222,16 @@ const Register1 = () => {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <form className="form_container" onSubmit={handleSubmit}>
+      <form
+        autoComplete="false"
+        className="form_container"
+        onSubmit={handleSubmit}
+      >
         <div className="title">inscription</div>
         <div className="label">Nom:</div>
         <input
           name="nom"
-          autoComplete="true"
+          autoComplete="false"
           value={credentialR.nom}
           onChange={handleOnchange}
           type="text"
@@ -236,7 +243,7 @@ const Register1 = () => {
         <input
           name="prenom"
           type="text"
-          autoComplete="true"
+          autoComplete="false"
           value={credentialR.prenom}
           onChange={handleOnchange}
         />
@@ -247,7 +254,7 @@ const Register1 = () => {
         <input
           name="email"
           type="email"
-          autoComplete="true"
+          autoComplete="false"
           value={credentialR.email}
           onChange={handleOnchange}
         />
@@ -258,7 +265,7 @@ const Register1 = () => {
         <div className="zone_password">
           <input
             name="password"
-            autoComplete="true"
+            autoComplete="false"
             value={credentialR.password}
             onChange={handleOnchange}
             type={showPassword ? "text" : "password"}
@@ -278,7 +285,7 @@ const Register1 = () => {
         <div className="zone_password">
           <input
             name="password_confirmation"
-            autoComplete="true"
+            autoComplete="false"
             value={credentialR.password_confirmation}
             onChange={handleOnchange}
             type={showPasswordConfirm ? "text" : "password"}
