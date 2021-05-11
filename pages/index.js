@@ -15,10 +15,6 @@ const Desktop = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  h3 {
-    color: red;
-  }
 `;
 
 const Mobile = styled(Desktop)`

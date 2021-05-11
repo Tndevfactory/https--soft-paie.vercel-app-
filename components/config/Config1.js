@@ -10,33 +10,67 @@ import { SketchPicker } from "react-color";
 import Cookies from "js-cookie";
 
 const Desktop = styled.div`
-  //background: green;
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 500px;
   min-height: 77vh;
-  padding: 2rem;
-  background: yellowgreen;
+  padding: 3rem;
   margin-top: 75px;
   .block {
     z-index: 1;
     display: flex;
     justify-content: space-around;
+    gap: 16px;
+    h3 {
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      text-transform: capitalize;
+      color: ${({ switchMode, ui }) =>
+        switchMode
+          ? chroma(ui.dark).luminance() < 0.4
+            ? chroma(ui.dark).brighten(5)
+            : chroma(ui.dark).darken(3)
+          : chroma(ui.light).luminance() < 0.4
+          ? chroma(ui.light).brighten(5)
+          : chroma(ui.light).darken(3)};
+    }
     .dark {
-      background: red;
-      padding: 8rem;
+      background: ${({ switchMode, ui }) =>
+        switchMode ? chroma(ui.dark) : "transparent"};
+
+      padding: 6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-flow: column wrap;
+      cursor: pointer;
+      box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
+      transition: box-shadow 0.1s linear;
+      &:hover {
+        box-shadow: 1px 1px 5px 4px rgba(0, 0, 0, 0.5);
+      }
+
       .dark_picker {
-        background: red;
         display: block;
         cursor: pointer;
       }
     }
     .light {
-      padding: 8rem;
-      background: indigo;
+      background: ${({ switchMode, ui }) =>
+        switchMode ? "transparent" : chroma(ui.light)};
+      padding: 6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-flow: column wrap;
+      cursor: pointer;
+      box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
+      transition: box-shadow 0.1s linear;
+      &:hover {
+        box-shadow: 1px 1px 5px 4px rgba(0, 0, 0, 0.5);
+      }
       .light_picker {
-        background: yellow;
         display: block;
         cursor: pointer;
       }
@@ -46,15 +80,17 @@ const Desktop = styled.div`
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
+    // background: grey;
     margin-top: 145px;
+
     .block {
       z-index: 1;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      justify-content: flex-start;
+      align-items: flex-start;
       flex-flow: column wrap;
       .dark {
-        background: red;
+        // background: red;
         padding: 1rem;
         .dark_picker {
           background: red;
@@ -64,9 +100,8 @@ const Mobile = styled(Desktop)`
       }
       .light {
         padding: 1rem;
-        background: indigo;
+        // background: yellow;
         .light_picker {
-          //background: yellow;
           display: block;
           cursor: pointer;
         }
@@ -95,21 +130,34 @@ const Config1 = () => {
     Cookies.set("light", color.hex);
   };
 
-  const handleSubmit = (e) => {
-    console.log("ttt");
+  const handleDarkClick = () => {
+    if (!switchMode) {
+      setSwitchMode(true);
+      // console.log("dark click");
+      // console.log(switchMode);
+    }
+  };
+  const handlelightClick = () => {
+    if (switchMode) {
+      setSwitchMode(false);
+      // console.log("lightclick");
+      // console.log(switchMode);
+    }
   };
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <div className="block">
-        <div className="dark">
+        <div className="dark" onClick={handleDarkClick}>
+          <h3>{switchMode ? "theme Active" : "theme secondaire"}</h3>
           <SketchPicker
             color={ui.dark}
             className="dark_picker"
             onChangeComplete={handleChangeDark}
           />
         </div>
-        <div className="light">
+        <div className="light" onClick={handlelightClick}>
+          <h3>{!switchMode ? "theme Active" : "theme secondaire"}</h3>
           <SketchPicker
             color={ui.light}
             className="light_picker"

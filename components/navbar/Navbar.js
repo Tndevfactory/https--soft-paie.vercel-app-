@@ -16,14 +16,14 @@ const Desktop = styled(motion.header)`
   color: ${({ switchMode, ui }) =>
     switchMode
       ? chroma(ui.dark).luminance() < 0.4
-        ? chroma(ui.dark).brighten(4)
+        ? chroma(ui.dark).brighten(5)
         : chroma(ui.dark).darken(3)
       : chroma(ui.light).luminance() < 0.4
-      ? chroma(ui.light).brighten(4)
+      ? chroma(ui.light).brighten(5)
       : chroma(ui.light).darken(3)};
 
   background: ${({ switchMode, ui }) =>
-    switchMode ? chroma(ui.dark).darken(1) : chroma(ui.light).brighten(1)};
+    switchMode ? chroma(ui.dark) : chroma(ui.light)};
 
   font-family: ${({ ui }) => ui.navFont};
 
@@ -97,13 +97,8 @@ const Mobile = styled(Desktop)`
 const Navbar = () => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const {
-    ui,
-    notification,
-    setNotification,
-    switchMode,
-    setSwitchMode,
-  } = prodStates;
+  const { ui, notification, setNotification, switchMode, setSwitchMode } =
+    prodStates;
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>

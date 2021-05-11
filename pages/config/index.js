@@ -9,18 +9,14 @@ import { Device } from "../../components/devices/Device";
 import Config from "../../components/config/Config1";
 
 const Desktop = styled(motion.div)`
-  //background: green;
   min-height: 77vh;
-  color: white;
-
-  h3 {
-    color: red;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
-    background: indigo;
   }
 `;
 

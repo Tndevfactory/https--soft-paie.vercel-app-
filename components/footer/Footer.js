@@ -16,7 +16,7 @@ const Desktop = styled(motion.footer)`
       : chroma(ui.light).darken(3)};
 
   background: ${({ switchMode, ui }) =>
-    switchMode ? chroma(ui.dark).darken(1) : chroma(ui.light).brighten(1)};
+    switchMode ? chroma(ui.dark) : chroma(ui.light)};
   min-height: 15vh;
   padding-top: 1rem;
   display: flex;

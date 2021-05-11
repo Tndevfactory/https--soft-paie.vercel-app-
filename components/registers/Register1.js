@@ -4,178 +4,146 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import chroma from "chroma-js";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-const device = {
-  mobile: `(max-width: 600px)`,
+import { Device } from "../devices/Device";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import Button1 from "../buttons/Button1";
 
-  tablet: `(min-width: 601px)`,
-
-  desktop: `(min-width: 900px)`,
-};
-
-const ui = {
-  dark: "#001d3d",
-  light: "#00afb9",
-};
-
-const Register_st = styled(motion.div)`
-  display: grid;
-  padding: 1rem;
-  background-color: ${({ switchMode }) =>
-    switchMode ? "var(--dk_background)" : "var(--ctl_background)"};
-  justify-content: center;
+const Desktop = styled(motion.div)`
+  border: 1px solid indigo;
+  position: relative;
+  padding: 0.6rem;
+  color: rgba(0, 0, 0, 0.8);
   border-radius: 2%;
-  height: 60vh;
-  width: 50vh;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
+  min-width: 500px;
+  min-height: 620px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .form_container {
-    display: grid;
-    color: ${({ switchMode }) =>
-      switchMode ? "white" : "var(--dk_background)"};
-    justify-content: center;
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-    width: 45vh;
-
-    .title_form {
-      color: white;
-      font-size: 19px;
-      letter-spacing: 1px;
-      font-weight: 700;
-      text-transform: uppercase;
-      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-      text-align: center;
-    }
-
-    .input_form {
-      position: relative;
-      label {
-        margin: 5px 0px;
-        display: block;
-        font-weight: 500;
-      }
-
-      input {
-        width: 100%;
-        height: 34px;
-        padding: 0px 9px;
-        color: ${ui.dark};
-        &::placeholder {
-          color: ${chroma(ui.dark).brighten(1)};
-          font-size: 15px;
-        }
-        &:focus {
-          border: 1px solid rgba(55, 66, 88, 0.6);
-        }
-      }
-      .show_password {
-        position: absolute;
-        right: 5px;
-        top: 43px;
-        color: ${ui.dark};
-        cursor: pointer;
-      }
-      .error {
-        color: ${({ switchMode }) =>
-          switchMode ? chroma("red").saturate(2) : chroma("red").saturate(1)};
-        margin: 5px 0px 0px 5px;
-      }
-    }
-    .button_form {
-      color: red;
-      margin-top: -25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      button {
-        background-color: ${({ switchMode }) =>
-          switchMode
-            ? chroma(ui.light).saturate(2)
-            : chroma(ui.light).darken(1)};
-        color: white;
-        text-shadow: 1px 1px 1px ${chroma(ui.dark).alpha(0.5)};
-        font-weight: 500;
-        padding: 9px 13px;
-        border-radius: 2%;
-        font-size: 15px;
-        width: 150px;
-        height: 42px;
-        cursor: pointer;
-        border: none;
-        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
-        transition: background-color 400ms ease-in-out;
-        &:hover {
-          background: ${({ switchMode }) =>
-            switchMode
-              ? chroma(ui.dark).brighten(1)
-              : chroma(ui.light).darken(2)};
-          color: white;
-        }
-        @media ${device.mobile} {
-          font-size: 12px;
-          width: 110px;
-          height: 40px;
-        }
-      }
-      span {
-        font-size: 13px;
-        color: ${({ switchMode }) =>
-          switchMode
-            ? chroma(ui.light).brighten(2)
-            : chroma(ui.light).brighten(3)};
-        a {
-          font-size: 13px;
-          font-weight: 500;
-          color: ${({ switchMode }) =>
-            switchMode
-              ? chroma(ui.light).brighten(3)
-              : chroma(ui.light).darken(2)};
-          &:hover {
-            color: ${({ switchMode }) =>
-              switchMode
-                ? chroma(ui.light).brighten(4)
-                : chroma(ui.light).darken(4)};
-          }
-          @media ${device.mobile} {
-            font-size: 15px;
-          }
-        }
-        @media ${device.mobile} {
-          font-size: 0px;
-        }
-      }
-    }
-
-    @media ${device.mobile} {
-      width: 35vh;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 2%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.75);
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-flow: column wrap;
+  }
+  .title {
+    font-size: 33px;
+    text-transform: capitalize;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+  }
+  .label {
+    font-weight: 400;
+    margin-top: 6px;
+  }
+  input {
+    width: 100%;
+    height: 34px;
+    //background-color: yellow;
+    padding: 1px 0.7rem;
+    border: 1px solid;
+    border-radius: 2%;
+  }
+  .zone_password {
+    position: relative;
+    .show_password {
+      position: absolute;
+      top: 7px;
+      right: 15px;
+      cursor: pointer;
     }
   }
+  .error {
+    color: crimson;
+    font-size: 13px;
+    font-weight: 500;
+    font-style: italic;
+    margin-left: 4px;
+    margin-bottom: 5px;
+  }
+  .btn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  @media ${device.mobile} {
-    height: 63vh;
-    width: 40vh;
+    .register_phrase {
+      font-size: 12px;
+      a {
+        font-size: 12px;
+
+        font-weight: 500;
+        cursor: pointer;
+        &:hover {
+          color: ${({ switchMode, ui }) =>
+            switchMode ? chroma(ui.dark) : chroma(ui.light)};
+        }
+      }
+    }
   }
 `;
 
-const Register1 = ({ switchMode }) => {
+const Mobile = styled(Desktop)`
+  @media ${Device.mobile} {
+    border: none;
+    margin-top: 9rem;
+    padding: 3rem;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    .form_container {
+      box-shadow: none;
+      padding: 0.5rem;
+      border-radius: 2%;
+      position: absolute;
+      width: 70%;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      .register_phrase {
+        font-size: 11px;
+      }
+    }
+  }
+`;
+
+const Register1 = () => {
+  const [prodMethods, prodStates] = ProdCtx();
+  const { apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { ui, notification, setNotification, switchMode, setSwitchMode } =
+    prodStates;
   const [credentialR, setCredentialR] = useState({
     nom: "",
+    prenom: "",
     email: "",
     password: "",
     password_confirmation: "",
     nomError: "",
+    prenomError: "",
     emailError: "",
     passwordError: "",
     password_confirmationError: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   const handleOnchange = (e) => {
-    credentialR.passwordError = "";
-    credentialR.emailError = "";
     credentialR.nomError = "";
+    credentialR.prenomError = "";
+    credentialR.emailError = "";
+    credentialR.passwordError = "";
     credentialR.password_confirmationError = "";
+
     setCredentialR({
       ...credentialR,
       [e.target.name]: e.target.value,
@@ -189,6 +157,12 @@ const Register1 = ({ switchMode }) => {
       setCredentialR({
         ...credentialR,
         nomError: "champ obligatoire",
+      });
+      errorFlag = true;
+    } else if (credentialR.prenom.length === 0) {
+      setCredentialR({
+        ...credentialR,
+        prenomError: "champ obligatoire",
       });
       errorFlag = true;
     } else if (credentialR.email.length === 0) {
@@ -227,6 +201,7 @@ const Register1 = ({ switchMode }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("handleSubmit");
     if (handleValidate()) {
       console.log("all data verified before sent");
       setCredentialR({
@@ -243,92 +218,96 @@ const Register1 = ({ switchMode }) => {
   };
 
   return (
-    <div>
-      <Register_st switchMode={switchMode}>
-        <form className="form_container" onSubmit={handleSubmit}>
-          <div className="title_form">inscription</div>
-          <div className="input_form">
-            <label htmlFor="nom">Nom:</label>
-            <input
-              name="nom"
-              type="text"
-              value={credentialR.nom}
-              placeholder="Entrer votre nom "
-              onChange={handleOnchange}
-            />
-            <div className="error">
-              {credentialR.nomError && credentialR.nomError}
-            </div>
+    <Mobile ui={ui} switchMode={switchMode}>
+      <form className="form_container" onSubmit={handleSubmit}>
+        <div className="title">inscription</div>
+        <div className="label">Nom:</div>
+        <input
+          name="nom"
+          autoComplete="true"
+          value={credentialR.nom}
+          onChange={handleOnchange}
+          type="text"
+        />
+        <div className="error">
+          {credentialR.nomError && credentialR.nomError}
+        </div>
+        <div className="label">Prénom:</div>
+        <input
+          name="prenom"
+          type="text"
+          autoComplete="true"
+          value={credentialR.prenom}
+          onChange={handleOnchange}
+        />
+        <div className="error">
+          {credentialR.prenomError && credentialR.prenomError}
+        </div>
+        <div className="label">Adresse email:</div>
+        <input
+          name="email"
+          type="email"
+          autoComplete="true"
+          value={credentialR.email}
+          onChange={handleOnchange}
+        />
+        <div className="error">
+          {credentialR.emailError && credentialR.emailError}
+        </div>
+        <div className="label">Mot de passe:</div>
+        <div className="zone_password">
+          <input
+            name="password"
+            autoComplete="true"
+            value={credentialR.password}
+            onChange={handleOnchange}
+            type={showPassword ? "text" : "password"}
+          />
+          <div
+            className="show_password"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEye /> : <FaEyeSlash />}
           </div>
-          <div className="input_form">
-            <label htmlFor="email">Adresse Email:</label>
-            <input
-              name="email"
-              type="email"
-              value={credentialR.email}
-              placeholder="Entrer votre adresse email"
-              onChange={handleOnchange}
-            />
-            <div className="error">
-              {credentialR.emailError && credentialR.emailError}
-            </div>
-          </div>
-          <div className="input_form">
-            <label htmlFor="password">Mot de passe:</label>
-            <input
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={credentialR.password}
-              placeholder="Entrer votre mot de passe"
-              onChange={handleOnchange}
-            />
-            <div
-              className="show_password"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </div>
+        </div>
 
-            <div className="error">
-              {credentialR.passwordError && credentialR.passwordError}
-            </div>
+        <div className="error">
+          {credentialR.passwordError && credentialR.passwordError}
+        </div>
+        <div className="label">Confirmation mot de passe:</div>
+        <div className="zone_password">
+          <input
+            name="password_confirmation"
+            autoComplete="true"
+            value={credentialR.password_confirmation}
+            onChange={handleOnchange}
+            type={showPasswordConfirm ? "text" : "password"}
+          />
+          <div
+            className="show_password"
+            onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+          >
+            {showPasswordConfirm ? <FaEye /> : <FaEyeSlash />}
           </div>
+        </div>
 
-          <div className="input_form">
-            <label htmlFor="password_confirmation">
-              Confirmation de Mot de passe:
-            </label>
-            <input
-              name="password_confirmation"
-              type={showPassword ? "text" : "password"}
-              value={credentialR.password_confirmation}
-              placeholder="Entrer votre mot de passe pour confirmation"
-              onChange={handleOnchange}
-            />
-            <div
-              className="show_password"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </div>
-
-            <div className="error">
-              {credentialR.password_confirmationError &&
-                credentialR.password_confirmationError}
-            </div>
-          </div>
-          <div className="button_form">
-            <button type="submit">S'inscrire</button>
-            <span>
-              Vous avez un compte, veuillez
-              <Link href="/">
-                <a> Se connecter</a>
-              </Link>
-            </span>
-          </div>
-        </form>
-      </Register_st>
-    </div>
+        <div className="error">
+          {credentialR.password_confirmationError &&
+            credentialR.password_confirmationError}
+        </div>
+        <div className="btn">
+          <Button1 disabled={false} width={6} height={2.2}>
+            s'inscrire
+          </Button1>
+          <span className="register_phrase">
+            Vous avez un compte, veuillez
+            <Link href="/">
+              <a title="login"> se connecter</a>
+            </Link>
+          </span>
+        </div>
+      </form>
+    </Mobile>
   );
 };
 

@@ -6,6 +6,7 @@ import chroma from "chroma-js";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { Device } from "../devices/Device";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import Button1 from "../buttons/Button1";
 
 const Desktop = styled(motion.div)`
   border: 1px solid indigo;
@@ -36,6 +37,8 @@ const Desktop = styled(motion.div)`
     text-transform: capitalize;
     text-align: center;
     margin-bottom: 1rem;
+    color: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.dark) : chroma(ui.light)};
   }
   .label {
     font-weight: 400;
@@ -71,27 +74,17 @@ const Desktop = styled(motion.div)`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    button {
-      width: 125px;
-      padding: 2px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 0.71px solid;
-      transition: all 0.5s ease;
-      &:hover {
-        background: steelblue;
-        color: white;
-      }
-    }
-    span {
+
+    .register_phrase {
       font-size: 12px;
       a {
         font-size: 12px;
-        color: indigo;
+
         font-weight: 500;
         cursor: pointer;
         &:hover {
-          color: blue;
+          color: ${({ switchMode, ui }) =>
+            switchMode ? chroma(ui.dark) : chroma(ui.light)};
         }
       }
     }
@@ -100,19 +93,27 @@ const Desktop = styled(motion.div)`
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
+    border: none;
     margin-top: 9rem;
     padding: 3rem;
     border: none;
     min-width: 500px;
     min-height: 400px;
-    //background: indigo;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
     .form_container {
       box-shadow: none;
       padding: 0.5rem;
       border-radius: 2%;
       position: absolute;
-
       width: 70%;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      .register_phrase {
+        font-size: 11px;
+      }
     }
   }
 `;
@@ -192,6 +193,7 @@ const Login1 = () => {
         <div className="label">Adresse email:</div>
         <input
           name="email"
+          type="email"
           autoComplete="true"
           value={credential.email}
           onChange={handleOnchange}
@@ -220,9 +222,12 @@ const Login1 = () => {
           {credential.passwordError && credential.passwordError}
         </div>
         <div className="btn">
-          <button>valider</button>
-          <span>
-            Pas de compte, veuillez
+          {/* <button>valider</button> */}
+          <Button1 disabled={false} width={7} height={2.2}>
+            se connecter
+          </Button1>
+          <span className="register_phrase">
+            Vous n'avez pas de compte, veuillez
             <Link href="/register">
               <a title="register"> s'inscrire</a>
             </Link>
