@@ -11,19 +11,67 @@ import Cookies from "js-cookie";
 
 const Desktop = styled.div`
   //background: green;
-  min-height: 25vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 500px;
+  min-height: 77vh;
   padding: 2rem;
-  border: 2px solid;
-  color: indigo;
-  form {
+  background: yellowgreen;
+  margin-top: 75px;
+  .block {
+    z-index: 1;
     display: flex;
     justify-content: space-around;
+    .dark {
+      background: red;
+      padding: 8rem;
+      .dark_picker {
+        background: red;
+        display: block;
+        cursor: pointer;
+      }
+    }
+    .light {
+      padding: 8rem;
+      background: indigo;
+      .light_picker {
+        background: yellow;
+        display: block;
+        cursor: pointer;
+      }
+    }
   }
 `;
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
-    background: yellow;
+    margin-top: 145px;
+    .block {
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-flow: column wrap;
+      .dark {
+        background: red;
+        padding: 1rem;
+        .dark_picker {
+          background: red;
+          display: block;
+          cursor: pointer;
+        }
+      }
+      .light {
+        padding: 1rem;
+        background: indigo;
+        .light_picker {
+          //background: yellow;
+          display: block;
+          cursor: pointer;
+        }
+      }
+    }
   }
 `;
 
@@ -53,21 +101,22 @@ const Config1 = () => {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <h2>choose theme</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="">theme dark color</label>
-          <SketchPicker color={ui.dark} onChangeComplete={handleChangeDark} />
+      <div className="block">
+        <div className="dark">
+          <SketchPicker
+            color={ui.dark}
+            className="dark_picker"
+            onChangeComplete={handleChangeDark}
+          />
         </div>
-        <div>
-          <label htmlFor="">theme light color</label>
-          <SketchPicker color={ui.light} onChangeComplete={handleChangeLight} />
+        <div className="light">
+          <SketchPicker
+            color={ui.light}
+            className="light_picker"
+            onChangeComplete={handleChangeLight}
+          />
         </div>
-
-        <div>
-          <button type="submit">valider</button>
-        </div>
-      </form>
+      </div>
     </Mobile>
   );
 };

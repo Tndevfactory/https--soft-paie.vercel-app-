@@ -8,52 +8,111 @@ import { Device } from "../devices/Device";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
 const Desktop = styled(motion.div)`
-  border: 1px solid red;
-  padding: 1rem;
-  color: black;
+  border: 1px solid indigo;
+  position: relative;
+  padding: 0.6rem;
+  color: rgba(0, 0, 0, 0.8);
+  border-radius: 2%;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
+  min-width: 500px;
+  min-height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
 
   .form_container {
-    padding: 3rem;
-    display: block;
-    min-width: 600px;
-    width: 100%;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 2%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.75);
+    width: 90%;
+    height: 90%;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-flow: column wrap;
-    gap: 23px;
-    background: red;
-    .title_form {
+  }
+  .title {
+    font-size: 33px;
+    text-transform: capitalize;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .label {
+    font-weight: 400;
+    margin-top: 6px;
+  }
+  input {
+    width: 100%;
+    height: 34px;
+    //background-color: yellow;
+    padding: 1px 0.7rem;
+    border: 1px solid;
+    border-radius: 2%;
+  }
+  .zone_password {
+    position: relative;
+    .show_password {
+      position: absolute;
+      top: 7px;
+      right: 15px;
+      cursor: pointer;
     }
-    .input_form {
-      width: 100%;
+  }
+  .error {
+    color: crimson;
+    font-size: 13px;
+    font-weight: 500;
+    font-style: italic;
+    margin-left: 4px;
+    margin-bottom: 5px;
+  }
+  .btn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      width: 125px;
+      padding: 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 0.71px solid;
+      transition: all 0.5s ease;
+      &:hover {
+        background: steelblue;
+        color: white;
+      }
     }
-    .button_form {
+    span {
+      font-size: 12px;
+      a {
+        font-size: 12px;
+        color: indigo;
+        font-weight: 500;
+        cursor: pointer;
+        &:hover {
+          color: blue;
+        }
+      }
     }
   }
 `;
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
-    flex-flow: column wrap;
     margin-top: 9rem;
+    padding: 3rem;
+    border: none;
+    min-width: 500px;
+    min-height: 400px;
+    //background: indigo;
     .form_container {
-      min-width: 400px;
-      width: 100%;
-      padding: 5px;
-      width: 100%;
-      background: indigo;
-      color: white;
-      .title_form {
-      }
-      .input_form {
-        width: 100%;
-      }
-      .button_form {
-      }
+      box-shadow: none;
+      padding: 0.5rem;
+      border-radius: 2%;
+      position: absolute;
+
+      width: 70%;
     }
   }
 `;
@@ -61,13 +120,8 @@ const Mobile = styled(Desktop)`
 const Login1 = () => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const {
-    ui,
-    notification,
-    setNotification,
-    switchMode,
-    setSwitchMode,
-  } = prodStates;
+  const { ui, notification, setNotification, switchMode, setSwitchMode } =
+    prodStates;
 
   const [credential, setCredential] = useState({
     email: "",
@@ -134,46 +188,43 @@ const Login1 = () => {
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <form className="form_container" onSubmit={handleSubmit}>
-        <h1 className="title_form">CONNEXION</h1>
-        <div className="input_form">
-          <label htmlFor="email">Adresse Email:</label>
-          <input
-            name="email"
-            type="email"
-            value={credential.email}
-            placeholder="Entrer votre adresse email"
-            onChange={handleOnchange}
-          />
-          <div className="error">
-            {credential.emailError && credential.emailError}
-          </div>
+        <div className="title">connexion</div>
+        <div className="label">Adresse email:</div>
+        <input
+          name="email"
+          autoComplete="true"
+          value={credential.email}
+          onChange={handleOnchange}
+        />
+        <div className="error">
+          {credential.emailError && credential.emailError}
         </div>
-        <div className="input_form">
-          <label htmlFor="password">Mot de passe:</label>
+        <div className="label">Mot de passe:</div>
+        <div className="zone_password">
           <input
             name="password"
-            type={showPassword ? "text" : "password"}
+            autoComplete="true"
             value={credential.password}
-            placeholder="Entrer votre mot de passe"
             onChange={handleOnchange}
+            type={showPassword ? "text" : "password"}
           />
           <div
             className="show_password"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </div>
-
-          <div className="error">
-            {credential.passwordError && credential.passwordError}
+            {showPassword ? <FaEye /> : <FaEyeSlash />}
           </div>
         </div>
-        <div className="button_form">
-          <button type="submit">se connecter</button>
+
+        <div className="error">
+          {credential.passwordError && credential.passwordError}
+        </div>
+        <div className="btn">
+          <button>valider</button>
           <span>
             Pas de compte, veuillez
             <Link href="/register">
-              <a> S'inscrire</a>
+              <a title="register"> s'inscrire</a>
             </Link>
           </span>
         </div>

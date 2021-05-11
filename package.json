@@ -36,6 +36,11 @@
     "styled-components": "^5.2.3",
     "use-sound": "^3.0.1"
   },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true
+  },
   "main": "index.js",
   "repository": "https://github.com/Tndevfactory/soft-paie.git",
   "author": "Tndevfactory <tndevfactory@gmail.com>",

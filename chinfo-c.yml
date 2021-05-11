@@ -9,6 +9,11 @@ ya i18next gsap react-color file-loader use-sound
 ya date-fns js-cookie styled-components antd react-icons @ant-design/icons 
 ya framer-motion  react-spring chroma-js babel-preset-next react-loader-spinner
 
+"files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true
+  }
 
 loader: -------------------------------------------
  import Loader from "react-loader-spinner";
