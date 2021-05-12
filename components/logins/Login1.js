@@ -9,25 +9,14 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
 
 const Desktop = styled(motion.div)`
-  margin-top: 300px;
-  position: relative;
   padding: 0.6rem;
-  color: rgba(0, 0, 0, 0.8);
   border-radius: 2%;
-  min-width: 500px;
-  min-height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   .form_container {
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
     padding: 1rem;
     border-radius: 2%;
-    position: absolute;
     background-color: rgba(255, 255, 255, 0.75);
-    width: 90%;
-    height: 90%;
     display: flex;
     flex-flow: column wrap;
   }
@@ -52,7 +41,6 @@ const Desktop = styled(motion.div)`
   input {
     width: 100%;
     height: 34px;
-    //background-color: yellow;
     padding: 1px 0.7rem;
     border: 1px solid;
     border-radius: 2%;
@@ -84,7 +72,6 @@ const Desktop = styled(motion.div)`
       font-size: 12px;
       a {
         font-size: 12px;
-
         font-weight: 500;
         cursor: pointer;
         &:hover {
@@ -98,12 +85,6 @@ const Desktop = styled(motion.div)`
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
-    border: none;
-    margin-top: 9rem;
-    padding: 3rem;
-    border: none;
-    min-width: 500px;
-    min-height: 400px;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -111,8 +92,6 @@ const Mobile = styled(Desktop)`
       box-shadow: none;
       padding: 0.5rem;
       border-radius: 2%;
-      position: absolute;
-      width: 70%;
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;

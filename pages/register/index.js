@@ -7,23 +7,22 @@ import styled, { css } from "styled-components";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import { Device } from "../../components/devices/Device";
 import Register1 from "../../components/registers/Register1";
+import Alert1 from "../../components/alerts/Alert1";
+import Loader from "../../components/loader/Loader1";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
-  padding: 4rem 0rem 0rem 0rem;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column nowrap;
-  .spacer {
-    height: 170px;
-  }
 `;
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
-    .spacer {
-      display: none;
-    }
+    margin-top: 0.5rem;
   }
 `;
 
@@ -68,8 +67,9 @@ export default function Register() {
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
+        <Navbar />
         <Register1 switchMode={switchMode} />
-        <div className="spacer"></div>
+        <Footer fixed={false} />
       </Mobile>
     </>
   );

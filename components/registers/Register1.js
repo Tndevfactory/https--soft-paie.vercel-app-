@@ -9,23 +9,13 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
 
 const Desktop = styled(motion.div)`
-  margin-top: 10rem;
-  position: relative;
-  min-width: 500px;
-  min-height: 550px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column wrap;
+  padding-bottom: 55rem;
 
   .form_container {
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
     padding: 1rem;
     border-radius: 2%;
-    position: absolute;
     background-color: rgba(255, 255, 255, 0.75);
-    width: 90%;
-    height: 100%;
     display: flex;
     flex-flow: column wrap;
   }
@@ -50,7 +40,6 @@ const Desktop = styled(motion.div)`
   input {
     width: 100%;
     height: 34px;
-    //background-color: yellow;
     padding: 1px 0.7rem;
     border: 1px solid;
     border-radius: 2%;
@@ -92,18 +81,23 @@ const Desktop = styled(motion.div)`
       }
     }
   }
+  @media (min-width: 1400px) {
+    .form_container {
+      background: red;
+      margin-top: 5rem;
+      margin-bottom: 4rem;
+    }
+  }
 `;
 
 const Mobile = styled(Desktop)`
+  margin-bottom: 20px;
+  margin-top: 180px;
+  padding-bottom: 1rem;
   @media ${Device.mobile} {
-    border: none;
-    margin-top: 6rem;
-
     .form_container {
       padding: 0.5rem;
       border-radius: 2%;
-      position: absolute;
-      width: 70%;
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;

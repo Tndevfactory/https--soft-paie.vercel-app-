@@ -18,19 +18,17 @@ function MyApp({ Component, pageProps, router }) {
         <meta httpEquiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="software of paie" />
-        
+
         <meta name="author" content="ch" />
-        <meta name="og:title" property="og:title" content="soft paie"/>
-        <meta name="twitter:card" content="soft paie"/>
-        <meta name="robots" content="index, follow"/>
-        
+        <meta name="og:title" property="og:title" content="soft paie" />
+        <meta name="twitter:card" content="soft paie" />
+        <meta name="robots" content="index, follow" />
+
         <title>Soft-paie</title>
       </Head>
       <QueryClientProvider client={queryClient}>
         <ProductProvider>
-          <Layout>
-            <Component {...pageProps} key={router.route} />
-          </Layout>
+          <Component {...pageProps} key={router.route} />
         </ProductProvider>
         {/* <ReactQueryDevtools initialIsOpen /> */}
       </QueryClientProvider>

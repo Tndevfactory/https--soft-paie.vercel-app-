@@ -21,7 +21,9 @@ body {
   font-family: -apple-system, Arial, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-size: 17px;
-
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(183, 180, 187);
   overflow-x: hidden;
   /* font-family: var(--lato-font);
   font-family: var(--open-font); */
@@ -42,4 +44,7 @@ a {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
+}
+
+@media (max-width: 600px) {
 }

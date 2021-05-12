@@ -17,7 +17,14 @@ const Desktop = styled(motion.footer)`
 
   background: ${({ switchMode, ui }) =>
     switchMode ? chroma(ui.dark) : chroma(ui.light)};
+
   min-height: 130px;
+
+  position: ${({ fixed }) =>
+    fixed ? 'fixed' : 'static'};
+  width: 100%;
+  bottom: 0px;
+  left: 0%;
 
   display: flex;
   flex-flow: column wrap;
@@ -49,12 +56,12 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-const Footer = () => {
+const Footer = ({ fixed }) => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiUpdate } = prodMethods;
   const { ui, switchMode, setSwitchMode } = prodStates;
   return (
-    <Mobile ui={ui} switchMode={switchMode}>
+    <Mobile ui={ui} switchMode={switchMode} fixed={fixed}>
       <div className="footer_brand">
         {" "}
         <span>Soft-Paie</span>
