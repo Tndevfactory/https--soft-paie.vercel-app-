@@ -20,8 +20,7 @@ const Desktop = styled(motion.footer)`
 
   min-height: 130px;
 
-  position: ${({ fixed }) =>
-    fixed ? 'fixed' : 'static'};
+  position: ${({ fixed }) => (fixed ? "fixed" : "static")};
   width: 100%;
   bottom: 0px;
   left: 0%;
@@ -52,8 +51,10 @@ const Desktop = styled(motion.footer)`
 `;
 
 const Mobile = styled(Desktop)`
-  @media ${Device.mobile} {
+  @media  (max-width: 600px) {
+    position: static;
   }
+  
 `;
 
 const Footer = ({ fixed }) => {

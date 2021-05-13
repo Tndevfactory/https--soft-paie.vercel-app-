@@ -7,6 +7,10 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import { Device } from "../../components/devices/Device";
 import chroma from "chroma-js";
 import Config from "../../components/config/Config1";
+import Alert1 from "../../components/alerts/Alert1";
+import Loader from "../../components/loader/Loader1";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
   // min-height: 80vh;
@@ -60,15 +64,9 @@ export default function Config_page() {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
+      <Navbar />
       <Config />
-      <div className="expandable">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda,
-        odit? Optio tempore enim nihil odio, quas eligendi possimus ullam
-        commodi accusantium quia quam debitis deleniti totam laudantium illum
-        praesentium sequi? Dolorem rem voluptate ut sint quis non veniam illum
-        iusto expedita, amet quia laudantium odio exercitationem id aperiam,
-        nostrum quas.
-      </div>
+      <Footer fixed={true} />
     </Mobile>
   );
 }

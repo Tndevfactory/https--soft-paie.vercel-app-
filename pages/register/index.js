@@ -21,7 +21,10 @@ const Desktop = styled(motion.div)`
 `;
 
 const Mobile = styled(Desktop)`
-  @media ${Device.mobile} {
+  @media (min-width: 361px) and (max-width: 600px) {
+    margin-top: 0.5rem;
+  }
+  @media (max-width: 360px) {
     margin-top: 0.5rem;
   }
 `;
@@ -69,7 +72,7 @@ export default function Register() {
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
         <Register1 switchMode={switchMode} />
-        <Footer fixed={false} />
+        <Footer fixed={true} />
       </Mobile>
     </>
   );

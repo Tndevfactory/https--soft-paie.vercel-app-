@@ -80,19 +80,36 @@ const Desktop = styled(motion.button)`
         ? chroma(ui.light).brighten(5)
         : chroma(ui.light).darken(3)};
   }
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
   .children {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: capitalize;
   }
 `;
 
 const Mobile = styled(Desktop)`
-  @media ${Device.mobile} {
-    height: ${({ height }) => height - 0.2 + "rem"};
-    width: ${({ width }) => width - 1 + "rem"};
+  @media (min-width: 375px) and (max-width: 600px) {
+    height: ${({ height }) => height - 0.4 + "rem"};
+    width: ${({ width }) => width - 1.7 + "rem"};
     .children {
-      font-size: 0.8rem;
+      font-size: 0.6rem;
+    }
+  }
+  @media (min-width: 361px) and (max-width: 374px) {
+    height: ${({ height }) => height - 0.4 + "rem"};
+    width: ${({ width }) => width - 1.7 + "rem"};
+    .children {
+      font-size: 0.6rem;
+    }
+  }
+  @media (max-width: 360px) {
+    height: ${({ height }) => height - 0.4 + "rem"};
+    width: ${({ width }) => width - 1.7 + "rem"};
+    .children {
+      font-size: 0.6rem;
     }
   }
 `;

@@ -76,7 +76,7 @@ export const ProductProvider = ({ children }) => {
     setUi({
       ...ui,
       dark: Cookies.get("dark") || "#001d3d",
-      light: Cookies.get("light") || "#001d3d",
+      light: Cookies.get("light") || "#7b2cbf",
     });
   }, []);
 

@@ -34,12 +34,12 @@ const Switch_st = styled(motion.div)`
     bottom: 0;
     background: ${({ switchMode, ui }) =>
       switchMode
-        ? chroma(ui.dark).luminance() < 0.4
-          ? chroma(ui.dark).brighten(3)
-          : chroma(ui.dark).darken(3)
-        : chroma(ui.light).luminance() < 0.4
-        ? chroma(ui.light).brighten(3)
-        : chroma(ui.light).darken(3)};
+        ? chroma(ui.light).luminance() < 0.4
+          ? chroma(ui.light).brighten(1)
+          : chroma(ui.light).darken(1)
+        : chroma(ui.dark).luminance() < 0.4
+        ? chroma(ui.dark).brighten(1)
+        : chroma(ui.dark).darken(1)};
     -webkit-transition: 0.4s;
     transition: 0.4s;
   }
@@ -59,12 +59,12 @@ const Switch_st = styled(motion.div)`
   input:checked + .slider {
     background: ${({ switchMode, ui }) =>
       switchMode
-        ? chroma(ui.dark).luminance() < 0.4
-          ? chroma(ui.dark).brighten(3)
-          : chroma(ui.dark).darken(3)
-        : chroma(ui.light).luminance() < 0.4
-        ? chroma(ui.light).brighten(3)
-        : chroma(ui.light).darken(3)};
+        ? chroma(ui.light).luminance() < 0.4
+          ? chroma(ui.light).brighten(1)
+          : chroma(ui.light).darken(1)
+        : chroma(ui.dark).luminance() < 0.4
+        ? chroma(ui.dark).brighten(1)
+        : chroma(ui.dark).darken(1)};
   }
 
   input:focus + .slider {
@@ -113,7 +113,7 @@ const Switch = () => {
     setUi({
       ...ui,
       dark: Cookies.get("dark") || "#001d3d",
-      light: Cookies.get("light") || "#001d3d",
+      light: Cookies.get("light") || "#7b2cbf",
     });
   };
   return (

@@ -150,7 +150,7 @@ const Config1 = () => {
     <Mobile ui={ui} switchMode={switchMode}>
       <div className="block">
         <div className="dark" onClick={handleDarkClick}>
-          <h3>{switchMode ? "theme Active" : "theme secondaire"}</h3>
+          <h3>{switchMode ? "theme Actif" : "theme secondaire"}</h3>
           <SketchPicker
             color={ui.dark}
             className="dark_picker"
@@ -158,7 +158,7 @@ const Config1 = () => {
           />
         </div>
         <div className="light" onClick={handlelightClick}>
-          <h3>{!switchMode ? "theme Active" : "theme secondaire"}</h3>
+          <h3>{!switchMode ? "theme Actif" : "theme secondaire"}</h3>
           <SketchPicker
             color={ui.light}
             className="light_picker"

@@ -11,8 +11,9 @@ import Button1 from "../buttons/Button1";
 const Desktop = styled(motion.div)`
   padding: 0.6rem;
   border-radius: 2%;
-
+  width: 55vh;
   .form_container {
+    width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
     padding: 1rem;
     border-radius: 2%;
@@ -21,7 +22,7 @@ const Desktop = styled(motion.div)`
     flex-flow: column wrap;
   }
   .title {
-    font-size: 33px;
+    font-size: 1.5rem;
     text-transform: capitalize;
     text-align: center;
     margin-bottom: 1rem;
@@ -84,19 +85,114 @@ const Desktop = styled(motion.div)`
 `;
 
 const Mobile = styled(Desktop)`
-  @media ${Device.mobile} {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+  @media (min-width: 375px) and (max-width: 600px) {
+    margin-top: 15rem;
+    margin-bottom: 6rem;
+    width: 57vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column nowrap;
     .form_container {
-      box-shadow: none;
-      padding: 0.5rem;
-      border-radius: 2%;
+      width: 90%;
+      margin-top: 30px;
+      margin-bottom: 0.3rem;
+      .title {
+        font-size: 1.5rem;
+      }
+      .btn {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .register_phrase {
+          font-size: 9px;
+          a {
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            &:hover {
+              color: ${({ switchMode, ui }) =>
+                switchMode ? chroma(ui.dark) : chroma(ui.light)};
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 361px) and (max-width: 374px) {
+    margin-top: 180px;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column nowrap;
+    width: 60vh;
+    .form_container {
+      width: 88%;
+      margin-top: 10px;
+      margin-bottom: 0.5rem;
+
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;
-      .register_phrase {
-        font-size: 11px;
+      .btn {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .register_phrase {
+          font-size: 9px;
+          a {
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            &:hover {
+              color: ${({ switchMode, ui }) =>
+                switchMode ? chroma(ui.dark) : chroma(ui.light)};
+            }
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 360px) {
+    margin-top: 180px;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column nowrap;
+
+    width: 60vh;
+    .form_container {
+      width: 95%;
+      margin-top: 10px;
+      margin-bottom: 0.5rem;
+      .title {
+        font-size: 1.5rem;
+      }
+      .btn {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .register_phrase {
+          font-size: 10px;
+          a {
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            &:hover {
+              color: ${({ switchMode, ui }) =>
+                switchMode ? chroma(ui.dark) : chroma(ui.light)};
+            }
+          }
+        }
       }
     }
   }
