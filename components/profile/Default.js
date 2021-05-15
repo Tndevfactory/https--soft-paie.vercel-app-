@@ -16,78 +16,30 @@ import {
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-const device = {
-  mobile: `(max-width: 600px)`,
 
-  tablet: `(min-width: 601px)`,
-
-  desktop: `(min-width: 900px)`,
-};
-
-const ui = {
-  dark: "#001d3d",
-  light: "#00afb9",
-};
 const easing = [0.04, 0.62, 0.23, 0.98];
 
-const Default_st = styled(motion.div)`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-
-  height: 100%;
-  gap: 5px 5px;
-
+const Desktop = styled(motion.div)`
+ 
   & > * {
-    border: 2px solid
-      ${({ switchMode, ui }) =>
-        switchMode
-          ? chroma(ui.light).brighten(4)
-          : chroma(ui.dark).brighten(1)};
-    background: ${({ switchMode, ui }) =>
-      switchMode
-        ? chroma(ui.light).darken(1).alpha(0.2)
-        : chroma(ui.light).brighten(4).alpha(0.6)};
-    color: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.light).brighten(5) : chroma(ui.light).darken(2)};
-    margin: 106px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
-    transition: all 600ms ease;
-    cursor: pointer;
-    &:hover {
-      box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.6);
-      scale: 1.1;
-    }
+    display: inline-block;
+   
+    border-radius: 5px;
+    padding: 2rem;
+  }
 
-    .editer_profil_logo {
-      font-weight: 600;
-      display: block;
-      font-size: 53px;
-      text-align: center;
-    }
-    .editer_profil_title {
-      font-weight: 600;
-      display: block;
-      font-size: 23px;
-    }
+`;
+
+const Mobile = styled(Desktop)`
+  @media (min-width: 375px) and (max-width: 600px) {
+    padding: 9rem 0rem 1rem 0rem;
   }
-  .editer_profil {
+
+  @media (min-width: 361px) and (max-width: 374px) {
+    padding: 9rem 0rem 1rem 0rem;
   }
-  .fiche_paie {
-  }
-  .calcul_salaire {
-  }
-  .demande_conge {
-  }
-  .gestion_reclamation {
-  }
-  .consulter_planification {
-  }
-  @media (max-width: 600px) {
+  @media (max-width: 360px) {
+    padding: 9rem 0rem 1rem 0rem;
   }
 `;
 
@@ -97,7 +49,7 @@ const Defaultss = ({ setSectionSelector }) => {
   const { ui, notification, setNotification, switchMode } = prodStates;
 
   return (
-    <Default_st switchMode={switchMode} ui={ui}>
+    <Mobile ui={ui} switchMode={switchMode}>
       <div
         className="editer_profil"
         onClick={() => setSectionSelector("editer_profil")}
@@ -169,7 +121,7 @@ const Defaultss = ({ setSectionSelector }) => {
           <span className="editer_profil_title">Consulter Planification</span>
         </div>
       </div>
-    </Default_st>
+    </Mobile>
   );
 };
 

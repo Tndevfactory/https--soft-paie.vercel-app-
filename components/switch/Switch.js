@@ -112,8 +112,8 @@ const Switch = () => {
     setSwitchMode(!switchMode);
     setUi({
       ...ui,
-      dark: Cookies.get("dark") || "#001d3d",
-      light: Cookies.get("light") || "#7b2cbf",
+       dark: Cookies.get("dark") || "#7b2cbf",
+      light: Cookies.get("light") || "#001d3d",
     });
   };
   return (

@@ -1,91 +1,137 @@
-import React, { useState, useRef, useEffect } from "react";
+/** @format */
+import { motion } from "framer-motion";
+import React, {useState} from "react";
+import Head from "next/head";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import {
-  motion,
-  useMotionValue,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { Device } from "../../components/devices/Device";
+import Register1 from "../../components/registers/Register1";
+import Alert1 from "../../components/alerts/Alert1";
+import Loader from "../../components/loader/Loader1";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
+import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
-import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { format, compareAsc } from "date-fns";
 
-const device = {
-  mobile: `(max-width: 600px)`,
+import FichePaie from "../../components/profile/FichePaie";
+import CalculSalaire from "../../components/profile/CalculSalaire";
+import DemandeConge from "../../components/profile/DemandeConge";
+import EditerProfil from "../../components/profile/EditerProfil";
+import Planification from "../../components/profile/Planification";
+import Reclamation from "../../components/profile/Reclamation";
+import Default from "../../components/profile/Default";
+import {
+  FaUser,
+  FaRegListAlt,
+  FaRegMoneyBillAlt,
+  FaRecycle,
+  FaParking,
+  FaSkating,
+} from "react-icons/fa";
 
-  tablet: `(min-width: 601px)`,
+const Desktop = styled(motion.div)`
+  min-height: 82vh;
+  padding: 6rem 0rem 1rem 0rem;
+  display: flex;
 
-  desktop: `(min-width: 900px)`,
-};
+  & > * {
+    display: inline-block;
+    min-height: 66vh;
+    border-radius: 5px;
+    padding: 2rem;
+  }
 
-const ui = {
-  dark: "#001d3d",
-  light: "#00afb9",
-};
+  .fixed-drawer {
+    background: green;
+    min-width: 15%;
+    margin: 0rem .5rem 0rem 0.5rem;
+  }
 
-const Dashboard_st = styled(motion.div)`
-  position: absolute;
-  top: 90px;
-  left: 0;
-  width: 100%;
-  background-color: ${({ alertType }) =>
-    alertType === "fail"
-      ? chroma("red").brighten(2)
-      : alertType === "success"
-      ? chroma("green").brighten(2)
-      : "transparent"};
-  color: white;
-  font-weight: 600;
-  font-size: 1.3rem;
-  display: grid;
-  place-items: center;
-  padding: 0.5rem;
-
-  height: 3rem;
+  .dash-content {
+    min-height: 66vh;
+    background: white;
+    min-width: 83%;
+  }
 `;
-const easing = [0.04, 0.62, 0.23, 0.98];
-const variants = {
-  initial: {
-    y: "-100px",
-  },
-  animate: {
-    y: 0,
-    transition: {
-      duration: 1,
-      ease: easing,
-    },
-  },
-  exit: { opacity: 0 },
-};
 
-const Dashboard1 = () => {
+const Mobile = styled(Desktop)`
+  @media (min-width: 375px) and (max-width: 600px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+
+  @media (min-width: 361px) and (max-width: 374px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+  @media (max-width: 360px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+`;
+
+// export const getServerSideProps = async () => {
+//   const dt = await apiGet();
+
+//   return { props: { dt } };
+// };{ dt }
+
+export default function Dashboard1() {
+  const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { notification, setNotification, switchMode } = prodStates;
+  const { apiGet } = prodMethods;
+  const { ui, switchMode } = prodStates;
 
-  const { notifType, notifMsg } = notification;
+  // const { isLoading, error, data } = useQuery("products", apiGet, {
+  //   initialData: dt,
+  //   initialStale: true,
+  // });
 
-  const [showPassword, setShowPassword] = useState(false);
-  const y = useMotionValue(-100);
-  const opacity = useTransform(y, [-100, 0], [0, 1]);
+  // const mDelete = useMutation((id) => apiDelete(id), {
+  //   onSuccess: () => queryClient.invalidateQueries("products"),
+  // });
 
+  // const mUpdate = useMutation((values) => apiUpdate(values));
+
+  // if (isLoading) return <div>loading ...</div>;
+
+  // if (error) return "An error has occurred: " + error.message;
+
+  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
+  const [ selectSection, setSelectSection ] = useState('')
+  
   return (
-    <Dashboard_st
-      switchMode={switchMode}
-      variants={variants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      style={{ y, opacity }}
-      alertType={notifType}
-    >
-      <form className="form_container">
-        <p>Dashboard1</p>
-      </form>
-    </Dashboard_st>
-  );
-};
+    <>
+      <Head>
+        <meta name="description" content="software of paie" />
+        <meta name="author" content="ch" />
+        <meta name="og:title" property="og:title" content="soft paie" />
+        <meta name="twitter:card" content="soft paie" />
+        <meta name="robots" content="index, follow" />
+        <title> Employee</title>
+      </Head>
 
-export default Dashboard;
+      <Mobile ui={ui} switchMode={switchMode}>
+        <aside className="fixed-drawer">
+          <div className="date">date</div>
+          <div className="date">
+            <Image src='/img/profil/profil.jpg' height={ 45 } width={ 45 } />
+          </div>
+          <div className="date">link1</div>
+          <div className="date">link2</div>
+          <div className="date">link3</div>
+          <div className="date">link4</div>
+        </aside>
+        <div className="dash-content">
+          <div className="bread-crumb">bread//</div>
+          
+          {selectSection ==='' && <div className="content"><Default/></div>}
+          {selectSection ==='salaire' && <div className="content">salaire</div>}
+          {selectSection ==='conge' && <div className="content">salaire</div>}
+          {selectSection ==='reclamation' && <div className="content">salaire</div>}
+          {selectSection ==='fiche de paie' && <div className="content">salaire</div>}
+        </div>
+      </Mobile>
+    </>
+  );
+}

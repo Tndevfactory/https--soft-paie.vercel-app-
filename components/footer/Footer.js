@@ -18,7 +18,7 @@ const Desktop = styled(motion.footer)`
   background: ${({ switchMode, ui }) =>
     switchMode ? chroma(ui.dark) : chroma(ui.light)};
 
-  min-height: 130px;
+  min-height: 18vh;
 
   position: ${({ fixed }) => (fixed ? "fixed" : "static")};
   width: 100%;

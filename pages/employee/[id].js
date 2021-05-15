@@ -1,10 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
-import styled, { css } from "styled-components";
+/** @format */
 import { motion } from "framer-motion";
+import React from "react";
+import Head from "next/head";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import styled, { css } from "styled-components";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { Device } from "../../components/devices/Device";
+import Register1 from "../../components/registers/Register1";
+import Alert1 from "../../components/alerts/Alert1";
+import Loader from "../../components/loader/Loader1";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
+import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
-import Image from "next/image";
 import { format, compareAsc } from "date-fns";
+import Dashboard1 from '../../components/dashboard/Dashboard1'
 import FichePaie from "../../components/profile/FichePaie";
 import CalculSalaire from "../../components/profile/CalculSalaire";
 import DemandeConge from "../../components/profile/DemandeConge";
@@ -21,231 +32,67 @@ import {
   FaSkating,
 } from "react-icons/fa";
 
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-const device = {
-  mobile: `(max-width: 600px)`,
+const Desktop = styled(motion.div)`
+  min-height: 100vh;
+  
+`;
 
-  tablet: `(min-width: 601px)`,
-
-  desktop: `(min-width: 900px)`,
-};
-
-const easing = [0.04, 0.62, 0.23, 0.98];
-
-const Employee_st = styled(motion.div)`
-  display: grid;
-  grid-template-columns: 15% 1fr;
-  height: 78vh;
-
-  .side_bar {
-    border-top: 2px solid
-      ${({ switchMode, ui }) =>
-        switchMode ? chroma(ui.light) : chroma(ui.dark)};
-    border-right: 2px solid
-      ${({ switchMode, ui }) =>
-        switchMode ? chroma(ui.light) : chroma(ui.dark)};
-    border-bottom: 2px solid
-      ${({ switchMode, ui }) =>
-        switchMode ? chroma(ui.light) : chroma(ui.dark)};
-    padding: 1rem 1rem;
-    background-color: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.dark) : chroma(ui.light).darken(2)};
-
-    .side_bar_row {
-      display: flex;
-      align-items: center;
-      .side_bar_row_dateTime {
-        color: white;
-        margin: 20px 1px 20px 2px;
-        .side_bar_row_dateTime_title {
-          font-weight: 600;
-          margin: 0px 12px 0px 12px;
-        }
-        .side_bar_row_dateTime_title {
-        }
-      }
-      .side_bar_row_photoProfile {
-        margin: 0px 3px 13px 7px;
-        img {
-          border-radius: 50%;
-          width: 120%;
-          height: 90px;
-          border: 1px solid white;
-        }
-      }
-      .side_bar_row_nameProfile {
-        color: ${({ switchMode, ui }) =>
-          switchMode
-            ? chroma(ui.light).brighten(2)
-            : chroma(ui.light).brighten(3)};
-        margin: -5px 0px 0px 19px;
-        text-transform: uppercase;
-        font-weight: 700;
-      }
-
-      .side_bar_row_icon {
-        color: ${({ switchMode, ui }) =>
-          switchMode ? chroma(ui.light).brighten(2) : chroma(ui.dark)};
-        font-size: 23px;
-        margin: 9px 9px 2px 1px;
-      }
-      .side_bar_row_title {
-        color: ${({ switchMode, ui }) =>
-          switchMode
-            ? chroma(ui.light).saturate(2)
-            : chroma(ui.dark).brighten(4)};
-        font-weight: 600;
-        cursor: pointer;
-        transition: color 500ms;
-        &:hover {
-          color: ${({ switchMode, ui }) =>
-            switchMode
-              ? chroma(ui.light).brighten(3)
-              : chroma(ui.dark).brighten(6)};
-        }
-      }
-
-      @media (max-width: 600px) {
-      }
-    }
-
-    @media (max-width: 600px) {
-      height: 50vh;
-    }
+const Mobile = styled(Desktop)`
+  @media (min-width: 361px) and (max-width: 600px) {
+    margin-top: 0.5rem;
   }
-  .content {
-    padding: 1rem 2rem;
-    .content_details {
-      height: 100%;
-      @media (max-width: 600px) {
-      }
-    }
-    @media (max-width: 600px) {
-    }
-  }
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 360px) {
+    margin-top: 0.5rem;
   }
 `;
 
-const Profile = () => {
-  const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { ui, notification, setNotification, switchMode } = prodStates;
+// export const getServerSideProps = async () => {
+//   const dt = await apiGet();
 
-  const [sectionSelector, setSectionSelector] = useState("");
+//   return { props: { dt } };
+// };{ dt }
+
+export default function Profile() {
+  const queryClient = useQueryClient();
+  const [prodMethods, prodStates] = ProdCtx();
+  const { apiGet } = prodMethods;
+  const { ui, switchMode } = prodStates;
+
+  // const { isLoading, error, data } = useQuery("products", apiGet, {
+  //   initialData: dt,
+  //   initialStale: true,
+  // });
+
+  // const mDelete = useMutation((id) => apiDelete(id), {
+  //   onSuccess: () => queryClient.invalidateQueries("products"),
+  // });
+
+  // const mUpdate = useMutation((values) => apiUpdate(values));
+
+  // if (isLoading) return <div>loading ...</div>;
+
+  // if (error) return "An error has occurred: " + error.message;
+
+  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
 
   return (
-    <Employee_st switchMode={switchMode} ui={ui}>
-      <div className="side_bar">
-        <div className="side_bar_row">
-          <span className="side_bar_row_dateTime">
-            <span className="side_bar_row_dateTime_title">Date:</span>
-            <span className="side_bar_row_dateTime_date">
-              {format(new Date(), "dd-MM-yyyy' 'HH:mm:ss")}{" "}
-            </span>
-          </span>
-        </div>
-        <div className="side_bar_row">
-          <span className="side_bar_row_photoProfile">
-            <img src="/img/profil/profil.jpg" />
-          </span>
-          <span className="side_bar_row_nameProfile">Karim Ben Amor</span>
-        </div>
-        <div className="side_bar_row">
-          <span className="side_bar_row_icon">
-            <FaUser />
-          </span>
-          <span
-            className="side_bar_row_title"
-            onClick={() => setSectionSelector("editer_profil")}
-          >
-            {" "}
-            Editer Profil
-          </span>
-        </div>
-        <div className="side_bar_row">
-          <span className="side_bar_row_icon">
-            <FaRegListAlt />
-          </span>
-          <span
-            className="side_bar_row_title"
-            onClick={() => setSectionSelector("fiche_paie")}
-          >
-            Fiche de Paie{" "}
-          </span>
-        </div>
-        <div className="side_bar_row">
-          <span className="side_bar_row_icon">
-            <FaRegMoneyBillAlt />
-          </span>
-          <span
-            className="side_bar_row_title"
-            onClick={() => setSectionSelector("calcul_salaire")}
-          >
-            Calcul Salaire{" "}
-          </span>
-        </div>
-        <div className="side_bar_row">
-          <span className="side_bar_row_icon">
-            <FaSkating />
-          </span>
-          <span
-            className="side_bar_row_title"
-            onClick={() => setSectionSelector("demande_conge")}
-          >
-            Demande de Congé{" "}
-          </span>
-        </div>
-        <div className="side_bar_row">
-          <span className="side_bar_row_icon">
-            <FaRecycle />
-          </span>
-          <span
-            className="side_bar_row_title"
-            onClick={() => setSectionSelector("gestion_reclamation")}
-          >
-            Gestion Réclamations
-          </span>
-        </div>
-        <div className="side_bar_row">
-          <span className="side_bar_row_icon">
-            <FaParking />
-          </span>
-          <span
-            className="side_bar_row_title"
-            onClick={() => setSectionSelector("consulter_planification")}
-          >
-            Consulter Planification
-          </span>
-        </div>
-      </div>
-      <div className="content">
-        <div className="content_details">
-          {sectionSelector === "editer_profil" ? (
-            <EditerProfil />
-          ) : sectionSelector === "fiche_paie" ? (
-            <FichePaie />
-          ) : sectionSelector === "calcul_salaire" ? (
-            <CalculSalaire />
-          ) : sectionSelector === "demande_conge" ? (
-            <DemandeConge />
-          ) : sectionSelector === "gestion_reclamation" ? (
-            <Reclamation />
-          ) : sectionSelector === "consulter_planification" ? (
-            <Planification />
-          ) : (
-            <Default
-              sectionSelector={sectionSelector}
-              setSectionSelector={setSectionSelector}
-            />
-          )}
-        </div>
-      </div>
-    </Employee_st>
-  );
-};
+    <>
+      <Head>
+        <meta name="description" content="software of paie" />
+        <meta name="author" content="ch" />
+        <meta name="og:title" property="og:title" content="soft paie" />
+        <meta name="twitter:card" content="soft paie" />
+        <meta name="robots" content="index, follow" />
+        <title> Connexion</title>
+      </Head>
 
-export default Profile;
+      <Mobile ui={ui} switchMode={switchMode}>
+        <Navbar />
+        
+        <Dashboard1 switchMode={switchMode} />
+        <Footer fixed={false} />
+      </Mobile>
+    </>
+  );
+}
