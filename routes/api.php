@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CheckerController;
 use App\Http\Controllers\ProductController;
 
 /*
@@ -18,5 +19,12 @@ use App\Http\Controllers\ProductController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post("register", [CheckerController::class, "register"])->name("register");
+Route::post("login", [CheckerController::class, "login"])->name("login");
+
+Route::middleware("auth:api")->group(function () {
+   Route::get("/logout", [CheckerController::class, "logout"])->name("logout"); 
+    });
 
 Route::apiResource('products', ProductController::class);
