@@ -121,14 +121,13 @@ const Navbar = () => {
             soft-paie
           </a>
         </Link>
-        <Link href="/">
-          <Image
+               
+        <Image
             src="/img/logos/logo.png"
             alt="soft - paie logo"
             width={35}
             height={35}
           />
-        </Link>
       </div>
       <div className="switch-zone">
         <Link href="/config">

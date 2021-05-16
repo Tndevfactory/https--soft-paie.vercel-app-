@@ -69,9 +69,7 @@ const EditerProfil_st = styled(motion.div)`
         gap: 10px;
         label {
           color: ${({ switchMode, ui }) =>
-            switchMode
-              ? chroma(ui.light).darken(1)
-              : chroma(ui.dark).brighten(1)};
+            switchMode ? chroma(ui.dark) : chroma(ui.light)};
           font-weight: 500;
           text-transform: capitalize;
           font-size: 17px;
@@ -107,15 +105,23 @@ const EditerProfil_st = styled(motion.div)`
           border-radius: 3px;
           transition: all 500ms ease;
           background: ${({ switchMode, ui }) =>
+            switchMode ? chroma(ui.dark) : chroma(ui.light)};
+
+          color: ${({ switchMode, ui }) =>
             switchMode
-              ? chroma(ui.light).darken(1)
-              : chroma(ui.dark).brighten(3).alpha(0.5)};
+              ? chroma(ui.dark).luminance() < 0.4
+                ? chroma(ui.dark).brighten(5)
+                : chroma(ui.dark).darken(3)
+              : chroma(ui.light).luminance() < 0.4
+              ? chroma(ui.light).brighten(5)
+              : chroma(ui.light).darken(3)};
         }
+
         button:hover {
           background: ${({ switchMode, ui }) =>
             switchMode
-              ? chroma(ui.light).darken(2)
-              : chroma(ui.dark).brighten(2)};
+              ? chroma(ui.dark).brighten(1)
+              : chroma(ui.light).darken(1)};
         }
         .btn_annuler {
           margin-top: 52px;
@@ -140,12 +146,6 @@ const EditerProfil = () => {
 
   return (
     <EditerProfil_st ui={ui} switchMode={switchMode}>
-      <div className="breadcrumb">
-        <span className="breadcrumb_root">Employee</span>
-        <span className="breadcrumb_slash">/</span>
-        <span className="breadcrumb_active">Edition Profile</span>
-      </div>
-
       <form className="profile_grid">
         <div className="profile_grid_section">
           <div className="profile_grid_section_row">

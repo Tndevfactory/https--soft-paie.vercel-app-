@@ -29,13 +29,23 @@ const Desktop = styled(motion.footer)`
   flex-flow: column wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 25px;
+  gap: 35px;
   padding-bottom: 10px;
   .footer_brand {
-    font-family: ${({ ui }) => ui.navFont};
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.2rem;
+    h3 {
+      font-family: ${({ ui }) => ui.navFont};
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 1.9rem;
+      color: ${({ switchMode, ui }) =>
+        switchMode
+          ? chroma(ui.dark).luminance() < 0.4
+            ? chroma(ui.dark).brighten(5)
+            : chroma(ui.dark).darken(3)
+          : chroma(ui.light).luminance() < 0.4
+          ? chroma(ui.light).brighten(5)
+          : chroma(ui.light).darken(3)};
+    }
   }
   .footer_copyright {
     display: flex;
@@ -51,10 +61,9 @@ const Desktop = styled(motion.footer)`
 `;
 
 const Mobile = styled(Desktop)`
-  @media  (max-width: 600px) {
+  @media (max-width: 600px) {
     position: static;
   }
-  
 `;
 
 const Footer = ({ fixed }) => {
@@ -64,8 +73,7 @@ const Footer = ({ fixed }) => {
   return (
     <Mobile ui={ui} switchMode={switchMode} fixed={fixed}>
       <div className="footer_brand">
-        {" "}
-        <span>Soft-Paie</span>
+        <h3>Soft-Paie</h3>
       </div>
       <div className="footer_copyright">
         <span>Iheb creation</span>

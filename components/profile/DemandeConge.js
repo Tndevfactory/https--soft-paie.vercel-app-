@@ -1,59 +1,121 @@
-import React, { useState, useRef, useEffect } from "react";
-import styled, { css } from "styled-components";
+/** @format */
 import { motion } from "framer-motion";
+import Button1 from "../buttons/Button1";
+import DatePicker from "react-datepicker";
+import React, { useState } from "react";
+import Head from "next/head";
+import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import styled, { css } from "styled-components";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { Device } from "../../components/devices/Device";
+import Register1 from "../../components/registers/Register1";
+import Alert1 from "../../components/alerts/Alert1";
+import Loader from "../../components/loader/Loader1";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
+import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
-import Image from "next/image";
+import { format, compareAsc } from "date-fns";
+
 import {
   FaUser,
   FaRegListAlt,
   FaRegMoneyBillAlt,
-  FaMugHot,
   FaRecycle,
   FaParking,
   FaSkating,
 } from "react-icons/fa";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-const device = {
-  mobile: `(max-width: 600px)`,
+const Desktop = styled(motion.div)`
+  min-width: 80vw;
 
-  tablet: `(min-width: 601px)`,
+  .form_conge {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 5px;
+  }
+  .date_choice {
+    display: flex;
+    gap: 1rem;
+    margin: 0.5rem 0rem 1rem 0rem;
+  }
 
-  desktop: `(min-width: 900px)`,
-};
-
-const ui = {
-  dark: "#001d3d",
-  light: "#00afb9",
-};
-const easing = [0.04, 0.62, 0.23, 0.98];
-
-const DemandeConge_st = styled(motion.div)`
-  background-color: yellow;
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  label {
+    display: block;
+  }
+  .cp_area {
+    padding: 1rem;
+    max-width: 50%;
+    margin-bottom: 1rem;
   }
 `;
 
-const DemandeConge = () => {
+const Mobile = styled(Desktop)`
+  @media (min-width: 375px) and (max-width: 600px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+
+  @media (min-width: 361px) and (max-width: 374px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+  @media (max-width: 360px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+`;
+
+const DemandeConges = () => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { notification, setNotification, switchMode } = prodStates;
+  const { ui, notification, setNotification, switchMode } = prodStates;
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const [sectionSelector, setSectionSelector] = useState("");
-
+  
   return (
-    <DemandeConge_st switchMode={switchMode}>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo
-      quisquam eveniet velit dignissimos eaque quo obcaecati nesciunt voluptas
-      a, laudantium fugit earum necessitatibus numquam porro deserunt neque.
-      Cumque ex ad autem harum necessitatibus consectetur voluptatum
-      exercitationem, explicabo, eum nam impedit, tempore repellendus rem. Optio
-      similique vero explicabo, inventore quod consectetur.
-    </DemandeConge_st>
+    <Mobile ui={ui} switchMode={switchMode}>
+      <form className="form_conge" action="">
+        <h3>Deposer un conge</h3>
+        <div className="date_choice">
+          <div className="start_date">
+          
+            <label for="start">Date de debut:</label>
+            <input
+              type="date"
+              id="start"
+              name="trip-start"
+              value="2021-06-07"
+              min={new Date()}
+            />
+          </div>
+          <div className="end_date">
+            {" "}
+            <label for="end">Date de fin:</label>
+            <input
+              type="date"
+              id="end"
+              name="trip-end"
+              value="2021-06-20"
+              min={new Date()}
+            />
+          </div>
+        </div>
+        <label htmlFor="">Motif:</label>
+        <textarea className="cp_area" id="cp" name="cp" rows="4" cols="5">
+          bio employee Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Nobis omnis voluptatum sunt repudiandae. Dolorum suscipit rerum, hic
+          vitae quisquam minima laudantium esse est, ipsa placeat blanditiis qui
+          iusto maiores et.
+        </textarea>
+        <Button1 type="submit" disabled={false} width={5} height={2.2}>
+          valider
+        </Button1>
+      </form>
+    </Mobile>
   );
 };
 
-export default DemandeConge;
+export default DemandeConges;

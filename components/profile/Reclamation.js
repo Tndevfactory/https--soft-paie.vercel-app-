@@ -1,58 +1,115 @@
-import React, { useState, useRef, useEffect } from "react";
-import styled, { css } from "styled-components";
+/** @format */
 import { motion } from "framer-motion";
+import Button1 from "../buttons/Button1";
+
+import React, { useState } from "react";
+import Head from "next/head";
+import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import styled, { css } from "styled-components";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { Device } from "../../components/devices/Device";
+import Register1 from "../../components/registers/Register1";
+import Alert1 from "../../components/alerts/Alert1";
+import Loader from "../../components/loader/Loader1";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
+import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
-import Image from "next/image";
+import { format, compareAsc } from "date-fns";
+import Select from "react-select";
+
 import {
   FaUser,
   FaRegListAlt,
   FaRegMoneyBillAlt,
-  FaMugHot,
   FaRecycle,
   FaParking,
   FaSkating,
 } from "react-icons/fa";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-const device = {
-  mobile: `(max-width: 600px)`,
+const options = [
+  { value: "erreur", label: "Erreur salaire" },
+  { value: "Retard", label: "Retard de versement" },
+  { value: "Information", label: "Information erronee" },
+];
 
-  tablet: `(min-width: 601px)`,
+const Desktop = styled(motion.div)`
+  min-width: 80vw;
 
-  desktop: `(min-width: 900px)`,
-};
+  .form_recla {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 5px;
+  }
+  .recla_select {
+    max-width: 40%;
+    gap: 1rem;
+    margin: 0.5rem 0rem 1rem 0rem;
+  }
+  .recla_raison {
+    max-width: 50%;
+    display: flex;
+    flex-flow: column nowrap;
+    margin-bottom: 1rem;
+    .recla_area {
+      padding: 1rem;
+    }
+  }
+`;
 
-const ui = {
-  dark: "#001d3d",
-  light: "#00afb9",
-};
-const easing = [0.04, 0.62, 0.23, 0.98];
+const Mobile = styled(Desktop)`
+  @media (min-width: 375px) and (max-width: 600px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
 
-const Reclamation_st = styled(motion.div)`
-  background-color: yellow;
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  @media (min-width: 361px) and (max-width: 374px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+  @media (max-width: 360px) {
+    padding: 9rem 0rem 1rem 0rem;
   }
 `;
 
 const Reclamation = () => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { notification, setNotification, switchMode } = prodStates;
+  const { ui, notification, setNotification, switchMode } = prodStates;
 
   const [sectionSelector, setSectionSelector] = useState("");
-
+  const breadcrumb = {
+    root: "Employee",
+    active: "Fiche de paie",
+  };
   return (
-    <Reclamation_st switchMode={switchMode}>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo
-      quisquam eveniet velit dignissimos eaque quo obcaecati nesciunt voluptas
-      a, laudantium fugit earum necessitatibus numquam porro deserunt neque.
-      Cumque ex ad autem harum necessitatibus consectetur voluptatum
-      exercitationem, explicabo, eum nam impedit, tempore repellendus rem. Optio
-      similique vero explicabo, inventore quod consectetur.
-    </Reclamation_st>
+    <Mobile ui={ui} switchMode={switchMode}>
+      <form className="form_recla" action="">
+        <h3>Deposer une reclamation</h3>
+        <div className="recla_select">
+          <label htmlFor="">Motif:</label>
+          <Select options={options} />
+        </div>
+        <div className="recla_raison">
+          <label htmlFor="">Raison:</label>
+          <textarea
+            className="recla_area"
+            id="recla"
+            name="recla"
+            rows="4"
+            cols="5"
+          >
+            bio employee Lorem ipsum dolor sit amet consectetur adipisicing
+            elit. Nobis omnis voluptatum sunt repudiandae. Dolorum suscipit
+            rerum, hic vitae quisquam minima laudantium esse est, ipsa placeat
+            blanditiis qui iusto maiores et.
+          </textarea>
+        </div>
+        <Button1 type="submit" disabled={false} width={5} height={2.2}>
+          valider
+        </Button1>
+      </form>
+    </Mobile>
   );
 };
 

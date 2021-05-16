@@ -16,7 +16,7 @@ const Desktop = styled.div`
   align-items: center;
   min-width: 500px;
   min-height: 77vh;
-  padding: 3rem;
+  padding: 1rem;
 
   .block {
     z-index: 1;
@@ -40,7 +40,7 @@ const Desktop = styled.div`
       background: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : "transparent"};
 
-      padding: 6rem;
+      padding: 3rem;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -60,7 +60,7 @@ const Desktop = styled.div`
     .light {
       background: ${({ switchMode, ui }) =>
         switchMode ? "transparent" : chroma(ui.light)};
-      padding: 6rem;
+      padding: 3rem;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -92,7 +92,7 @@ const Mobile = styled(Desktop)`
       flex-flow: column wrap;
       .dark {
         // background: red;
-        padding: 1rem;
+        padding: 0.1rem;
         .dark_picker {
           background: red;
           display: block;
@@ -100,7 +100,7 @@ const Mobile = styled(Desktop)`
         }
       }
       .light {
-        padding: 1rem;
+        padding: 0.1rem;
         // background: yellow;
         .light_picker {
           display: block;

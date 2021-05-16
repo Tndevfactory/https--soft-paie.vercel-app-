@@ -103,7 +103,7 @@ const Switch = () => {
     setSwitchMode,
   } = prodStates;
 
-  const [playSound] = useSound("./sounds/click.mp3", { volume: 0.25 });
+  const [playSound] = useSound("/sounds/click.mp3", { volume: 0.25 });
 
   const [checked, setCheked] = useState(false);
   const handleSwitch = () => {

@@ -15,9 +15,9 @@ import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
 import { format, compareAsc } from "date-fns";
-import Dashboard1 from '../../components/dashboard/Dashboard1'
+import Dashboard1 from "../../components/dashboard/Dashboard1";
 import FichePaie from "../../components/profile/FichePaie";
-import CalculSalaire from "../../components/profile/CalculSalaire";
+import Information from "../../components/profile/Information";
 import DemandeConge from "../../components/profile/DemandeConge";
 import EditerProfil from "../../components/profile/EditerProfil";
 import Planification from "../../components/profile/Planification";
@@ -32,10 +32,8 @@ import {
   FaSkating,
 } from "react-icons/fa";
 
-
 const Desktop = styled(motion.div)`
   min-height: 100vh;
-  
 `;
 
 const Mobile = styled(Desktop)`
@@ -89,7 +87,7 @@ export default function Profile() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
-        
+
         <Dashboard1 switchMode={switchMode} />
         <Footer fixed={false} />
       </Mobile>

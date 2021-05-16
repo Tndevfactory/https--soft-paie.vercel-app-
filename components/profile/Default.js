@@ -16,18 +16,48 @@ import {
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-
 const easing = [0.04, 0.62, 0.23, 0.98];
 
 const Desktop = styled(motion.div)`
- 
+  width: 50vw;
+  //background: violet;
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+
   & > * {
-    display: inline-block;
-   
+    max-width: 20vw;
+    width: 100%;
+    background: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+
+    color: ${({ switchMode, ui }) =>
+      switchMode
+        ? chroma(ui.dark).luminance() < 0.4
+          ? chroma(ui.dark).brighten(5)
+          : chroma(ui.dark).darken(3)
+        : chroma(ui.light).luminance() < 0.4
+        ? chroma(ui.light).brighten(5)
+        : chroma(ui.light).darken(3)};
     border-radius: 5px;
     padding: 2rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.5s;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.5);
+    &:hover {
+      box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.5);
+    }
   }
-
+  .icon {
+    font-size: 2rem;
+  }
 `;
 
 const Mobile = styled(Desktop)`
@@ -43,83 +73,57 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-const Defaultss = ({ setSectionSelector }) => {
+const Defaultss = ({ setSelectSection }) => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode } = prodStates;
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <div
-        className="editer_profil"
-        onClick={() => setSectionSelector("editer_profil")}
-      >
-        <div>
-          <span className="editer_profil_logo">
-            <FaUser />
-          </span>
-          <span className="editer_profil_title">Editer Profil</span>
-        </div>
+      <div className="editer_profil" onClick={() => setSelectSection("profil")}>
+        <span className="editer_profil_logo">
+          <FaUser className="icon" />
+        </span>
+        <span className="editer_profil_title">Editer Profil</span>
       </div>
-      <div
-        className="fiche_paie"
-        onClick={() => setSectionSelector("fiche_paie")}
-      >
-        {" "}
-        <div>
-          <span className="editer_profil_logo">
-            <FaRegListAlt />
-          </span>
-          <span className="editer_profil_title">Fiche de Paie</span>
-        </div>
+      <div className="fiche_paie" onClick={() => setSelectSection("paie")}>
+        <span className="editer_profil_logo">
+          <FaRegListAlt className="icon" />
+        </span>
+        <span className="editer_profil_title">Fiche de Paie</span>
       </div>
       <div
         className="calcul_salaire"
-        onClick={() => setSectionSelector("calcul_salaire")}
+        onClick={() => setSelectSection("informations")}
       >
-        {" "}
-        <div>
-          <span className="editer_profil_logo">
-            <FaRegMoneyBillAlt />
-          </span>
-          <span className="editer_profil_title">Calcul de Salaire</span>
-        </div>
+        <span className="editer_profil_logo">
+          <FaRegMoneyBillAlt className="icon" />
+        </span>
+        <span className="editer_profil_title">Information</span>
       </div>
-      <div
-        className="demande_conge"
-        onClick={() => setSectionSelector("demande_conge")}
-      >
-        {" "}
-        <div>
-          <span className="editer_profil_logo">
-            <FaSkating />
-          </span>
-          <span className="editer_profil_title">Demande de Conge</span>
-        </div>
+      <div className="demande_conge" onClick={() => setSelectSection("conge")}>
+        <span className="editer_profil_logo">
+          <FaSkating className="icon" />
+        </span>
+        <span className="editer_profil_title">Demande de Conge</span>
       </div>
       <div
         className="gestion_reclamation"
-        onClick={() => setSectionSelector("gestion_reclamation")}
+        onClick={() => setSelectSection("reclamation")}
       >
-        {" "}
-        <div>
-          <span className="editer_profil_logo">
-            <FaRecycle />
-          </span>
-          <span className="editer_profil_title">Gestion de Reclamation</span>
-        </div>
+        <span className="editer_profil_logo">
+          <FaRecycle className="icon" />
+        </span>
+        <span className="editer_profil_title">Gestion de Reclamation</span>
       </div>
       <div
         className="consulter_planification"
-        onClick={() => setSectionSelector("consulter_planification")}
+        onClick={() => setSelectSection("planification")}
       >
-        {" "}
-        <div>
-          <span className="editer_profil_logo">
-            <FaParking />
-          </span>
-          <span className="editer_profil_title">Consulter Planification</span>
-        </div>
+        <span className="editer_profil_logo">
+          <FaParking className="icon" />
+        </span>
+        <span className="editer_profil_title">Consulter Planification</span>
       </div>
     </Mobile>
   );

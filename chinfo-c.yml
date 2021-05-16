@@ -4,7 +4,7 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 
-
+ya react-datepicker react-reveal react-select
 ya i18next gsap react-color file-loader use-sound
 ya date-fns js-cookie styled-components antd react-icons @ant-design/icons 
 ya framer-motion  react-spring chroma-js babel-preset-next react-loader-spinner

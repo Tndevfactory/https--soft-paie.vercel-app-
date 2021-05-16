@@ -32,17 +32,25 @@ const easing = [0.04, 0.62, 0.23, 0.98];
 
 const Breadcrumb_st = styled(motion.div)`
   .breadcrumb {
+    cursor: pointer;
+    margin: 0rem 0rem 1rem 0rem;
     .breadcrumb_root {
       font-weight: 500;
       text-transform: capitalize;
       letter-spacing: 1px;
+
+      transition: all 0.3s;
+      &:hover {
+        color: ${({ switchMode, ui }) =>
+          switchMode ? chroma(ui.dark) : chroma(ui.light)};
+      }
     }
     .breadcrumb_slash {
       margin: 0px 5px;
     }
     .breadcrumb_active {
       color: ${({ switchMode, ui }) =>
-        switchMode ? chroma(ui.light).darken(1) : chroma(ui.dark).brighten(1)};
+        switchMode ? chroma(ui.dark) : chroma(ui.light)};
     }
   }
 
@@ -51,7 +59,7 @@ const Breadcrumb_st = styled(motion.div)`
   }
 `;
 
-const Breadcrumb1 = ({ content }) => {
+const Breadcrumb1 = ({ setSelectSection, content }) => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode } = prodStates;
@@ -59,7 +67,9 @@ const Breadcrumb1 = ({ content }) => {
   return (
     <Breadcrumb_st ui={ui} content={content} switchMode={switchMode}>
       <div className="breadcrumb">
-        <span className="breadcrumb_root">{content.root}</span>
+        <span className="breadcrumb_root" onClick={() => setSelectSection("")}>
+          {content.root}
+        </span>
         <span className="breadcrumb_slash">/</span>
         <span className="breadcrumb_active">{content.active}</span>
       </div>

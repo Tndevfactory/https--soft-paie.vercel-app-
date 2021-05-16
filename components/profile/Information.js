@@ -30,39 +30,20 @@ import {
 
 const Desktop = styled(motion.div)`
   min-width: 80vw;
-  .row_search {
-    padding: 1rem;
-    .form_search {
-      display: flex;
-      gap: 5px;
+  margin: 0.8rem 1rem 0.3rem 0rem;
+  .row_info {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+  }
+  .inf {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    & > *:first-child {
+      font-weight: 600;
     }
-  }
-  .row_fixed {
-    width: 100%;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-around;
-    background: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.dark) : chroma(ui.light)};
-
-    color: ${({ switchMode, ui }) =>
-      switchMode
-        ? chroma(ui.dark).luminance() < 0.4
-          ? chroma(ui.dark).brighten(5)
-          : chroma(ui.dark).darken(3)
-        : chroma(ui.light).luminance() < 0.4
-        ? chroma(ui.light).brighten(5)
-        : chroma(ui.light).darken(3)};
-  }
-  .row {
-    margin: 0.3rem 0rem 0.3rem 0rem;
-    width: 100%;
-    padding: 0.6rem;
-
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -79,7 +60,7 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-const FichePaie = () => {
+const Information = () => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode } = prodStates;
@@ -91,53 +72,30 @@ const FichePaie = () => {
   };
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <div className="row_search">
-        <form className="form_search" action="">
-          <input type="text" />
-          <Button1 type="submit" disabled={false} width={7} height={2.2}>
-            rechercher
-          </Button1>
-        </form>
-      </div>
-      <div className="row_fixed">
-        <div>Mois</div>
-        <div>Annee</div>
-
-        <div>Telecharger</div>
-      </div>
-
-      <div className="row">
-        <div>Mars</div>
-        <div>2021</div>
-
-        <div>
-          <Button1 type="submit" disabled={false} width={6} height={2}>
-            telecharger
-          </Button1>
+      <div className="row_info">
+        <div className="inf">
+          <span>Date de recrutement: </span>
+          <span>12/12/2018</span>
         </div>
-      </div>
-      <div className="row">
-        <div>Mars</div>
-        <div>2021</div>
-
-        <div>
-          <Button1 type="submit" disabled={false} width={6} height={2}>
-            telecharger
-          </Button1>
+        <div className="inf">
+          <span>Anciennete: </span>
+          <span>34 mois</span>
         </div>
-      </div>
-      <div className="row">
-        <div>Mars</div>
-        <div>2021</div>
-
-        <div>
-          <Button1 type="submit" disabled={false} width={6} height={2}>
-            telecharger
-          </Button1>
+        <div className="inf">
+          <span>Poste actuel: </span>
+          <span>comptable</span>
+        </div>
+        <div className="inf">
+          <span>Taux horaire: </span>
+          <span>4.5 Tnd</span>
+        </div>
+        <div className="inf">
+          <span>Nombre d'enfants: </span>
+          <span>3</span>
         </div>
       </div>
     </Mobile>
   );
 };
 
-export default FichePaie;
+export default Information;
