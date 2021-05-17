@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import chroma from "chroma-js";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { Device } from "../devices/Device";
+import { useMutation } from "react-query";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
+import Cookies from "js-cookie";
 
 const Desktop = styled(motion.div)`
   padding: 0.6rem;
   border-radius: 2%;
-  min-width: 55vh;
+  min-width: 26%;
+
   .form_container {
+    margin-top: -45px;
     width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.75);
     padding: 1rem;
     border-radius: 2%;
-    background-color: rgba(255, 255, 255, 0.75);
     display: flex;
     flex-flow: column wrap;
   }
@@ -100,17 +104,18 @@ const Mobile = styled(Desktop)`
   }
 
   //mobile
-  
+
   @media (min-width: 375px) and (max-width: 600px) {
     margin-top: 15rem;
     margin-bottom: 6rem;
-    width: 57vh;
+    //width: 600px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
     .form_container {
-      width: 90%;
+      //min-width: 50%;
+      // width: 50%;
       margin-top: 30px;
       margin-bottom: 0.3rem;
       .title {
@@ -215,8 +220,9 @@ const Mobile = styled(Desktop)`
 `;
 
 const Login1 = () => {
+  const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { apiLogin } = prodMethods;
   const { ui, notification, setNotification, switchMode, setSwitchMode } =
     prodStates;
 
@@ -268,19 +274,55 @@ const Login1 = () => {
       return true;
     }
   };
+  const LoginMutation = useMutation((values) => apiLogin(values));
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (handleValidate()) {
       console.log("all data verified before sent");
+      LoginMutation.mutate({
+        email: credential.email,
+        password: credential.password,
+      });
+
       setCredential({
         email: "",
         password: "",
         emailError: "",
         passwordError: "",
       });
+    } else {
+      console.log(" data not completed before sent");
+      LoginMutation.mutate({
+        email: "",
+        password: "",
+      });
     }
   };
+
+  if (LoginMutation.isLoading) {
+    console.log("loading...");
+  }
+
+  if (LoginMutation.isError) {
+    console.log(LoginMutation.error.message);
+  }
+
+  if (LoginMutation.isSuccess) {
+    if (LoginMutation.data.message === "Invalid Credentials") {
+      console.log(LoginMutation.data.message);
+      console.log(LoginMutation.data.message.length);
+    } else if (LoginMutation.data.message !== "Invalid Credentials") {
+      Cookies.set("sp_token", LoginMutation.data.access_token);
+      console.log(LoginMutation.data);
+    }
+    //save token in js-cookie
+
+    // check if employee or admin or manager
+    // get id and push it
+    // router.push(`/employee/${LoginMutation.data.user.id}`);
+    //  console.log(LoginMutation.data.user.id);
+  }
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
@@ -318,10 +360,10 @@ const Login1 = () => {
           {credential.passwordError && credential.passwordError}
         </div>
         <div className="btn">
-          {/* <button>valider</button> */}
-          <Button1 disabled={false} width={7} height={2.2}>
+          <Button1 type="submit" disabled={false} width={7} height={2.2}>
             se connecter
           </Button1>
+
           <span className="register_phrase">
             Vous n'avez pas de compte, veuillez
             <Link href="/register">

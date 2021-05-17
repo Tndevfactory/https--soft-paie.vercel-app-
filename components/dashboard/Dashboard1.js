@@ -60,6 +60,16 @@ const Desktop = styled(motion.div)`
     margin: 1rem 0rem 1rem 0.5rem;
     .date_label {
       font-weight: 600;
+      font-size: calc(0.72 * 1.2 * 100%);
+    }
+  }
+  .profil_username {
+    margin: 0.8rem 1rem;
+    .profil_username_label {
+      font-size: calc(0.72 * 1.5 * 100%);
+      font-weight: 600;
+      color: ${({ switchMode, ui }) =>
+        switchMode ? chroma(ui.dark) : chroma(ui.light)};
     }
   }
   .section {
@@ -173,6 +183,7 @@ const Mobile = styled(Desktop)`
     .img-profile {
       width: 40%;
     }
+
     .date {
       font-size: calc(0.72 * 1.1 * 100%);
       margin: 1rem 0rem 1rem 0.5rem;
@@ -338,6 +349,9 @@ export default function Dashboard1() {
               width={30}
               className="img"
             />
+          </div>
+          <div className="profil_username">
+            <span className="profil_username_label">Mohamed Lahbib</span>
           </div>
           <div
             className="section editer_profil "

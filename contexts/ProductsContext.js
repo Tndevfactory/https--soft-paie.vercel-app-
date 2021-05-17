@@ -24,15 +24,21 @@ api.interceptors.request.use(function (config) {
   return config;
 });
 
-export const apiGet = async () => {
-  const { data } = await api.get("/products");
+// identification to checkers controller
+export const apiLogin = async (values) => {
+  const { data } = await api.post("/login", values);
   return data;
 };
-export const apiShow = async (id) => {
-  const { data } = await api.get(`/products/${id}`);
+export const apiRegister = async (values) => {
+  const { data } = await api.post("/register", values);
+  return data;
+};
+export const apiLogout = async (values) => {
+  const { data } = await api.get("/logout", values);
   return data;
 };
 
+// crud operations
 export const apiAdd = async (values) => {
   const { data } = await api.post("/products", values);
   return data;
@@ -45,6 +51,15 @@ export const apiUpdate = async (id, values) => {
 
 export const apiDelete = async (id) => {
   const { data } = await api.delete(`/products/${id}`);
+  return data;
+};
+
+export const apiGet = async () => {
+  const { data } = await api.get("/products");
+  return data;
+};
+export const apiShow = async (id) => {
+  const { data } = await api.get(`/products/${id}`);
   return data;
 };
 
@@ -91,6 +106,9 @@ export const ProductProvider = ({ children }) => {
   });
 
   const methods = {
+    apiLogin,
+    apiLogout,
+    apiRegister,
     apiGet,
     apiAdd,
     apiShow,

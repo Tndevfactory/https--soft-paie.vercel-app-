@@ -90,6 +90,16 @@ const Desktop = styled(motion.div)`
       font-weight: 600;
     }
   }
+
+  .profil_username {
+    margin: 0.8rem 1rem;
+    .profil_username_label {
+      font-size: calc(0.72 * 1.5 * 100%);
+      font-weight: 600;
+      color: ${({ switchMode, ui }) =>
+        switchMode ? chroma(ui.dark) : chroma(ui.light)};
+    }
+  }
   .section {
     margin: 1rem 0rem 0.5rem 0rem;
     display: flex;
@@ -304,6 +314,9 @@ export default function Dashboard3() {
               width={30}
               className="img"
             />
+          </div>
+          <div className="profil_username">
+            <span className="profil_username_label">Mohamed Lahbib</span>
           </div>
           <div
             className="section editer_profil "
