@@ -19,18 +19,20 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 const easing = [0.04, 0.62, 0.23, 0.98];
 
 const Desktop = styled(motion.div)`
-  width: 50vw;
-  //background: violet;
+  min-width: 50vw;
+  // background: violet;
   padding: 2rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  gap: 1.4rem;
 
   & > * {
-    max-width: 20vw;
-    width: 80%;
+    font-size: calc(0.72 * 1.3 * 100%);
+    width: 25%;
+    max-width: 25%;
+    min-height: 13vh;
     background: ${({ switchMode, ui }) =>
       switchMode ? chroma(ui.dark) : chroma(ui.light)};
 
@@ -43,7 +45,7 @@ const Desktop = styled(motion.div)`
         ? chroma(ui.light).brighten(5)
         : chroma(ui.light).darken(3)};
     border-radius: 5px;
-    padding: 1rem 0.5rem;
+    padding: 1.5rem 0.5rem;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
@@ -61,15 +63,39 @@ const Desktop = styled(motion.div)`
 `;
 
 const Mobile = styled(Desktop)`
+  //large screen
+  @media (min-width: 1920px) {
+  }
+
+  @media (min-width: 1536px) and (max-width: 1919px) {
+  }
+
+  @media (min-width: 1440px) and (max-width: 1535px) {
+  }
+  @media (min-width: 1366px) and (max-width: 1439px) {
+    //background: violet;
+    gap: 1.1rem;
+
+    & > * {
+      font-size: calc(0.72 * 1.2 * 100%);
+      max-width: 25%;
+      min-height: 13vh;
+      padding: 1.6rem 1.5rem;
+    }
+    .icon {
+      font-size: 2rem;
+    }
+  }
+  @media (min-width: 1280px) and (max-width: 1365px) {
+  }
+
+  //mobile
   @media (min-width: 375px) and (max-width: 600px) {
-    padding: 9rem 0rem 1rem 0rem;
   }
 
   @media (min-width: 361px) and (max-width: 374px) {
-    padding: 9rem 0rem 1rem 0rem;
   }
   @media (max-width: 360px) {
-    padding: 9rem 0rem 1rem 0rem;
   }
 `;
 

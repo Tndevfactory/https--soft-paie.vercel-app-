@@ -53,15 +53,27 @@ const Desktop = styled(motion.div)`
 `;
 
 const Mobile = styled(Desktop)`
+  //large screen
+  @media (min-width: 1920px) {
+  }
+
+  @media (min-width: 1536px) and (max-width: 1919px) {
+  }
+
+  @media (min-width: 1440px) and (max-width: 1535px) {
+  }
+  @media (min-width: 1366px) and (max-width: 1439px) {
+  }
+  @media (min-width: 1280px) and (max-width: 1365px) {
+  }
+
+  //mobile
   @media (min-width: 375px) and (max-width: 600px) {
-    padding: 9rem 0rem 1rem 0rem;
   }
 
   @media (min-width: 361px) and (max-width: 374px) {
-    padding: 9rem 0rem 1rem 0rem;
   }
   @media (max-width: 360px) {
-    padding: 9rem 0rem 1rem 0rem;
   }
 `;
 

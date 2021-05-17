@@ -49,7 +49,7 @@ const Desktop = styled(motion.div)`
 
   .fixed-drawer {
     background: rgba(255, 255, 255, 0.9);
-    min-width: 15%;
+    min-width: 18%;
     margin: 0rem 0.5rem 0rem 0.5rem;
   }
   .manager {
@@ -59,7 +59,8 @@ const Desktop = styled(motion.div)`
     font-weight: 700;
     text-transform: uppercase;
     font-family: ${({ ui }) => ui.navFont};
-    font-size: ${({ font1 }) => font1};
+    /* font-size: ${({ font1 }) => font1}; */
+    font-size: calc(1.2 * 1.2 * 100%);
     color: ${({ switchMode, ui }) =>
       switchMode ? chroma(ui.dark) : chroma(ui.light)};
     position: relative;
@@ -67,7 +68,7 @@ const Desktop = styled(motion.div)`
       position: absolute;
       bottom: 0;
       height: 5px;
-      width: 200px;
+      width: calc(0.72 * 1.2 * 100%);
       background: green;
       border-right: 1px white;
       content: "";
@@ -86,9 +87,13 @@ const Desktop = styled(motion.div)`
     border-radius: 50%;
   }
   .date {
+    font-size: 17px;
+
     margin: 1rem 0rem 1rem 0.5rem;
     .date_label {
       font-weight: 600;
+    }
+    .date_time {
     }
   }
   .section {
@@ -98,6 +103,7 @@ const Desktop = styled(motion.div)`
     align-items: center;
     gap: 7px;
     cursor: pointer;
+    font-size: 17px;
     &:hover {
       color: ${({ switchMode, ui }) =>
         switchMode
@@ -137,6 +143,40 @@ const Mobile = styled(Desktop)`
     & > * {
       min-height: 71vh;
     }
+    .fixed-drawer {
+      min-width: 18%;
+      margin: 0rem 0.5rem 0rem 0.5rem;
+    }
+    .manager {
+      margin: 1rem 0rem;
+      gap: 7px;
+      font-weight: 700;
+      font-size: calc(1.2 * 1.4 * 100%);
+
+      &:after {
+        bottom: 0;
+        height: 5px;
+        width: calc(0.72 * 1.1 * 100%);
+      }
+    }
+    .img-profile {
+      width: 40%;
+    }
+    .date {
+      font-size: calc(0.72 * 1.4 * 100%);
+      margin: 1rem 0rem 1rem 0.5rem;
+    }
+    .section {
+      margin: 1rem 0rem 0.5rem 0rem;
+      gap: 7px;
+      font-size: calc(0.72 * 1.4 * 100%);
+    }
+    .bread-crumb {
+      margin: 1rem 0rem 1rem 0.5rem;
+    }
+    .dash-content {
+      min-width: 83%;
+    }
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
@@ -160,11 +200,39 @@ const Mobile = styled(Desktop)`
       min-height: 68vh;
     }
 
+    .fixed-drawer {
+      min-width: 18%;
+      margin: 0rem 0.5rem 0rem 0.5rem;
+    }
     .manager {
-      font-size: 1.1rem;
+      margin: 1rem 0rem;
+      gap: 7px;
+      font-weight: 700;
+      font-size: calc(1.2 * 1 * 100%);
+
       &:after {
-        width: 150px;
+        bottom: 0;
+        height: 5px;
+        width: calc(0.72 * 1.25 * 100%);
       }
+    }
+    .img-profile {
+      width: 40%;
+    }
+    .date {
+      font-size: calc(0.72 * 1.1 * 100%);
+      margin: 1rem 0rem 1rem 0.5rem;
+    }
+    .section {
+      margin: 1rem 0rem 0.5rem 0rem;
+      gap: 7px;
+      font-size: calc(0.72 * 1.25 * 100%);
+    }
+    .bread-crumb {
+      margin: 1rem 0rem 1rem 0.5rem;
+    }
+    .dash-content {
+      min-width: 83%;
     }
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
@@ -237,7 +305,9 @@ export default function Dashboard2() {
           </div>
           <div className="date">
             <span className="date_label">Date:</span>{" "}
-            {format(new Date(), "dd-MM-yyyy' 'HH:mm:ss")}
+            <span className="date_time">
+              {format(new Date(), "dd-MM-yyyy' 'HH:mm:ss")}
+            </span>
           </div>
           <div className="img-profile">
             <Image

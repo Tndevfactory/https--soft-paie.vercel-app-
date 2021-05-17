@@ -46,7 +46,7 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-const Layout = ({ children }) => {
+export default function Measure({ children }) {
   const [prodMethods, prodStates] = ProdCtx();
   const {} = prodMethods;
   const {
@@ -59,22 +59,5 @@ const Layout = ({ children }) => {
   } = prodStates;
   // console.log("loader");
   // console.log(loader);
-  return (
-    <>
-      <Navbar />
-
-      <main>
-        <Mobile ui={ui} switchMode={switchMode}>
-          {notification.notifType !== "" ? <Alert1 /> : null}
-          {loader ? <Loader /> : null}
-
-          {children}
-        </Mobile>
-      </main>
-
-      <Footer setSwitchMode={setSwitchMode} switchMode={switchMode} />
-    </>
-  );
-};
-
-export default Layout;
+  return <>{children}</>;
+}
