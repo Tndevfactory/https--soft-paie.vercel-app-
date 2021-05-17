@@ -10,7 +10,7 @@ import Button1 from "../buttons/Button1";
 
 const Desktop = styled(motion.div)`
   /* width: 53vh; */
-  width: 55vh;
+  min-width: 55vh;
   .form_container {
     margin-top: 5px;
     margin-bottom: 2rem;

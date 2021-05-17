@@ -15,7 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
 import { format, compareAsc } from "date-fns";
-import Dashboard1 from "../../components/dashboard/Dashboard1";
+import Dashboard2 from "../../components/dashboard/Dashboard2";
 import FichePaie from "../../components/profile/FichePaie";
 import Information from "../../components/profile/Information";
 import DemandeConge from "../../components/profile/DemandeConge";
@@ -51,7 +51,7 @@ const Mobile = styled(Desktop)`
 //   return { props: { dt } };
 // };{ dt }
 
-export default function Profile() {
+export default function Manager() {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
@@ -82,13 +82,13 @@ export default function Profile() {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Employee</title>
+        <title> Manager</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
 
-        <Dashboard1 switchMode={switchMode} />
+        <Dashboard2 switchMode={switchMode} />
         <Footer fixed={false} />
       </Mobile>
     </>

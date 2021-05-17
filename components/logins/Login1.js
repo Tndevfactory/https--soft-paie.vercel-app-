@@ -11,7 +11,7 @@ import Button1 from "../buttons/Button1";
 const Desktop = styled(motion.div)`
   padding: 0.6rem;
   border-radius: 2%;
-  width: 55vh;
+  min-width: 55vh;
   .form_container {
     width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);

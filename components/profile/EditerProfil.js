@@ -1,198 +1,136 @@
-import React, { useState, useRef, useEffect } from "react";
-import styled, { css } from "styled-components";
+/** @format */
 import { motion } from "framer-motion";
+import Button1 from "../buttons/Button1";
+import DatePicker from "react-datepicker";
+import React, { useState } from "react";
+import Head from "next/head";
+import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import styled, { css } from "styled-components";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { Device } from "../../components/devices/Device";
+import Register1 from "../../components/registers/Register1";
+import Alert1 from "../../components/alerts/Alert1";
+import Loader from "../../components/loader/Loader1";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
+import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
-import Image from "next/image";
+import { format, compareAsc } from "date-fns";
+
 import {
   FaUser,
   FaRegListAlt,
   FaRegMoneyBillAlt,
-  FaMugHot,
   FaRecycle,
   FaParking,
   FaSkating,
 } from "react-icons/fa";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-const device = {
-  mobile: `(max-width: 600px)`,
+const Desktop = styled(motion.div)`
+  min-width: 70vw;
 
-  tablet: `(min-width: 601px)`,
-
-  desktop: `(min-width: 900px)`,
-};
-
-const ui = {
-  dark: "#001d3d",
-  light: "#00afb9",
-};
-const easing = [0.04, 0.62, 0.23, 0.98];
-
-const EditerProfil_st = styled(motion.div)`
-  // background-color: yellow;
-  padding: 1rem 2rem;
-  .breadcrumb {
-    .breadcrumb_root {
-      font-weight: 500;
-      text-transform: capitalize;
-      letter-spacing: 1px;
-    }
-    .breadcrumb_slash {
-      margin: 0px 5px;
-    }
-    .breadcrumb_active {
-      color: ${({ switchMode, ui }) =>
-        switchMode ? chroma(ui.light).darken(1) : chroma(ui.dark).brighten(1)};
-    }
+  .form_profil {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
   }
 
-  .profile_grid {
-    //background-color: green;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    //justify-items: center;
-
-    .profile_grid_section {
-      //background: blue;
-      margin: 1rem;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      .profile_grid_section_row {
-        padding: 1rem;
-        // background: red;
-        display: grid;
-        grid-template-columns: 100px 1fr;
-        align-items: center;
-        gap: 10px;
-        label {
-          color: ${({ switchMode, ui }) =>
-            switchMode ? chroma(ui.dark) : chroma(ui.light)};
-          font-weight: 500;
-          text-transform: capitalize;
-          font-size: 17px;
-          &:after {
-            content: " :";
-          }
-        }
-        input {
-          //background: pink;
-          width: 100%;
-          height: 35px;
-          padding: 2px 1rem;
-        }
-        textarea {
-          padding: 1rem;
-        }
-      }
-      .profile_grid_section_btn {
-        display: grid;
-        // background: indigo;
-        padding: 2px 3rem;
-        grid-template-columns: 1fr;
-        grid-template-rows: 68px;
-        align-items: center;
-        button {
-          cursor: pointer;
-          font-size: 18px;
-          font-weight: 500;
-          letter-spacing: 1px;
-          text-transform: capitalize;
-          // border: none;
-          height: 45px;
-          border-radius: 3px;
-          transition: all 500ms ease;
-          background: ${({ switchMode, ui }) =>
-            switchMode ? chroma(ui.dark) : chroma(ui.light)};
-
-          color: ${({ switchMode, ui }) =>
-            switchMode
-              ? chroma(ui.dark).luminance() < 0.4
-                ? chroma(ui.dark).brighten(5)
-                : chroma(ui.dark).darken(3)
-              : chroma(ui.light).luminance() < 0.4
-              ? chroma(ui.light).brighten(5)
-              : chroma(ui.light).darken(3)};
-        }
-
-        button:hover {
-          background: ${({ switchMode, ui }) =>
-            switchMode
-              ? chroma(ui.dark).brighten(1)
-              : chroma(ui.light).darken(1)};
-        }
-        .btn_annuler {
-          margin-top: 52px;
-        }
-        .btn_valider {
-          //background: green;
-        }
-      }
-    }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
   }
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  input {
+    padding: 0rem 1rem;
+  }
+  .profil_nom {
+  }
+  .profil_prenomnom {
+  }
+  .profil_telephone {
+  }
+  .profil_dob {
+  }
+  .profil_adresse {
+    min-width: 60vw;
+    .label_adresse {
+    }
+    .profil_area {
+      width: 100%;
+      //background: red;
+      padding: 1rem;
+    }
   }
 `;
 
-const EditerProfil = () => {
+const Mobile = styled(Desktop)`
+  @media (min-width: 375px) and (max-width: 600px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+
+  @media (min-width: 361px) and (max-width: 374px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+  @media (max-width: 360px) {
+    padding: 9rem 0rem 1rem 0rem;
+  }
+`;
+
+export default function Profil() {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode } = prodStates;
 
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
   const [sectionSelector, setSectionSelector] = useState("");
 
   return (
-    <EditerProfil_st ui={ui} switchMode={switchMode}>
-      <form className="profile_grid">
-        <div className="profile_grid_section">
-          <div className="profile_grid_section_row">
-            <label htmlFor="">Nom</label>
-            <input type="text" />
-          </div>
-          <div className="profile_grid_section_row">
-            <label htmlFor="">Prenom</label>
-            <input type="text" />
-          </div>
-          <div className="profile_grid_section_row">
-            <label for="myfile">Ajouter Photo</label>
-            <input type="file" id="myfile" name="myfile" />
-          </div>
-          <div className="profile_grid_section_btn">
-            <button className="btn_annuler" type="reset">
-              Annuler
-            </button>
-          </div>
+    <Mobile ui={ui} switchMode={switchMode}>
+      <form className="form_profil" action="">
+        {/* <h3>Editer profil</h3> */}
+        <div className="profil_nom">
+          <label htmlFor="">Nom:</label>
+          <input type="text" />
         </div>
-        <div className="profile_grid_section">
-          <div className="profile_grid_section_row">
-            <label htmlFor="">Telephone</label>
-            <input type="text" />
-          </div>
-          <div className="profile_grid_section_row">
-            <label htmlFor="">Adresse</label>
-            <input type="text" />
-          </div>
-          <div className="profile_grid_section_row">
-            <label htmlFor="">Biographie</label>
-            <textarea id="bio" name="bio" rows="4" cols="50">
-              bio employee Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Nobis omnis voluptatum sunt repudiandae. Dolorum suscipit
-              rerum, hic vitae quisquam minima laudantium esse est, ipsa placeat
-              blanditiis qui iusto maiores et.
-            </textarea>
-          </div>
-          <div className="profile_grid_section_btn">
-            <button className="btn_valider" type="submit">
-              valider
-            </button>
-          </div>
+        <div className="profil_prenom">
+          <label htmlFor="">Prenom:</label>
+          <input type="text" />
         </div>
-      </form>
-    </EditerProfil_st>
-  );
-};
+        <div className="profil_telephone">
+          <label htmlFor="">Telephone:</label>
+          <input type="text" />
+        </div>
 
-export default EditerProfil;
+        <div className="profil_dob">
+          <label for="start">Date de naissance:</label>
+          <input
+            type="date"
+            id="start"
+            name="trip-start"
+            value="2021-06-07"
+            min={new Date()}
+          />
+        </div>
+        <div className="profil_adresse">
+          <label className="label_adresse" htmlFor="">
+            Adresse:
+          </label>
+          <textarea className="profil_area" id="cp" name="cp" rows="3" cols="5">
+            bio employee Lorem ipsum dolor sit amet consectetur adipisicing
+            elit. Nobis omnis voluptatum sunt repudiandae. Dolorum suscipit
+            rerum, hic vitae quisquam minima laudantium esse est, ipsa placeat
+            blanditiis qui iusto maiores et.
+          </textarea>
+        </div>
+
+        <Button1 type="submit" disabled={false} width={5} height={2.2}>
+          valider
+        </Button1>
+      </form>
+    </Mobile>
+  );
+}

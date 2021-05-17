@@ -25,6 +25,8 @@ import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
 import {
+  FaUserShield,
+  FaUserTie,
   FaUser,
   FaRegListAlt,
   FaRegMoneyBillAlt,
@@ -48,6 +50,32 @@ const Desktop = styled(motion.div)`
     background: rgba(255, 255, 255, 0.9);
     min-width: 15%;
     margin: 0rem 0.5rem 0rem 0.5rem;
+  }
+  .admin {
+    display: flex;
+    margin: 1rem 0rem;
+    gap: 7px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: ${({ ui }) => ui.navFont};
+    font-size: 1.5rem;
+    color: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+    position: relative;
+    &:after {
+      position: absolute;
+      bottom: 0;
+      height: 5px;
+      width: 165px;
+      background: red;
+      border-right: 1px white;
+      content: "";
+    }
+  }
+
+  .admin_logo {
+  }
+  .admin_title {
   }
 
   .img-profile {
@@ -151,7 +179,7 @@ const Mobile = styled(Desktop)`
 //   return { props: { dt } };
 // };{ dt }
 
-export default function Dashboard1() {
+export default function Dashboard3() {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
@@ -188,6 +216,12 @@ export default function Dashboard1() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <aside className="fixed-drawer">
+          <div className="admin">
+            <div className="admin_logo">
+              <FaUserTie />
+            </div>
+            <div className="admin_title">admin zone</div>
+          </div>
           <div className="date">
             <span className="date_label">Date:</span>{" "}
             {format(new Date(), "dd-MM-yyyy' 'HH:mm:ss")}
@@ -250,7 +284,7 @@ export default function Dashboard1() {
           <div className="bread-crumb">
             <Breadcrumb1
               setSelectSection={setSelectSection}
-              content={{ root: "Employee", active: selectSection }}
+              content={{ root: "admin", active: selectSection }}
             />
           </div>
           <div className="dash-content-place">

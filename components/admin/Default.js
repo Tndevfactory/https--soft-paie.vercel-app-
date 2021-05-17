@@ -30,7 +30,7 @@ const Desktop = styled(motion.div)`
 
   & > * {
     max-width: 20vw;
-    width: 80%;
+    width: 100%;
     background: ${({ switchMode, ui }) =>
       switchMode ? chroma(ui.dark) : chroma(ui.light)};
 
@@ -43,7 +43,7 @@ const Desktop = styled(motion.div)`
         ? chroma(ui.light).brighten(5)
         : chroma(ui.light).darken(3)};
     border-radius: 5px;
-    padding: 1rem 0.5rem;
+    padding: 2rem;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;

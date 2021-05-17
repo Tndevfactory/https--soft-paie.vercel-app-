@@ -1,55 +1,96 @@
-import React, { useState, useRef } from "react";
-import { Layout, Menu } from "antd";
+/** @format */
+import { motion } from "framer-motion";
+import React from "react";
+import Head from "next/head";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import styled, { css } from "styled-components";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { Device } from "../../components/devices/Device";
+import Register1 from "../../components/registers/Register1";
+import Alert1 from "../../components/alerts/Alert1";
+import Loader from "../../components/loader/Loader1";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
+import Image from "next/image";
+import Link from "next/link";
+import chroma from "chroma-js";
+import { format, compareAsc } from "date-fns";
+import Dashboard3 from "../../components/dashboard/Dashboard3";
+import FichePaie from "../../components/profile/FichePaie";
+import Information from "../../components/profile/Information";
+import DemandeConge from "../../components/profile/DemandeConge";
+import EditerProfil from "../../components/profile/EditerProfil";
+import Planification from "../../components/profile/Planification";
+import Reclamation from "../../components/profile/Reclamation";
+import Default from "../../components/profile/Default";
 import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
-import { useRouter } from "next/router";
-import { ProdCtx } from "../../contexts/ProductsContext";
+  FaUser,
+  FaRegListAlt,
+  FaRegMoneyBillAlt,
+  FaRecycle,
+  FaParking,
+  FaSkating,
+} from "react-icons/fa";
 
-const Admin = () => {
-  // const [prodMethods, prodStates] = ProdCtx();
-  // const { getDimensions, getElementDimensions } = prodMethods;
-  // const { switchMode, hasWindow } = prodStates;
+const Desktop = styled(motion.div)`
+  min-height: 100vh;
+`;
 
-  // const [dimensions, setDimensions] = useState(getDimensions);
-  // const [collapsed, setCollapsed] = useState(true);
-  // const [selected, setSelected] = useState(1);
-  // const router = useRouter();
+const Mobile = styled(Desktop)`
+  @media (min-width: 361px) and (max-width: 600px) {
+    margin-top: 0.5rem;
+  }
+  @media (max-width: 360px) {
+    margin-top: 0.5rem;
+  }
+`;
 
-  // const handleSelect = (e) => {
-  //   setSelected(parseInt(e.key));
-  // };
+// export const getServerSideProps = async () => {
+//   const dt = await apiGet();
 
-  // React.useEffect(() => {
-  //   if (hasWindow) {
-  //     function handleResize() {
-  //       setDimensions(getDimensions());
-  //     }
+//   return { props: { dt } };
+// };{ dt }
 
-  //     window.addEventListener("resize", handleResize);
-  //     return () => window.removeEventListener("resize", handleResize);
-  //   }
-  // }, [hasWindow]);
-  // const { width, height } = dimensions;
+export default function Admin() {
+  const queryClient = useQueryClient();
+  const [prodMethods, prodStates] = ProdCtx();
+  const { apiGet } = prodMethods;
+  const { ui, switchMode } = prodStates;
 
-  // const [elem, setElem] = useState(0);
-  // const elRef = useRef();
-  // const prevRef = useRef();
+  // const { isLoading, error, data } = useQuery("products", apiGet, {
+  //   initialData: dt,
+  //   initialStale: true,
+  // });
 
-  // React.useEffect(() => {
-  //   setElem(elRef.current.clientWidth);
-  //   if (elem === 48) {
-  //     setElem(168);
-  //   } else {
-  //     setElem(48);
-  //   }
-  // }, [collapsed]);
+  // const mDelete = useMutation((id) => apiDelete(id), {
+  //   onSuccess: () => queryClient.invalidateQueries("products"),
+  // });
 
-  return <p>admin</p>;
-};
+  // const mUpdate = useMutation((values) => apiUpdate(values));
 
-export default Admin;
+  // if (isLoading) return <div>loading ...</div>;
+
+  // if (error) return "An error has occurred: " + error.message;
+
+  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
+
+  return (
+    <>
+      <Head>
+        <meta name="description" content="software of paie" />
+        <meta name="author" content="ch" />
+        <meta name="og:title" property="og:title" content="soft paie" />
+        <meta name="twitter:card" content="soft paie" />
+        <meta name="robots" content="index, follow" />
+        <title> Admin</title>
+      </Head>
+
+      <Mobile ui={ui} switchMode={switchMode}>
+        <Navbar />
+
+        <Dashboard3 switchMode={switchMode} />
+        <Footer fixed={false} />
+      </Mobile>
+    </>
+  );
+}

@@ -25,6 +25,7 @@ import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
 import {
+  FaUserShield,
   FaUser,
   FaRegListAlt,
   FaRegMoneyBillAlt,
@@ -32,6 +33,8 @@ import {
   FaParking,
   FaSkating,
 } from "react-icons/fa";
+
+const font = "17rem";
 
 const Desktop = styled(motion.div)`
   padding: 6rem 0rem 1rem 0rem;
@@ -48,6 +51,32 @@ const Desktop = styled(motion.div)`
     background: rgba(255, 255, 255, 0.9);
     min-width: 15%;
     margin: 0rem 0.5rem 0rem 0.5rem;
+  }
+  .manager {
+    display: flex;
+    margin: 1rem 0rem;
+    gap: 7px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: ${({ ui }) => ui.navFont};
+    font-size: ${({ font1 }) => font1};
+    color: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+    position: relative;
+    &:after {
+      position: absolute;
+      bottom: 0;
+      height: 5px;
+      width: 200px;
+      background: green;
+      border-right: 1px white;
+      content: "";
+    }
+  }
+
+  .manager_logo {
+  }
+  .manager_title {
   }
 
   .img-profile {
@@ -114,6 +143,11 @@ const Mobile = styled(Desktop)`
     & > * {
       min-height: 68vh;
     }
+    .manager {
+      &:after {
+        width: 140px;
+      }
+    }
   }
 
   @media (min-width: 1440px) and (max-width: 1535px) {
@@ -124,6 +158,13 @@ const Mobile = styled(Desktop)`
   @media (min-width: 1366px) and (max-width: 1439px) {
     & > * {
       min-height: 68vh;
+    }
+
+    .manager {
+      font-size: 1.1rem;
+      &:after {
+        width: 150px;
+      }
     }
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
@@ -151,7 +192,7 @@ const Mobile = styled(Desktop)`
 //   return { props: { dt } };
 // };{ dt }
 
-export default function Dashboard1() {
+export default function Dashboard2() {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
@@ -183,11 +224,17 @@ export default function Dashboard1() {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Employee</title>
+        <title> Manager</title>
       </Head>
 
-      <Mobile ui={ui} switchMode={switchMode}>
+      <Mobile ui={ui} switchMode={switchMode} font1={font}>
         <aside className="fixed-drawer">
+          <div className="manager">
+            <div className="manager_logo">
+              <FaUserShield />
+            </div>
+            <div className="manager_title">manager zone</div>
+          </div>
           <div className="date">
             <span className="date_label">Date:</span>{" "}
             {format(new Date(), "dd-MM-yyyy' 'HH:mm:ss")}
@@ -250,7 +297,7 @@ export default function Dashboard1() {
           <div className="bread-crumb">
             <Breadcrumb1
               setSelectSection={setSelectSection}
-              content={{ root: "Employee", active: selectSection }}
+              content={{ root: "manager", active: selectSection }}
             />
           </div>
           <div className="dash-content-place">
