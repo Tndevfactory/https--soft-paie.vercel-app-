@@ -251,6 +251,12 @@ const Mobile = styled(Desktop)`
   }
 
   //mobile
+
+  @media  (max-width: 600px) {
+     .fixed-drawer {
+      display:none;
+    }
+  }
   @media (min-width: 375px) and (max-width: 600px) {
     padding: 9rem 0rem 1rem 0rem;
   }
@@ -301,7 +307,7 @@ export default function Dashboard3() {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Employee</title>
+        <title> Admin</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>

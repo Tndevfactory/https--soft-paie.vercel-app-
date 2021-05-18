@@ -93,7 +93,7 @@ const Mobile = styled(Desktop)`
 
 const FichePaie = () => {
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { apiPdf, apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode } = prodStates;
 
   const [sectionSelector, setSectionSelector] = useState("");
@@ -101,6 +101,15 @@ const FichePaie = () => {
     root: "Employee",
     active: "Fiche de paie",
   };
+
+  const handlePdf = async () => {
+    let res = await apiPdf()
+    
+     const file = new Blob([res], { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    
+  }
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <div className="row_search">
@@ -123,9 +132,10 @@ const FichePaie = () => {
         <div>2021</div>
 
         <div>
-          <Button1 type="submit" disabled={false} width={5.3} height={2}>
+          <Button1 type="submit" disabled={false} width={5.3} height={2} >
             telecharger
           </Button1>
+          <button onClick={handlePdf}>dwd</button>
         </div>
       </div>
       <div className="row">

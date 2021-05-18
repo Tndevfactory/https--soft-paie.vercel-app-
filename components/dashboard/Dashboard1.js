@@ -37,11 +37,13 @@ const Desktop = styled(motion.div)`
   padding: 6rem 0rem 1rem 0rem;
   display: flex;
 
+  min-height: 88vh;
   & > * {
-    //display: inline-block;
-    //min-height: 65vh;
+    display: inline-block;
+
     border-radius: 5px;
     padding: 0.5rem 2rem;
+     
   }
 
   .fixed-drawer {
@@ -60,7 +62,7 @@ const Desktop = styled(motion.div)`
     margin: 1rem 0rem 1rem 0.5rem;
     .date_label {
       font-weight: 600;
-      font-size: calc(0.72 * 1.2 * 100%);
+      /* font-size: calc(0.72 * 1.2 * 100%); */
     }
   }
   .profil_username {
@@ -113,13 +115,12 @@ const Desktop = styled(motion.div)`
 `;
 
 const Mobile = styled(Desktop)`
-  //large screen
+   //large screen
   @media (min-width: 1920px) {
-    & > * {
-      min-height: 71vh;
-    }
+    min-height: 90vh;
+    
     .fixed-drawer {
-      min-width: 18%;
+      min-width: 16%;
       margin: 0rem 0.5rem 0rem 0.5rem;
     }
     .manager {
@@ -150,62 +151,28 @@ const Mobile = styled(Desktop)`
       margin: 1rem 0rem 1rem 0.5rem;
     }
     .dash-content {
-      min-width: 83%;
+      min-width: 82%;
     }
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
-    & > * {
-      min-height: 68vh;
-    }
+    min-height: 89vh;
   }
 
   @media (min-width: 1440px) and (max-width: 1535px) {
-    & > * {
-      min-height: 69vh;
-    }
-    .fixed-drawer {
-      min-width: 18%;
+   min-height: 90vh;
+   .fixed-drawer {
+      min-width: 20%;
       margin: 0rem 0.5rem 0rem 0.5rem;
     }
-    .manager {
-      margin: 1rem 0rem;
-      gap: 7px;
-      font-weight: 700;
-      font-size: calc(1.2 * 1 * 100%);
-
-      &:after {
-        bottom: 0;
-        height: 5px;
-        width: calc(0.72 * 1.25 * 100%);
-      }
-    }
-    .img-profile {
-      width: 40%;
-    }
-
-    .date {
-      font-size: calc(0.72 * 1.1 * 100%);
-      margin: 1rem 0rem 1rem 0.5rem;
-    }
-    .section {
-      margin: 1rem 0rem 0.5rem 0rem;
-      gap: 7px;
-      font-size: calc(0.72 * 1.25 * 100%);
-    }
-    .bread-crumb {
-      margin: 1rem 0rem 1rem 0.5rem;
-    }
     .dash-content {
-      min-width: 83%;
+      min-width: 78%;
     }
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
-    & > * {
-      min-height: 68vh;
-    }
+    min-height: 88vh;
     .fixed-drawer {
-      min-width: 18%;
+      min-width: 20%;
       margin: 0rem 0.5rem 0rem 0.5rem;
     }
     .manager {
@@ -236,50 +203,32 @@ const Mobile = styled(Desktop)`
       margin: 1rem 0rem 1rem 0.5rem;
     }
     .dash-content {
-      min-width: 83%;
+      min-width: 78%;
     }
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
-    & > * {
-      min-height: 65vh;
-    }
+   min-height: 87vh;
     .fixed-drawer {
-      min-width: 18%;
+      min-width: 21%;
       margin: 0rem 0.5rem 0rem 0.5rem;
     }
-    .manager {
-      margin: 1rem 0rem;
-      gap: 7px;
-      font-weight: 700;
-      font-size: calc(1.2 * 1 * 100%);
-
-      &:after {
-        bottom: 0;
-        height: 5px;
-        width: calc(0.72 * 1.25 * 100%);
-      }
-    }
-    .img-profile {
-      width: 40%;
-    }
-    .date {
-      font-size: calc(0.72 * 1.1 * 100%);
-      margin: 1rem 0rem 1rem 0.5rem;
+     .dash-content {
+      min-width: 74%;
     }
     .section {
-      margin: 1rem 0rem 0.5rem 0rem;
-      gap: 7px;
+      margin: 0.8em 0em 0.5em 0em;
+      gap: 5px;
       font-size: calc(0.72 * 1.25 * 100%);
-    }
-    .bread-crumb {
-      margin: 1rem 0rem 1rem 0.5rem;
-    }
-    .dash-content {
-      min-width: 83%;
     }
   }
 
   //mobile
+
+  @media  (max-width: 600px) {
+     .fixed-drawer {
+      display:none;
+    }
+  }
   @media (min-width: 375px) and (max-width: 600px) {
     padding: 9rem 0rem 1rem 0rem;
   }

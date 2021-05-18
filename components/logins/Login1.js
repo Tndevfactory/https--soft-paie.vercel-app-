@@ -292,10 +292,8 @@ const Login1 = () => {
       });
     } else {
       console.log(" data not completed before sent");
-      LoginMutation.mutate({
-        email: "",
-        password: "",
-      });
+   
+      LoginMutation.reset();
     }
   };
 

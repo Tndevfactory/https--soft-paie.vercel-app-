@@ -38,6 +38,11 @@ export const apiLogout = async (values) => {
   return data;
 };
 
+// generate pdf
+export const apiPdf= async () => {
+  const { data } = await api.get("/pdf",{ responseType: 'blob'});
+  return data;
+};
 // crud operations
 export const apiAdd = async (values) => {
   const { data } = await api.post("/products", values);
@@ -106,6 +111,7 @@ export const ProductProvider = ({ children }) => {
   });
 
   const methods = {
+    apiPdf,
     apiLogin,
     apiLogout,
     apiRegister,
