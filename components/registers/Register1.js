@@ -15,11 +15,12 @@ const Desktop = styled(motion.div)`
   .form_container {
     width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
-    padding: 1rem;
+    padding: 1em;
     border-radius: 2%;
     background-color: rgba(255, 255, 255, 0.75);
     display: flex;
     flex-flow: column wrap;
+    gap:-0.21em;
   }
   .title {
     font-size: 1.6em;
@@ -69,7 +70,11 @@ const Desktop = styled(motion.div)`
     justify-content: space-between;
     align-items: center;
 
-    .register_phrase {
+    
+  }
+
+  .register_phrase {
+    align-self:flex-end;
       font-size: 12px;
       a {
         font-size: 12px;
@@ -82,7 +87,6 @@ const Desktop = styled(motion.div)`
         }
       }
     }
-  }
 `;
 
 const Mobile = styled(Desktop)`
@@ -98,6 +102,7 @@ const Mobile = styled(Desktop)`
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
  //margin-top:6.5em;
+  min-width: 29%;
  
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
@@ -351,13 +356,17 @@ const Register1 = () => {
           <Button1 disabled={false} width={6} height={2.2}>
             s'inscrire
           </Button1>
-          <span className="register_phrase">
+          
+        </div>
+        
+          
+          <div className="register_phrase">
             Vous avez un compte, veuillez
             <Link href="/">
               <a title="login"> se connecter</a>
             </Link>
-          </span>
-        </div>
+          </div>
+       
       </form>
     </Mobile>
   );

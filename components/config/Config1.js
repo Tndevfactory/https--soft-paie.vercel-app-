@@ -10,7 +10,7 @@ import { SketchPicker } from "react-color";
 import Cookies from "js-cookie";
 
 const Desktop = styled.div`
-  margin-top: 9em;
+  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +21,7 @@ const Desktop = styled.div`
     z-index: 1;
     display: flex;
     justify-content: space-around;
-    gap: 16px;
+    gap: 3em;
     h3 {
       text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
       text-align: center;
@@ -39,7 +39,7 @@ const Desktop = styled.div`
       background: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : "transparent"};
 
-      padding: 2em;
+      padding: 1.5em;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -59,7 +59,7 @@ const Desktop = styled.div`
     .light {
       background: ${({ switchMode, ui }) =>
         switchMode ? "transparent" : chroma(ui.light)};
-      padding: 2em;
+      padding: 1.5em;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -82,7 +82,7 @@ const Mobile = styled(Desktop)`
  
     //large screen
   @media (min-width: 1920px) {
-    margin-top: 12em;
+  
     .block {
   
           
@@ -98,12 +98,12 @@ const Mobile = styled(Desktop)`
   @media (min-width: 1366px) and (max-width: 1439px) {
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
-    margin-top:6.5em;
+    
   }
 
   //mobile
  @media  (max-width: 600px) {
-   margin-top: 12em;
+  
     .block {
     z-index: 1;
     display: flex;

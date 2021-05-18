@@ -75,19 +75,21 @@ height:auto;
     justify-content: space-between;
     align-items: center;
 
-    .register_phrase {
-      font-size: 12px;
-      a {
-        font-size: 12px;
-        font-weight: 500;
-        cursor: pointer;
-        &:hover {
-          color: ${({ switchMode, ui }) =>
-            switchMode ? chroma(ui.dark) : chroma(ui.light)};
-        }
-      }
-    }
   }
+
+  .register_phrase {
+          align-self:flex-end;
+          font-size: 0.8em;
+          a {
+            font-size: 0.87em;
+            font-weight: 500;
+            cursor: pointer;
+            &:hover {
+              color: ${({ switchMode, ui }) =>
+                switchMode ? chroma(ui.dark) : chroma(ui.light)};
+            }
+          }
+        }
 `;
 
 const Mobile = styled(Desktop)`
@@ -129,8 +131,11 @@ height:auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
+     
+      }
 
         .register_phrase {
+          align-self:flex-end;
           font-size: 9px;
           a {
             font-size: 1em;
@@ -142,7 +147,6 @@ height:auto;
             }
           }
         }
-      }
     }
   }
 
@@ -364,14 +368,14 @@ const Login1 = () => {
           <Button1 type="submit" disabled={false} width={7} height={2.2}>
             se connecter
           </Button1>
-
-          <span className="register_phrase">
+ </div>
+          <div className="register_phrase">
             Vous n'avez pas de compte, veuillez
             <Link href="/register">
               <a title="register"> s'inscrire</a>
             </Link>
-          </span>
-        </div>
+          </div>
+       
       </form>
     </Mobile>
   );

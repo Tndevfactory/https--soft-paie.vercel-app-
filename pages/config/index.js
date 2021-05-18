@@ -13,7 +13,9 @@ import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
-  
+  min-width: 100%;
+  min-height: 100vh;
+//background-color:pink;
   display: flex;
   justify-content: center;
   align-items: center;
