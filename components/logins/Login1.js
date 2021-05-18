@@ -15,7 +15,7 @@ const Desktop = styled(motion.div)`
 
 min-width:30%;
 height:auto;
-margin-top:15em;
+//margin-top:15em;
 
   .form_container {
    
@@ -95,7 +95,7 @@ const Mobile = styled(Desktop)`
   @media (min-width: 1920px) {
    
 height:auto;
-margin-top:15em;
+//margin-top:15em;
     min-width:25%;
   }
 
@@ -105,7 +105,7 @@ margin-top:15em;
   @media (min-width: 1440px) and (max-width: 1535px) {
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
-  margin-top:10em;
+  //margin-top:10em;
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
   }

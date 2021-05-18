@@ -13,7 +13,9 @@ import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
-
+  min-width: 100%;
+  min-height: 100vh;
+background-color:pink;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,11 +68,12 @@ export default function Register() {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Connexion</title>
+        <title> Inscription</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
+        
         <Register1 switchMode={switchMode} />
         <Footer fixed={true} />
       </Mobile>

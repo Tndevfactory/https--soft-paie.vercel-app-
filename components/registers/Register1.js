@@ -9,7 +9,8 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
 
 const Desktop = styled(motion.div)`
-margin-top:7.5em;
+//margin-top:7.5em;
+
   min-width: 25%;
   .form_container {
     width: 100%;
@@ -87,7 +88,7 @@ margin-top:7.5em;
 const Mobile = styled(Desktop)`
   //large screen
   @media (min-width: 1920px) {
-    margin-top:12.5em;
+    //margin-top:12.5em;
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
@@ -96,11 +97,11 @@ const Mobile = styled(Desktop)`
   @media (min-width: 1440px) and (max-width: 1535px) {
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
- margin-top:6.5em;
+ //margin-top:6.5em;
  
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
-    margin-top:6.5em;
+   // margin-top:6.5em;
   }
 
   //mobile
