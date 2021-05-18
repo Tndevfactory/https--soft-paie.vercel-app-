@@ -93,6 +93,9 @@ margin-top:15em;
 const Mobile = styled(Desktop)`
   //large screen
   @media (min-width: 1920px) {
+   
+height:auto;
+margin-top:15em;
     min-width:25%;
   }
 
@@ -102,6 +105,7 @@ const Mobile = styled(Desktop)`
   @media (min-width: 1440px) and (max-width: 1535px) {
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
+  margin-top:10em;
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
   }

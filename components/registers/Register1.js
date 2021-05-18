@@ -13,10 +13,8 @@ margin-top:7.5em;
   min-width: 25%;
   .form_container {
     width: 100%;
-      
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
     padding: 1rem;
-    
     border-radius: 2%;
     background-color: rgba(255, 255, 255, 0.75);
     display: flex;
@@ -42,7 +40,7 @@ margin-top:7.5em;
   }
   input {
     width: 100%;
-    height: 34px;
+    height: 1.9em;
     padding: 1px 0.7rem;
     border: 1px solid;
     border-radius: 2%;
@@ -98,6 +96,8 @@ const Mobile = styled(Desktop)`
   @media (min-width: 1440px) and (max-width: 1535px) {
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
+ margin-top:6.5em;
+ 
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
     margin-top:6.5em;

@@ -150,6 +150,7 @@ const Desktop = styled(motion.div)`
 const Mobile = styled(Desktop)`
    //large screen
   @media (min-width: 1920px) {
+    padding: 6em 0em 1em 0em;
     min-height: 91vh;
     
     .fixed-drawer {
