@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 const Desktop = styled(motion.div)`
 
 
-min-width:30%;
+min-width:30vw;
 height:auto;
 //margin-top:15em;
 

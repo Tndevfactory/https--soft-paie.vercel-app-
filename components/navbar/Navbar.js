@@ -29,11 +29,11 @@ const Desktop = styled(motion.header)`
   font-family: ${({ ui }) => ui.navFont};
 
   padding: 0.5em 0.8em;
-  font-weight: 600;
-  font-size: 1.8em;
-  letter-spacing: 0.5px;
+  font-weight: 500;
+  font-size: 1.7em;
+  letter-spacing: 0.1px;
   text-transform: uppercase;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  //text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
 
   display: flex;
   justify-content: space-between;
@@ -96,10 +96,10 @@ const Desktop = styled(motion.header)`
 
 const Mobile = styled(Desktop)`
   @media ${Device.mobile} {
-    padding: 1rem 1rem;
+    padding: 1em 1em;
     flex-flow: column wrap;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.5em;
     .switch-zone {
       align-self: flex-end;
       gap: 95px;

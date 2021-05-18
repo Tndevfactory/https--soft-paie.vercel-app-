@@ -11,7 +11,7 @@ import Button1 from "../buttons/Button1";
 const Desktop = styled(motion.div)`
 //margin-top:7.5em;
 
-  min-width: 25%;
+  min-width:30vw;
   .form_container {
     width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
@@ -102,7 +102,7 @@ const Mobile = styled(Desktop)`
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
  //margin-top:6.5em;
-  min-width: 29%;
+  //min-width: 29%;
  
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
