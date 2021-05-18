@@ -15,12 +15,11 @@ import Footer from "../components/footer/Footer";
 import Navbar from "../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
-  height: 100vh;
-  display: flex;
+   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column nowrap;
-  margin-top: -1rem;
+ 
 `;
 
 const Mobile = styled(Desktop)`

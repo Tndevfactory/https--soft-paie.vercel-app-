@@ -13,7 +13,7 @@ import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
-  // min-height: 80vh;
+  
   display: flex;
   justify-content: center;
   align-items: center;

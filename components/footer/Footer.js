@@ -18,7 +18,7 @@ const Desktop = styled(motion.footer)`
   background: ${({ switchMode, ui }) =>
     switchMode ? chroma(ui.dark) : chroma(ui.light)};
 
-  min-height: 18vh;
+  //min-height: 18vh;
 
   position: ${({ fixed }) => (fixed ? "fixed" : "static")};
   width: 100%;
@@ -29,14 +29,15 @@ const Desktop = styled(motion.footer)`
   flex-flow: column wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 35px;
-  padding-bottom: 10px;
+ // gap: 35px;
+  padding-bottom: 0.3em;
+  padding-top: 0.3em;
   .footer_brand {
     h3 {
       font-family: ${({ ui }) => ui.navFont};
       text-transform: uppercase;
       font-weight: 600;
-      font-size: 1.9rem;
+      font-size: 1.7em;
       color: ${({ switchMode, ui }) =>
         switchMode
           ? chroma(ui.dark).luminance() < 0.4
@@ -52,6 +53,7 @@ const Desktop = styled(motion.footer)`
     justify-content: center;
     align-items: center;
     gap: 5px;
+     font-size: 1em;
     & span:nth-child(2) {
       font-weight: 600;
       color: ${({ switchMode, ui }) =>

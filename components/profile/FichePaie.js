@@ -39,7 +39,7 @@ const Desktop = styled(motion.div)`
   }
   .row_fixed {
     width: 100%;
-    padding: 1rem;
+    padding: 0.5em;
     display: flex;
     justify-content: space-around;
     background: ${({ switchMode, ui }) =>
@@ -55,9 +55,9 @@ const Desktop = styled(motion.div)`
         : chroma(ui.light).darken(3)};
   }
   .row {
-    margin: 0.3rem 0rem 0.3rem 0rem;
+    margin: 0.3em 0em 0.3em 0em;
     width: 100%;
-    padding: 0.6rem;
+   padding: 0.3em;
 
     display: flex;
     justify-content: space-around;
@@ -123,7 +123,7 @@ const FichePaie = () => {
         <div>2021</div>
 
         <div>
-          <Button1 type="submit" disabled={false} width={6} height={2}>
+          <Button1 type="submit" disabled={false} width={5.3} height={2}>
             telecharger
           </Button1>
         </div>
@@ -133,7 +133,7 @@ const FichePaie = () => {
         <div>2021</div>
 
         <div>
-          <Button1 type="submit" disabled={false} width={6} height={2}>
+          <Button1 type="submit" disabled={false} width={5.3} height={2}>
             telecharger
           </Button1>
         </div>
@@ -143,7 +143,7 @@ const FichePaie = () => {
         <div>2021</div>
 
         <div>
-          <Button1 type="submit" disabled={false} width={6} height={2}>
+          <Button1 type="submit" disabled={false} width={5.3} height={2}>
             telecharger
           </Button1>
         </div>

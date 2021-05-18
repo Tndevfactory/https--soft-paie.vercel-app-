@@ -33,7 +33,7 @@ import {
 } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
-  min-height: 100vh;
+  
 `;
 
 const Mobile = styled(Desktop)`

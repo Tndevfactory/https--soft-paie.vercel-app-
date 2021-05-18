@@ -8,28 +8,19 @@ import { Device } from "../devices/Device";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
 const Desktop = styled(motion.button)`
-  padding: 2px;
+  padding: .2em .3em;
   position: relative;
   display: inline-block;
-  letter-spacing: 0.5px;
-  text-shadow: 0px 0.5px 0.2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.04em;
+  font-weight:500;
   border-radius: 6px;
 
   height: ${({ height }) => height + "rem"};
   width: ${({ width }) => width + "rem"};
 
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  border: 0.71px solid
-    ${({ disabled, switchMode, ui }) =>
-      disabled
-        ? switchMode
-          ? chroma("gray").brighten(1)
-          : chroma("gray").brighten(1)
-        : switchMode
-        ? chroma(ui.dark).brighten(2)
-        : chroma(ui.light).darken(1)};
-
-  transition: background 0.5s ease-in-out;
+  border: none;
+  transition: background 0.3s ;
 
   background: ${({ disabled, switchMode, ui }) =>
     disabled
@@ -85,7 +76,7 @@ const Desktop = styled(motion.button)`
   align-items: center;
   flex-flow: column nowrap;
   .children {
-    font-size: 0.8rem;
+    font-size: 0.8em;
     text-transform: capitalize;
   }
 `;
@@ -95,21 +86,21 @@ const Mobile = styled(Desktop)`
     height: ${({ height }) => height - 0.4 + "rem"};
     width: ${({ width }) => width - 1.7 + "rem"};
     .children {
-      font-size: 0.6rem;
+      font-size: 0.6em;
     }
   }
   @media (min-width: 361px) and (max-width: 374px) {
     height: ${({ height }) => height - 0.4 + "rem"};
     width: ${({ width }) => width - 1.7 + "rem"};
     .children {
-      font-size: 0.6rem;
+      font-size: 0.6em;
     }
   }
   @media (max-width: 360px) {
     height: ${({ height }) => height - 0.4 + "rem"};
     width: ${({ width }) => width - 1.7 + "rem"};
     .children {
-      font-size: 0.6rem;
+      font-size: 0.6em;
     }
   }
 `;

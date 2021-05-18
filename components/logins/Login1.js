@@ -11,12 +11,14 @@ import Button1 from "../buttons/Button1";
 import Cookies from "js-cookie";
 
 const Desktop = styled(motion.div)`
-  padding: 0.6rem;
-  border-radius: 2%;
-  min-width: 26%;
+
+
+min-width:30%;
+height:auto;
+margin-top:15em;
 
   .form_container {
-    margin-top: -45px;
+   
     width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
     background-color: rgba(255, 255, 255, 0.75);
@@ -91,6 +93,7 @@ const Desktop = styled(motion.div)`
 const Mobile = styled(Desktop)`
   //large screen
   @media (min-width: 1920px) {
+    min-width:25%;
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
@@ -106,16 +109,12 @@ const Mobile = styled(Desktop)`
   //mobile
 
   @media (min-width: 375px) and (max-width: 600px) {
-    margin-top: 15rem;
-    margin-bottom: 6rem;
-    //width: 600px;
+      
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
     .form_container {
-      //min-width: 50%;
-      // width: 50%;
       margin-top: 30px;
       margin-bottom: 0.3rem;
       .title {
@@ -130,7 +129,7 @@ const Mobile = styled(Desktop)`
         .register_phrase {
           font-size: 9px;
           a {
-            font-size: 11px;
+            font-size: 1em;
             font-weight: 500;
             cursor: pointer;
             &:hover {
@@ -309,15 +308,15 @@ const Login1 = () => {
   }
 
   if (LoginMutation.isSuccess) {
-    if (LoginMutation.data.message === "Invalid Credentials") {
+    if (LoginMutation.data.message === "erreur authentification") {
       console.log(LoginMutation.data.message);
       console.log(LoginMutation.data.message.length);
-    } else if (LoginMutation.data.message !== "Invalid Credentials") {
+    } else if (LoginMutation.data.message !== "erreur authentification") {
       Cookies.set("sp_token", LoginMutation.data.access_token);
       console.log(LoginMutation.data);
     }
     //save token in js-cookie
-
+  // check role 
     // check if employee or admin or manager
     // get id and push it
     // router.push(`/employee/${LoginMutation.data.user.id}`);

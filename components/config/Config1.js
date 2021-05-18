@@ -10,13 +10,12 @@ import { SketchPicker } from "react-color";
 import Cookies from "js-cookie";
 
 const Desktop = styled.div`
-  margin-top: 75px;
+  margin-top: 9em;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 500px;
-  min-height: 77vh;
-  padding: 1rem;
+  min-width: 30%;
+  padding: 1em;
 
   .block {
     z-index: 1;
@@ -40,7 +39,7 @@ const Desktop = styled.div`
       background: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : "transparent"};
 
-      padding: 3rem;
+      padding: 2em;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -60,7 +59,7 @@ const Desktop = styled.div`
     .light {
       background: ${({ switchMode, ui }) =>
         switchMode ? "transparent" : chroma(ui.light)};
-      padding: 3rem;
+      padding: 2em;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -80,35 +79,49 @@ const Desktop = styled.div`
 `;
 
 const Mobile = styled(Desktop)`
-  @media ${Device.mobile} {
-    // background: grey;
-    margin-top: 145px;
-
+ 
+    //large screen
+  @media (min-width: 1920px) {
+    margin-top: 12em;
     .block {
-      z-index: 1;
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      flex-flow: column wrap;
-      .dark {
-        // background: red;
-        padding: 0.1rem;
-        .dark_picker {
-          background: red;
-          display: block;
-          cursor: pointer;
-        }
-      }
-      .light {
-        padding: 0.1rem;
-        // background: yellow;
-        .light_picker {
-          display: block;
-          cursor: pointer;
-        }
-      }
+  
+          
     }
+  
   }
+
+  @media (min-width: 1536px) and (max-width: 1919px) {
+  }
+
+  @media (min-width: 1440px) and (max-width: 1535px) {
+  }
+  @media (min-width: 1366px) and (max-width: 1439px) {
+  }
+  @media (min-width: 1280px) and (max-width: 1365px) {
+    margin-top:6.5em;
+  }
+
+  //mobile
+ @media  (max-width: 600px) {
+   margin-top: 12em;
+    .block {
+    z-index: 1;
+    display: flex;
+    flex-flow:column wrap;
+    justify-content: space-around;
+    gap: 16px;}
+  }
+  @media (min-width: 375px) and (max-width: 600px) {
+   
+  }
+
+  @media (min-width: 361px) and (max-width: 374px) {
+    
+  }
+  @media (max-width: 360px) {
+    
+    }
+  
 `;
 
 const Config1 = () => {

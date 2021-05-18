@@ -24,12 +24,13 @@ const Desktop = styled(motion.header)`
 
   background: ${({ switchMode, ui }) =>
     switchMode ? chroma(ui.dark) : chroma(ui.light)};
+  
 
   font-family: ${({ ui }) => ui.navFont};
 
-  padding: 1rem 2rem;
+  padding: 0.5em 0.8em;
   font-weight: 600;
-  font-size: 2em;
+  font-size: 1.8em;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
