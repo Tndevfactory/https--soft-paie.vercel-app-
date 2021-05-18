@@ -33,7 +33,14 @@ import {
 } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
-  
+  min-width:100%;
+  min-height:100vh;
+  //background-color:coral;
+
+  display: flex;
+ // justify-content: center;
+  //align-items: center;
+  flex-flow: column nowrap;
 `;
 
 const Mobile = styled(Desktop)`

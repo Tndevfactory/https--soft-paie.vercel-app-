@@ -36,13 +36,12 @@ import {
 } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
-  padding: 6rem 0rem 1rem 0rem;
+  padding: 6em 0em 1em 0em;
   display: flex;
 
-   min-height: 88vh;
   & > * {
     display: inline-block;
-
+ min-height: 80vh;
     border-radius: 5px;
     padding: 0.5rem 2rem;
      
@@ -129,7 +128,7 @@ const Desktop = styled(motion.div)`
   .dash-content {
     // min-height: 66vh;
    background: rgba(255, 255, 255, 0.9);
-    min-width: 83%;
+    min-width: 80%;
   }
   .dash-content-place {
     display: flex;
@@ -145,7 +144,7 @@ const Desktop = styled(motion.div)`
 const Mobile = styled(Desktop)`
   //large screen
   @media (min-width: 1920px) {
-    min-height: 90vh;
+     & > * {min-height: 80vh;}
     
     .fixed-drawer {
       min-width: 16%;
@@ -184,11 +183,11 @@ const Mobile = styled(Desktop)`
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
-    min-height: 89vh;
+     & > * {min-height: 80vh;}
   }
 
   @media (min-width: 1440px) and (max-width: 1535px) {
-   min-height: 90vh;
+    & > * {min-height: 76.5vh;}
    .fixed-drawer {
       min-width: 20%;
       margin: 0rem 0.5rem 0rem 0.5rem;
@@ -198,7 +197,7 @@ const Mobile = styled(Desktop)`
     }
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
-    min-height: 88vh;
+     & > * {min-height: 72vh;}
     .fixed-drawer {
       min-width: 20%;
       margin: 0rem 0.5rem 0rem 0.5rem;
@@ -235,7 +234,7 @@ const Mobile = styled(Desktop)`
     }
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
-   min-height: 87vh;
+    & > * {min-height: 70.5vh;}
     .fixed-drawer {
       min-width: 21%;
       margin: 0rem 0.5rem 0rem 0.5rem;

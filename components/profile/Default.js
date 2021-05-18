@@ -19,9 +19,9 @@ import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 const easing = [0.04, 0.62, 0.23, 0.98];
 
 const Desktop = styled(motion.div)`
-  min-width: 50vw;
+  //min-width: 40%;
   // background: violet;
-  padding: 2rem;
+  //padding: 2rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
