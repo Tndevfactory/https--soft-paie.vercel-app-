@@ -21,16 +21,20 @@ class UserFactory extends Factory
      * @return array
      */
     public function definition()
+  
     {
         return [
-            'nom' => $this->faker->name(),
-            'prenom' => $this->faker->name(),
-            'adresse' => $this->faker->name(),
+            'nom' => $this->faker->firstName(),
+            'prenom' => $this->faker->lastName(),
+            'adresse' => $this->faker->Address(),
             'telephone' => $this->faker->phoneNumber(),
+            'dob' => $this->faker->dateTimeThisDecade($max = '+10 years'),
+            'nb_enfant' => $this->faker->numberBetween(0,5),
+            'etat_civil' => $this->faker->randomElement(['celibataire', 'marié']),
             'avatar' => $this->faker->imageUrl($width = 640, $height = 480),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
         ];
     }

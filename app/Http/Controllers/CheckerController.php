@@ -4,13 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Checker;
 use App\Models\User;
-
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class CheckerController extends Controller
+
 {
+
+  // Generate PDF
+    public function createPDF() {
+      // retreive all records from db
+      $data = collect(User::all());
+     view()->share('user',$data);
+      $pdf = PDF::loadView('pdf_view', $data);
+//dd( $pdf);
+      // download PDF file with download method
+      return $pdf->download('pdf_file.pdf');
+    }
+
     /**
    * Registration
    */
@@ -21,11 +34,14 @@ class CheckerController extends Controller
     $validatedData = $request->validate([
       "prenom" => "required|max:55",
       "nom" => "required|max:55",
-      "adresse" => "required|max:255",
-      "telephone" => "required|max:55",
+      "adresse" => "nullable",
+      "telephone" => "nullable",
+      "dob" => "nullable",
+      "nb_enfant" => "nullable",
+      "etat_civil" => "nullable",
       "email" => "email|required|unique:users",
       "password" => "required|confirmed",
-      "avatar" => "required",
+      "avatar" => "nullable",
      ]);
    
     $validatedData["password"] = bcrypt($request->password);
@@ -55,7 +71,7 @@ class CheckerController extends Controller
     ]);
     
     if (!auth()->attempt($loginData)) {
-      return response(["message" => "Invalid Credentials"]);
+      return response(["message" => "erreur authentification"]);
     }
     
     $accessToken = auth()
