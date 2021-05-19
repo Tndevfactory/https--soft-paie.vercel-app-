@@ -128,8 +128,15 @@ const Navbar = () => {
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiLogout, apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { ui, notification, setNotification, switchMode, setSwitchMode } =
-    prodStates;
+  const {
+    loader,
+    setLoader,
+    ui,
+    notification,
+    setNotification,
+    switchMode,
+    setSwitchMode,
+  } = prodStates;
   const LogoutMutation = useMutation((values) => apiLogout(values));
   const [detectCookie, setDetectCookie] = useState("");
 
@@ -155,8 +162,8 @@ const Navbar = () => {
 
     Cookies.set("sp_token", "");
     //console.log('"sp_token",');
-    
 
+    //setLoader(false);
     router.push(`/`);
     //  console.log(LoginMutation.data.user.id);
   }

@@ -5,17 +5,15 @@ import Head from "next/head";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
-import { Device } from "../../components/devices/Device";
 import Register1 from "../../components/registers/Register1";
-import Alert1 from "../../components/alerts/Alert1";
-import Loader from "../../components/loader/Loader1";
+import Loader1 from "../../components/loader/Loader1";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
   min-width: 100%;
   min-height: 100vh;
-//background-color:pink;
+  //background-color:pink;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,7 +39,7 @@ export default function Register() {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { ui, switchMode } = prodStates;
+  const { loader, ui, switchMode } = prodStates;
 
   // const { isLoading, error, data } = useQuery("products", apiGet, {
   //   initialData: dt,
@@ -73,7 +71,8 @@ export default function Register() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
-        
+        {loader && <Loader1 />}
+
         <Register1 switchMode={switchMode} />
         <Footer fixed={true} />
       </Mobile>

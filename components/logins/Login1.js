@@ -345,6 +345,7 @@ const Login1 = () => {
       router.push(`/manager/${LoginMutation.data.user.id}`);
     }
   }
+  
   React.useEffect(() => {
     setMsg({ msgAlert: m, typeAlert: "fail" });
   }, [m]);

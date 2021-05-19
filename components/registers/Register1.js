@@ -4,14 +4,19 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import chroma from "chroma-js";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { Device } from "../devices/Device";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
+import { useMutation } from "react-query";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import Loader1 from "../loader/Loader1";
+import Alert1 from "../alerts/Alert1";
+import Alert2 from "../alerts/Alert2";
 
 const Desktop = styled(motion.div)`
-//margin-top:7.5em;
+  //margin-top:7.5em;
 
-  min-width:30vw;
+  min-width: 30vw;
   .form_container {
     width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
@@ -20,7 +25,7 @@ const Desktop = styled(motion.div)`
     background-color: rgba(255, 255, 255, 0.75);
     display: flex;
     flex-flow: column wrap;
-    gap:-0.21em;
+    gap: -0.21em;
   }
   .title {
     font-size: 1.6em;
@@ -69,24 +74,22 @@ const Desktop = styled(motion.div)`
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    
   }
 
   .register_phrase {
-    align-self:flex-end;
+    align-self: flex-end;
+    font-size: 12px;
+    a {
       font-size: 12px;
-      a {
-        font-size: 12px;
 
-        font-weight: 500;
-        cursor: pointer;
-        &:hover {
-          color: ${({ switchMode, ui }) =>
-            switchMode ? chroma(ui.dark) : chroma(ui.light)};
-        }
+      font-weight: 500;
+      cursor: pointer;
+      &:hover {
+        color: ${({ switchMode, ui }) =>
+          switchMode ? chroma(ui.dark) : chroma(ui.light)};
       }
     }
+  }
 `;
 
 const Mobile = styled(Desktop)`
@@ -101,12 +104,11 @@ const Mobile = styled(Desktop)`
   @media (min-width: 1440px) and (max-width: 1535px) {
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
- //margin-top:6.5em;
-  //min-width: 29%;
- 
+    //margin-top:6.5em;
+    //min-width: 29%;
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
-   // margin-top:6.5em;
+    // margin-top:6.5em;
   }
 
   //mobile
@@ -168,10 +170,31 @@ const Mobile = styled(Desktop)`
 `;
 
 const Register1 = () => {
+  let errorRegister = "";
+  let loaderRegister = "";
+  const router = useRouter();
+
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { ui, notification, setNotification, switchMode, setSwitchMode } =
-    prodStates;
+
+  const { apiRegister, apiGet, apiDelete, apiUpdate } = prodMethods;
+
+  const {
+    loader,
+    setLoader,
+    ui,
+    notification,
+    setNotification,
+    switchMode,
+    setSwitchMode,
+  } = prodStates;
+
+  const RegisterMutation = useMutation((values) => apiRegister(values));
+
+  const [msgRegister, setMsgRegister] = useState({
+    msgAlert: "",
+    typeAlert: "",
+  });
+
   const [credentialR, setCredentialR] = useState({
     nom: "",
     prenom: "",
@@ -254,24 +277,69 @@ const Register1 = () => {
     e.preventDefault();
     console.log("handleSubmit");
     if (handleValidate()) {
-      console.log("all data verified before sent");
-      setCredentialR({
-        nom: "",
-        prenom: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        nomError: "",
-        prenomError: "",
-        emailError: "",
-        passwordError: "",
-        password_confirmationError: "",
+      console.log("registered all data verified before sent");
+
+      RegisterMutation.mutate({
+        nom: credentialR.nom,
+        prenom: credentialR.prenom,
+        email: credentialR.email,
+        password: credentialR.password,
+        password_confirmation: credentialR.password_confirmation,
       });
+
+      // setCredentialR({
+      //   nom: "",
+      //   prenom: "",
+      //   email: "",
+      //   password: "",
+      //   password_confirmation: "",
+      //   nomError: "",
+      //   prenomError: "",
+      //   emailError: "",
+      //   passwordError: "",
+      //   password_confirmationError: "",
+      // });
+    } else {
+      console.log("registered  data not completed");
+      RegisterMutation.reset();
     }
   };
+  if (RegisterMutation.isLoading) {
+    // loaderM = "loading";
+    loaderRegister = "loading";
+    console.log("loading...");
+    console.log(loaderRegister);
+  }
+
+  if (RegisterMutation.isError) {
+    // console.log("RegisterMutation.error.message");
+    //console.log(RegisterMutation.status);
+    // errorRegister = RegisterMutation.error.message;
+    errorRegister =
+      "adresse email deja utilisée ou reseau backend non disponible";
+  }
+
+  if (RegisterMutation.isSuccess) {
+    //console.log(RegisterMutation.data);
+    Cookies.set("sp_token", RegisterMutation.data.access_token);
+    //console.log(LoginMutation.data);
+    RegisterMutation.reset();
+
+    router.push(`/employee/${RegisterMutation.data.user.id}`);
+  }
+
+  React.useEffect(() => {
+    setMsgRegister({ msgAlert: errorRegister, typeAlert: "fail" });
+  }, [errorRegister]);
+
+  React.useEffect(() => {
+    if (loaderRegister !== "") setLoader(true);
+    if (errorRegister !== "") setLoader(false);
+  }, [loaderRegister]);
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
+      {errorRegister && <Alert2 msg={msgRegister} setMsg={setMsgRegister} />}
       <form
         autoComplete="false"
         className="form_container"
@@ -356,17 +424,14 @@ const Register1 = () => {
           <Button1 disabled={false} width={6} height={2.2}>
             s'inscrire
           </Button1>
-          
         </div>
-        
-          
-          <div className="register_phrase">
-            Vous avez un compte, veuillez
-            <Link href="/">
-              <a title="login"> se connecter</a>
-            </Link>
-          </div>
-       
+
+        <div className="register_phrase">
+          Vous avez un compte, veuillez
+          <Link href="/">
+            <a title="login"> se connecter</a>
+          </Link>
+        </div>
       </form>
     </Mobile>
   );
