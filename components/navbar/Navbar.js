@@ -11,6 +11,9 @@ import Drawer from "../drawer/Drawer1";
 import { FaCog, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { Device } from "../devices/Device";
 import { ProdCtx } from "../../contexts/ProductsContext";
+import Cookies from "js-cookie";
+import { useMutation } from "react-query";
+import { useRouter } from "next/router";
 
 const Desktop = styled(motion.header)`
   color: ${({ switchMode, ui }) =>
@@ -24,7 +27,6 @@ const Desktop = styled(motion.header)`
 
   background: ${({ switchMode, ui }) =>
     switchMode ? chroma(ui.dark) : chroma(ui.light)};
-  
 
   font-family: ${({ ui }) => ui.navFont};
 
@@ -80,7 +82,7 @@ const Desktop = styled(motion.header)`
     }
     .login_link {
       font-size: 1.3em;
-      color:green;
+      color: green;
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
@@ -94,7 +96,7 @@ const Desktop = styled(motion.header)`
     }
     .logout_link {
       font-size: 1.3em;
-      color:red;
+      color: red;
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
@@ -123,11 +125,40 @@ const Mobile = styled(Desktop)`
 `;
 
 const Navbar = () => {
+  const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { apiLogout, apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode, setSwitchMode } =
     prodStates;
+  const LogoutMutation = useMutation((values) => apiLogout(values));
+  const [detectCookie, setDetectCookie] = useState("");
 
+  React.useEffect(() => {
+    setDetectCookie(Cookies.get("sp_token") ? Cookies.get("sp_token") : null);
+  }, []);
+
+  const handleLogout = () => {
+    LogoutMutation.mutate();
+  };
+
+  if (LogoutMutation.isLoading) {
+    //console.log("loading...");
+  }
+
+  if (LogoutMutation.isError) {
+    console.log(LogoutMutation.error.message);
+  }
+
+  if (LogoutMutation.isSuccess) {
+    // console.log("LogoutMutation.data");
+    //console.log(LogoutMutation.data);
+
+    Cookies.set("sp_token", "");
+    //console.log('"sp_token",');
+
+    router.push(`/`);
+    //  console.log(LoginMutation.data.user.id);
+  }
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <div className="brand-zone">
@@ -137,13 +168,13 @@ const Navbar = () => {
             soft-paie
           </a>
         </Link>
-               
+
         <Image
-            src="/img/logos/logo.png"
-            alt="soft - paie logo"
-            width={35}
-            height={35}
-          />
+          src="/img/logos/logo.png"
+          alt="soft - paie logo"
+          width={35}
+          height={35}
+        />
       </div>
       <div className="switch-zone">
         <Link href="/config">
@@ -151,16 +182,18 @@ const Navbar = () => {
             <FaCog />
           </a>
         </Link>
-        <Link href="/">
-          <a title="login" className="login_link">
-            <FaSignInAlt />
-          </a>
-        </Link>
-        <Link href="/">
-          <a title="logout" className="logout_link">
+        {!detectCookie && (
+          <Link href="/">
+            <a title="login" className="login_link">
+              <FaSignInAlt />
+            </a>
+          </Link>
+        )}
+        {detectCookie && (
+          <a title="logout" className="logout_link" onClick={handleLogout}>
             <FaSignOutAlt />
           </a>
-        </Link>
+        )}
 
         <Switch />
       </div>

@@ -17,8 +17,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-  //const token = localStorage.getItem('token');
-  const token = "eyJ0eXAiOiJKV1QiLCJNTEwMTguNTqhfE0crsX6gTpywbEeZHVLDyyYR9yg";
+  const token = Cookies.get("sp_token") ? Cookies.get("sp_token") : null;
 
   config.headers.Authorization = token ? `Bearer ${token}` : "";
   return config;
@@ -33,8 +32,8 @@ export const apiRegister = async (values) => {
   const { data } = await api.post("/register", values);
   return data;
 };
-export const apiLogout = async (values) => {
-  const { data } = await api.get("/logout", values);
+export const apiLogout = async () => {
+  const { data } = await api.get("/logout");
   return data;
 };
 

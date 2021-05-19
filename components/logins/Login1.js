@@ -323,18 +323,28 @@ const Login1 = () => {
   }
 
   if (LoginMutation.isError) {
-    console.log(LoginMutation.error.message);
+    // console.log(LoginMutation.error.message);
+    m = LoginMutation.error.message;
   }
 
   if (LoginMutation.isSuccess) {
     if (LoginMutation.data.message === "erreur authentification") {
       m = LoginMutation.data.message;
 
-      console.log("mmmm");
+      // console.log("mmmm");
       console.log(m);
     } else if (LoginMutation.data.message !== "erreur authentification") {
       Cookies.set("sp_token", LoginMutation.data.access_token);
-      console.log(LoginMutation.data);
+      //console.log(LoginMutation.data);
+    }
+    if (LoginMutation.data.role === "employee") {
+      router.push(`/employee/${LoginMutation.data.user.id}`);
+    }
+    if (LoginMutation.data.role === "admin") {
+      router.push(`/admin/`);
+    }
+    if (LoginMutation.data.role === "manager") {
+      router.push(`/manager/${LoginMutation.data.user.id}`);
     }
     //save token in js-cookie
     // check role
