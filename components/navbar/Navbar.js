@@ -155,6 +155,7 @@ const Navbar = () => {
 
     Cookies.set("sp_token", "");
     //console.log('"sp_token",');
+    
 
     router.push(`/`);
     //  console.log(LoginMutation.data.user.id);

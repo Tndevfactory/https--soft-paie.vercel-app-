@@ -303,16 +303,8 @@ const Login1 = () => {
         email: credential.email,
         password: credential.password,
       });
-
-      setCredential({
-        email: "",
-        password: "",
-        emailError: "",
-        passwordError: "",
-      });
     } else {
       console.log(" data not completed before sent");
-
       LoginMutation.reset();
     }
   };
@@ -332,29 +324,26 @@ const Login1 = () => {
       m = LoginMutation.data.message;
 
       // console.log("mmmm");
-      console.log(m);
+      //console.log(m);
     } else if (LoginMutation.data.message !== "erreur authentification") {
       Cookies.set("sp_token", LoginMutation.data.access_token);
-      console.log(LoginMutation.data);
+      //console.log(LoginMutation.data);
+      LoginMutation.reset();
     }
     if (LoginMutation.data.role === "employee") {
-      console.log("employee redirect");
+      //console.log("employee redirect");
+      //console.log(LoginMutation.data);
+
       router.push(`/employee/${LoginMutation.data.user.id}`);
     }
     if (LoginMutation.data.role === "admin") {
-      console.log("admin redirect");
+      //console.log("admin redirect");
       router.push(`/admin/`);
     }
     if (LoginMutation.data.role === "manager") {
-      console.log("manager redirect");
+      //console.log("manager redirect");
       router.push(`/manager/${LoginMutation.data.user.id}`);
     }
-    //save token in js-cookie
-    // check role
-    // check if employee or admin or manager
-    // get id and push it
-    // router.push(`/employee/${LoginMutation.data.user.id}`);
-    //  console.log(LoginMutation.data.user.id);
   }
   React.useEffect(() => {
     setMsg({ msgAlert: m, typeAlert: "fail" });
