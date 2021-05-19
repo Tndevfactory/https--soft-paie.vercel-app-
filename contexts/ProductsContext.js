@@ -39,8 +39,8 @@ export const apiLogout = async (values) => {
 };
 
 // generate pdf
-export const apiPdf= async () => {
-  const { data } = await api.get("/pdf",{ responseType: 'blob'});
+export const apiPdf = async () => {
+  const { data } = await api.get("/pdf", { responseType: "blob" });
   return data;
 };
 // crud operations

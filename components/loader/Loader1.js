@@ -13,40 +13,32 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-const device = {
-  mobile: `(max-width: 600px)`,
-
-  tablet: `(min-width: 601px)`,
-
-  desktop: `(min-width: 900px)`,
-};
-
-const ui = {
-  dark: "#001d3d",
-  light: "#00afb9",
-};
-
 const Loader_st = styled(motion.div)`
   position: absolute;
   display: flex;
   justify-content: flex-end;
 
-  width: 100%;
+  width: 10%;
   top: 90px;
+  margin-right: 50px;
   z-index: 10;
   left: 0;
   width: 100%;
   color: black;
   //background: yellow;
   font-weight: 600;
-  font-size: 1.3rem;
-  padding: 1rem;
+  font-size: 1.3em;
+  padding: 1em;
+  .lll {
+    // background: red;
+    margin-right: 50px;
+  }
 `;
 
 const Loader1 = () => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { setLoader, loader, setNotification, switchMode } = prodStates;
+  const { ui, setLoader, loader, setNotification, switchMode } = prodStates;
 
   const [showPassword, setShowPassword] = useState(false);
   const y = useMotionValue(-100);
@@ -66,6 +58,7 @@ const Loader1 = () => {
         height={70}
         width={70}
         timeout={3000} //3 secs
+        className="lll"
       />
     </Loader_st>
   );

@@ -10,22 +10,8 @@ import Link from "next/link";
 import chroma from "chroma-js";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-const device = {
-  mobile: `(max-width: 600px)`,
-
-  tablet: `(min-width: 601px)`,
-
-  desktop: `(min-width: 900px)`,
-};
-
-const ui = {
-  dark: "#001d3d",
-  light: "#00afb9",
-};
-
-const Alert_st = styled(motion.div)`
+const Alert2_st = styled(motion.div)`
   position: absolute;
   top: 85px;
   left: 0;
@@ -60,39 +46,27 @@ const variants = {
   exit: { opacity: 0 },
 };
 
-const Alert1 = () => {
-  const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
-  const { notification, setNotification, switchMode } = prodStates;
-
-  const { notifType, notifMsg } = notification;
-
-  const [showPassword, setShowPassword] = useState(false);
+export default function Alert2({ msg, setMsg }) {
+  const { msgAlert, typeAlert } = msg;
   const y = useMotionValue(-100);
   const opacity = useTransform(y, [-100, 0], [0, 1]);
 
   React.useEffect(() => {
     setTimeout(() => {
-      setNotification({
-        notifType: "",
-        notifMsg: "",
-      });
+      setMsg("");
     }, 3000);
-  }, [notification]);
+  }, []);
 
   return (
-    <Alert_st
-      switchMode={switchMode}
+    <Alert2_st
       variants={variants}
       initial="initial"
       animate="animate"
       exit="exit"
       style={{ y, opacity }}
-      alertType={notifType}
+      alertType={typeAlert}
     >
-      <p>{notifMsg}</p>
-    </Alert_st>
+      <p>{msgAlert}</p>
+    </Alert2_st>
   );
-};
-
-export default Alert1;
+}

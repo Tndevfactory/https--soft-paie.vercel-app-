@@ -10,18 +10,17 @@ import Login1 from "../components/logins/Login1";
 import chroma from "chroma-js";
 
 import Alert1 from "../components/alerts/Alert1";
-import Loader from "../components/loader/Loader1";
+import Loader1 from "../components/loader/Loader1";
 import Footer from "../components/footer/Footer";
 import Navbar from "../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
   min-width: 100%;
   min-height: 100vh;
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column nowrap;
- 
 `;
 
 const Mobile = styled(Desktop)`
@@ -40,7 +39,7 @@ export default function Home() {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { ui, switchMode } = prodStates;
+  const { ui, switchMode, loader, setLoader } = prodStates;
 
   // const { isLoading, error, data } = useQuery("products", apiGet, {
   //   initialData: dt,
@@ -72,9 +71,9 @@ export default function Home() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
-
+        {/* <Alert1/> */}
+        {loader && <Loader1 />}
         <Login1 switchMode={switchMode} />
-
         <Footer fixed={true} />
       </Mobile>
     </>

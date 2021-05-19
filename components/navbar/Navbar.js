@@ -8,7 +8,7 @@ import Link from "next/link";
 import chroma from "chroma-js";
 import Image from "next/image";
 import Drawer from "../drawer/Drawer1";
-import { FaCog, FaSignInAlt, FaBars } from "react-icons/fa";
+import { FaCog, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { Device } from "../devices/Device";
 import { ProdCtx } from "../../contexts/ProductsContext";
 
@@ -79,7 +79,22 @@ const Desktop = styled(motion.header)`
       }
     }
     .login_link {
-      font-size: 1.7rem;
+      font-size: 1.3em;
+      color:green;
+      &:hover {
+        color: ${({ switchMode, ui }) =>
+          switchMode
+            ? chroma(ui.dark).luminance() < 0.4
+              ? chroma(ui.dark).brighten(3)
+              : chroma(ui.dark).darken(3)
+            : chroma(ui.light).luminance() < 0.4
+            ? chroma(ui.light).brighten(3)
+            : chroma(ui.light).darken(3)};
+      }
+    }
+    .logout_link {
+      font-size: 1.3em;
+      color:red;
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
@@ -139,6 +154,11 @@ const Navbar = () => {
         <Link href="/">
           <a title="login" className="login_link">
             <FaSignInAlt />
+          </a>
+        </Link>
+        <Link href="/">
+          <a title="logout" className="logout_link">
+            <FaSignOutAlt />
           </a>
         </Link>
 

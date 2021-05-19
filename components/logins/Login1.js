@@ -9,16 +9,16 @@ import { useMutation } from "react-query";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
 import Cookies from "js-cookie";
+import Loader1 from "../loader/Loader1";
+import Alert1 from "../alerts/Alert1";
+import Alert2 from "../alerts/Alert2";
 
 const Desktop = styled(motion.div)`
-
-
-min-width:30vw;
-height:auto;
-//margin-top:15em;
+  min-width: 30vw;
+  height: auto;
+  //margin-top:15em;
 
   .form_container {
-   
     width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
     background-color: rgba(255, 255, 255, 0.75);
@@ -74,31 +74,29 @@ height:auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
   }
 
   .register_phrase {
-          align-self:flex-end;
-          font-size: 0.8em;
-          a {
-            font-size: 0.87em;
-            font-weight: 500;
-            cursor: pointer;
-            &:hover {
-              color: ${({ switchMode, ui }) =>
-                switchMode ? chroma(ui.dark) : chroma(ui.light)};
-            }
-          }
-        }
+    align-self: flex-end;
+    font-size: 0.8em;
+    a {
+      font-size: 0.87em;
+      font-weight: 500;
+      cursor: pointer;
+      &:hover {
+        color: ${({ switchMode, ui }) =>
+          switchMode ? chroma(ui.dark) : chroma(ui.light)};
+      }
+    }
+  }
 `;
 
 const Mobile = styled(Desktop)`
   //large screen
   @media (min-width: 1920px) {
-   
-height:auto;
-//margin-top:15em;
-    min-width:25%;
+    height: auto;
+    //margin-top:15em;
+    min-width: 25%;
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
@@ -107,7 +105,7 @@ height:auto;
   @media (min-width: 1440px) and (max-width: 1535px) {
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
-  //margin-top:10em;
+    //margin-top:10em;
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
   }
@@ -115,7 +113,6 @@ height:auto;
   //mobile
 
   @media (min-width: 375px) and (max-width: 600px) {
-      
     display: flex;
     justify-content: center;
     align-items: center;
@@ -131,22 +128,21 @@ height:auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
-     
       }
 
-        .register_phrase {
-          align-self:flex-end;
-          font-size: 9px;
-          a {
-            font-size: 1em;
-            font-weight: 500;
-            cursor: pointer;
-            &:hover {
-              color: ${({ switchMode, ui }) =>
-                switchMode ? chroma(ui.dark) : chroma(ui.light)};
-            }
+      .register_phrase {
+        align-self: flex-end;
+        font-size: 9px;
+        a {
+          font-size: 1em;
+          font-weight: 500;
+          cursor: pointer;
+          &:hover {
+            color: ${({ switchMode, ui }) =>
+              switchMode ? chroma(ui.dark) : chroma(ui.light)};
           }
         }
+      }
     }
   }
 
@@ -230,8 +226,15 @@ const Login1 = () => {
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiLogin } = prodMethods;
-  const { ui, notification, setNotification, switchMode, setSwitchMode } =
-    prodStates;
+  const {
+    loader,
+    setLoader,
+    ui,
+    notification,
+    setNotification,
+    switchMode,
+    setSwitchMode,
+  } = prodStates;
 
   const [credential, setCredential] = useState({
     email: "",
@@ -241,6 +244,12 @@ const Login1 = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [msg, setMsg] = useState({
+    msgAlert: "",
+    typeAlert: "",
+  });
+  let m = "";
+  let loaderM = "";
 
   const handleOnchange = (e) => {
     credential.passwordError = "";
@@ -285,6 +294,9 @@ const Login1 = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // setNotification({ notifType: "fail", notifMsg: "ttt000000" });
+
     if (handleValidate()) {
       console.log("all data verified before sent");
       LoginMutation.mutate({
@@ -300,12 +312,13 @@ const Login1 = () => {
       });
     } else {
       console.log(" data not completed before sent");
-   
+
       LoginMutation.reset();
     }
   };
 
   if (LoginMutation.isLoading) {
+    loaderM = "loading";
     console.log("loading...");
   }
 
@@ -315,22 +328,31 @@ const Login1 = () => {
 
   if (LoginMutation.isSuccess) {
     if (LoginMutation.data.message === "erreur authentification") {
-      console.log(LoginMutation.data.message);
-      console.log(LoginMutation.data.message.length);
+      m = LoginMutation.data.message;
+
+      console.log("mmmm");
+      console.log(m);
     } else if (LoginMutation.data.message !== "erreur authentification") {
       Cookies.set("sp_token", LoginMutation.data.access_token);
       console.log(LoginMutation.data);
     }
     //save token in js-cookie
-  // check role 
+    // check role
     // check if employee or admin or manager
     // get id and push it
     // router.push(`/employee/${LoginMutation.data.user.id}`);
     //  console.log(LoginMutation.data.user.id);
   }
-
+  React.useEffect(() => {
+    setMsg({ msgAlert: m, typeAlert: "fail" });
+  }, [m]);
+  React.useEffect(() => {
+    if (loaderM !== "") setLoader(true);
+    if (m !== "") setLoader(false);
+  }, [loaderM, m]);
   return (
     <Mobile ui={ui} switchMode={switchMode}>
+      {m && <Alert2 msg={msg} setMsg={setMsg} />}
       <form className="form_container" onSubmit={handleSubmit}>
         <div className="title">connexion</div>
 
@@ -368,14 +390,13 @@ const Login1 = () => {
           <Button1 type="submit" disabled={false} width={7} height={2.2}>
             se connecter
           </Button1>
- </div>
-          <div className="register_phrase">
-            Vous n'avez pas de compte, veuillez
-            <Link href="/register">
-              <a title="register"> s'inscrire</a>
-            </Link>
-          </div>
-       
+        </div>
+        <div className="register_phrase">
+          Vous n'avez pas de compte, veuillez
+          <Link href="/register">
+            <a title="register"> s'inscrire</a>
+          </Link>
+        </div>
       </form>
     </Mobile>
   );
