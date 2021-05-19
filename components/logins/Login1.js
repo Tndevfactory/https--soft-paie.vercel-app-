@@ -335,15 +335,18 @@ const Login1 = () => {
       console.log(m);
     } else if (LoginMutation.data.message !== "erreur authentification") {
       Cookies.set("sp_token", LoginMutation.data.access_token);
-      //console.log(LoginMutation.data);
+      console.log(LoginMutation.data);
     }
     if (LoginMutation.data.role === "employee") {
+      console.log("employee redirect");
       router.push(`/employee/${LoginMutation.data.user.id}`);
     }
     if (LoginMutation.data.role === "admin") {
+      console.log("admin redirect");
       router.push(`/admin/`);
     }
     if (LoginMutation.data.role === "manager") {
+      console.log("manager redirect");
       router.push(`/manager/${LoginMutation.data.user.id}`);
     }
     //save token in js-cookie
