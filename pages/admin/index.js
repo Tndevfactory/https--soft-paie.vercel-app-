@@ -75,12 +75,12 @@ export default function Admin() {
     token: Cookies.get("sp_token"),
   });
 
-  React.useEffect(() => {
-    if (Number(check.id) !== 3) {
-      router.push("/");
-    }
-    return () => console.log("");
-  }, []);
+  // React.useEffect(() => {
+  //   if (Number(check.id) !== 3) {
+  //     router.push("/");
+  //   }
+  //   return () => console.log("");
+  // }, []);
   return (
     <>
       <Head>

@@ -10,7 +10,7 @@ if (env == "development") {
   url = "https://tndev3.tn-devfactory.com/api";
   d = "https://tndev3.tn-devfactory.com";
 }
-// "localhost",
+//
 const path = require("path");
 module.exports = {
   env: {
@@ -18,7 +18,7 @@ module.exports = {
     DOMAIN: d,
   },
   images: {
-    domains: ["tndev3.tn-devfactory.com"],
+    domains: ["localhost", "tndev3.tn-devfactory.com"],
   },
   webpack(config, options) {
     config.module.rules.push({

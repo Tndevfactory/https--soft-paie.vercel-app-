@@ -48,9 +48,9 @@ export default function Home() {
     token: Cookies.get("sp_token"),
   });
 
-  React.useEffect(() => {
-    if (check.id.length === 0) router.push("/");
-  }, []);
+  // React.useEffect(() => {
+  //   if (check?.id.length === 0) router.push("/");
+  // }, []);
   return (
     <>
       <Head>

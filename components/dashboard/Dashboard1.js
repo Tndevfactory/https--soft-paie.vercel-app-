@@ -359,9 +359,9 @@ export default function Dashboard1({ initialData }) {
   }
 
   const [check, setCheck] = useState({
-    cid: Cookies.get("sp_id"),
-    role: Cookies.get("sp_role"),
-    token: Cookies.get("sp_token"),
+    cid: Cookies.get("sp_id") || 0,
+    role: Cookies.get("sp_role") || 0,
+    token: Cookies.get("sp_token") || 0,
   });
 
   React.useEffect(() => {
