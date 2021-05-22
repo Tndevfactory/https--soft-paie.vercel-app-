@@ -57,7 +57,7 @@ const Desktop = styled(motion.div)`
   .row {
     margin: 0.3em 0em 0.3em 0em;
     width: 100%;
-   padding: 0.3em;
+    padding: 0.3em;
 
     display: flex;
     justify-content: space-around;
@@ -90,11 +90,12 @@ const Mobile = styled(Desktop)`
   @media (max-width: 360px) {
   }
 `;
- 
+
 const FichePaie = () => {
   const [prodMethods, prodStates] = ProdCtx();
   const { pdfMethods } = prodMethods;
-  const { apiPdf} = pdfMethods;
+  const { apiPdf, downloadPdf } = pdfMethods;
+
   const { ui, notification, setNotification, switchMode } = prodStates;
 
   const [sectionSelector, setSectionSelector] = useState("");
@@ -104,20 +105,27 @@ const FichePaie = () => {
   };
 
   const handlePdf = async () => {
-    let res = await apiPdf()
-    
-     const file = new Blob([res], { type: 'application/pdf' });
-      const fileURL = URL.createObjectURL(file);
-      window.open(fileURL);
-    
-  }
+    let res = await apiPdf();
+
+    const file = new Blob([res], { type: "application/pdf" });
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL);
+  };
+
+  const handleDowloadPdf = async () => {
+    let res = await downloadPdf();
+
+    const file = new Blob([res], { type: "application/pdf" });
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL);
+  };
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <div className="row_search">
         <form className="form_search" action="">
           <input type="text" />
           <Button1 type="submit" disabled={false} width={7} height={2.2}>
-            rechercher
+            search
           </Button1>
         </form>
       </div>
@@ -133,19 +141,14 @@ const FichePaie = () => {
         <div>2021</div>
 
         <div>
-          <Button1 type="submit" disabled={false} width={5.3} height={2} >
-            telecharger
-          </Button1>
-          <button onClick={handlePdf}>dwd</button>
-        </div>
-      </div>
-      <div className="row">
-        <div>Mars</div>
-        <div>2021</div>
-
-        <div>
-          <Button1 type="submit" disabled={false} width={5.3} height={2}>
-            telecharger
+          <Button1
+            proceed={handleDowloadPdf}
+            type="submit"
+            disabled={false}
+            width={5.3}
+            height={2}
+          >
+            download
           </Button1>
         </div>
       </div>
@@ -154,8 +157,30 @@ const FichePaie = () => {
         <div>2021</div>
 
         <div>
-          <Button1 type="submit" disabled={false} width={5.3} height={2}>
-            telecharger
+          <Button1
+            proceed={handlePdf}
+            type="submit"
+            disabled={false}
+            width={5.3}
+            height={2}
+          >
+            Make pdf
+          </Button1>
+        </div>
+      </div>
+      <div className="row">
+        <div>Mars</div>
+        <div>2021</div>
+
+        <div>
+          <Button1
+            proceed={handlePdf}
+            type="submit"
+            disabled={false}
+            width={5.3}
+            height={2}
+          >
+            Make pdf
           </Button1>
         </div>
       </div>

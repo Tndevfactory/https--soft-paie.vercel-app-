@@ -26,14 +26,18 @@ import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
 import {
-  FaUserShield,
+  FaInfoCircle,
+  FaUserCog,
   FaUserTie,
   FaUser,
-  FaRegListAlt,
+  FaSignal,
+  FaUserClock,
   FaRegMoneyBillAlt,
   FaRecycle,
   FaParking,
   FaSkating,
+  FaShieldAlt,
+  FaMailBulk,
 } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
@@ -45,6 +49,8 @@ const Desktop = styled(motion.div)`
     min-height: 80vh;
     border-radius: 5px;
     padding: 0.5rem 2rem;
+    background: rgba(230, 230, 230, 0.9);
+    border: 3px crimson solid;
   }
 
   .fixed-drawer {
@@ -83,7 +89,9 @@ const Desktop = styled(motion.div)`
     width: 40%;
     border: 1px solid #ddd;
     border-radius: 50%;
-    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 0.2px 0.2px 0.6px 0.4px
+      ${({ switchMode, ui }) =>
+        switchMode ? chroma(ui.dark) : chroma(ui.light)};
   }
   .img {
     border-radius: 50%;
@@ -103,7 +111,7 @@ const Desktop = styled(motion.div)`
       color: inherit;
     }
     .profil_username_value {
-      font-size: calc(0.72 * 1.3 * 100%);
+      font-size: calc(0.72 * 1.4 * 100%);
       font-weight: 400;
       color: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : chroma(ui.light)};
@@ -117,8 +125,9 @@ const Desktop = styled(motion.div)`
       color: inherit;
     }
     .profil_role_value {
-      font-size: calc(0.72 * 1.3 * 100%);
+      font-size: calc(0.72 * 1.4 * 100%);
       font-weight: 400;
+      text-transform: capitalize;
       color: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : chroma(ui.light)};
     }
@@ -141,6 +150,23 @@ const Desktop = styled(motion.div)`
           : chroma(ui.light).darken(1)};
     }
   }
+  .notification {
+    position: relative;
+  }
+  .notification_badge {
+    position: absolute;
+    top: -8px;
+    right: -15px;
+    background-color: red;
+    color: white;
+    padding: 2px;
+    width: 21px;
+    height: 21px;
+    font-weight: 600;
+    font-size: 11px;
+    text-align: center;
+    border-radius: 50%;
+  }
   .fiche_de_paie {
   }
 
@@ -149,7 +175,7 @@ const Desktop = styled(motion.div)`
   }
   .dash-content {
     // min-height: 66vh;
-    background: rgba(255, 255, 255, 0.9);
+    //background: rgba(255, 255, 255, 0.9);
     min-width: 80%;
   }
   .dash-content-place {
@@ -409,8 +435,12 @@ export default function Dashboard3({ initialData }) {
           </div>
           <div className="img-profile">
             <Image
-              src={`${DOMAIN}/${data?.user.file}`}
-              alt="Picture of something nice"
+              src={`${DOMAIN}/${
+                data?.user.file === null
+                  ? "uploads/users/default/user.jpg"
+                  : data?.user.file
+              }`}
+              alt={data?.user.nom}
               layout="responsive"
               quality={65}
               height={30}
@@ -428,45 +458,49 @@ export default function Dashboard3({ initialData }) {
           </div>
           <div
             className="section editer_profil "
+            onClick={() => setSelectSection("notification")}
+          >
+            <FaInfoCircle />
+            <span className="notification">
+              Notifications
+              <span className="notification_badge">22</span>
+            </span>
+          </div>
+          <div
+            className="section editer_profil "
             onClick={() => setSelectSection("profil")}
           >
             <FaUser />
-            <span>Editer profil</span>
+            <span>Admin profil</span>
           </div>
           <div
             className="section fiche_de_paie "
             onClick={() => setSelectSection("paie")}
           >
-            <FaRegListAlt />
-            <span>Fiche de paie</span>
+            <FaUserCog />
+            <span>Gérer employées</span>
           </div>
-          <div
-            className="section conge "
-            onClick={() => setSelectSection("conge")}
-          >
-            <FaSkating />
-            <span>Demander conge</span>
-          </div>
+
           <div
             className="section reclamation "
             onClick={() => setSelectSection("reclamation")}
           >
-            <FaRecycle />
-            <span>Deposer reclamation</span>
+            <FaSignal />
+            <span>Statistiques</span>
           </div>
           <div
             className="section planification "
             onClick={() => setSelectSection("planification")}
           >
-            <FaParking />
-            <span>Planification</span>
+            <FaShieldAlt />
+            <span>Management</span>
           </div>
           <div
             className="section information "
             onClick={() => setSelectSection("informations")}
           >
-            <FaRegMoneyBillAlt />
-            <span>Information</span>
+            <FaMailBulk />
+            <span>Envoyer Mail Salaire</span>
           </div>
         </aside>
         <div className="dash-content">

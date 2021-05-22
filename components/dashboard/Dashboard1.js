@@ -24,6 +24,8 @@ import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
 
 import {
+  FaShieldAlt,
+  FaInfoCircle,
   FaUser,
   FaRegListAlt,
   FaRegMoneyBillAlt,
@@ -41,6 +43,9 @@ const Desktop = styled(motion.div)`
     min-height: 80vh;
     border-radius: 5px;
     padding: 0.5rem 2rem;
+
+    background: rgba(250, 250, 250, 0.9);
+    border: 2px #777 solid;
   }
 
   .fixed-drawer {
@@ -51,9 +56,11 @@ const Desktop = styled(motion.div)`
 
   .img-profile {
     width: 40%;
-    border: 1px solid #ddd;
+    border: 0.7px solid #ddd;
     border-radius: 50%;
-    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 0.2px 0.2px 0.6px 0.4px
+      ${({ switchMode, ui }) =>
+        switchMode ? chroma(ui.dark) : chroma(ui.light)};
   }
   .img {
     border-radius: 50%;
@@ -73,8 +80,9 @@ const Desktop = styled(motion.div)`
       color: inherit;
     }
     .profil_username_value {
-      font-size: calc(0.72 * 1.3 * 100%);
+      font-size: calc(0.72 * 1.4 * 100%);
       font-weight: 400;
+      text-transform: capitalize;
       color: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : chroma(ui.light)};
     }
@@ -87,8 +95,9 @@ const Desktop = styled(motion.div)`
       color: inherit;
     }
     .profil_role_value {
-      font-size: calc(0.72 * 1.3 * 100%);
+      font-size: calc(0.72 * 1.4 * 100%);
       font-weight: 400;
+      text-transform: capitalize;
       color: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : chroma(ui.light)};
     }
@@ -100,6 +109,7 @@ const Desktop = styled(motion.div)`
     align-items: center;
     gap: 7px;
     cursor: pointer;
+
     &:hover {
       color: ${({ switchMode, ui }) =>
         switchMode
@@ -111,6 +121,23 @@ const Desktop = styled(motion.div)`
           : chroma(ui.light).darken(1)};
     }
   }
+  .notification {
+    position: relative;
+  }
+  .notification_badge {
+    position: absolute;
+    top: -8px;
+    right: -15px;
+    background-color: red;
+    color: white;
+    padding: 2px;
+    width: 21px;
+    height: 21px;
+    font-weight: 600;
+    font-size: 11px;
+    text-align: center;
+    border-radius: 50%;
+  }
   .fiche_de_paie {
   }
 
@@ -119,7 +146,7 @@ const Desktop = styled(motion.div)`
   }
   .dash-content {
     // min-height: 66vh;
-    background: rgba(255, 255, 255, 0.9);
+    //background: rgba(255, 255, 255, 0.9);
     min-width: 83%;
   }
   .dash-content-place {
@@ -326,12 +353,10 @@ export default function Dashboard1({ initialData }) {
   if (isLoading) {
     console.log("loading");
   }
+
   if (error) {
     console.log("error");
   }
-  //------------
-  console.log(data);
-  //-------------
 
   const [check, setCheck] = useState({
     cid: Cookies.get("sp_id"),
@@ -369,9 +394,13 @@ export default function Dashboard1({ initialData }) {
           <div className="img-profile">
             <Image
               //src="https://tndev3.tn-devfactory.com/uploads/1.jpg"
-              src={`${DOMAIN}/${data?.user.file}`}
+              src={`${DOMAIN}/${
+                data?.user.file === null
+                  ? "uploads/users/default/user.jpg"
+                  : data?.user.file
+              }`}
               //  src="DOMAIN/uploads/1.jpg"
-              alt="Picture of something nice"
+              alt={data?.user.nom}
               layout="responsive"
               quality={65}
               height={30}
@@ -388,6 +417,16 @@ export default function Dashboard1({ initialData }) {
             <span className="profil_role_value">{data?.role}</span>
           </div>
 
+          <div
+            className="section editer_profil "
+            onClick={() => setSelectSection("notification")}
+          >
+            <FaInfoCircle />
+            <span className="notification">
+              Notifications
+              <span className="notification_badge">22</span>
+            </span>
+          </div>
           <div
             className="section editer_profil "
             onClick={() => setSelectSection("profil")}
@@ -427,8 +466,8 @@ export default function Dashboard1({ initialData }) {
             className="section information "
             onClick={() => setSelectSection("informations")}
           >
-            <FaRegMoneyBillAlt />
-            <span>Information</span>
+            <FaShieldAlt />
+            <span>Management</span>
           </div>
         </aside>
         <div className="dash-content">

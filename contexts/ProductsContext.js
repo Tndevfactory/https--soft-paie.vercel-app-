@@ -84,12 +84,18 @@ const profilMethods = {
   apiProfileDelete,
 };
 
-// generate pdf
+// generate pdf from db
 export const apiPdf = async () => {
   const { data } = await api.get("/pdf", { responseType: "blob" });
   return data;
 };
-const pdfMethods = { apiPdf };
+
+// download pdf from server public storage
+export const downloadPdf = async () => {
+  const { data } = await api.get("/downloadFile", { responseType: "blob" });
+  return data;
+};
+const pdfMethods = { apiPdf, downloadPdf };
 
 //sendMail
 export const apiSendMail = async (fd, cfg) => {

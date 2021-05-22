@@ -322,6 +322,8 @@ const Register1 = () => {
   if (RegisterMutation.isSuccess) {
     //console.log(RegisterMutation.data);
     Cookies.set("sp_token", RegisterMutation.data.access_token);
+     Cookies.set("sp_role", RegisterMutation.data.role);
+     Cookies.set("sp_id", RegisterMutation.data.user.id);
     //console.log(LoginMutation.data);
     RegisterMutation.reset();
 

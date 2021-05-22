@@ -105,7 +105,7 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-const Button1 = ({ children, height, width, disabled }) => {
+const Button1 = ({ children, height, width, disabled , proceed}) => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode, setSwitchMode } =
@@ -119,7 +119,8 @@ const Button1 = ({ children, height, width, disabled }) => {
       disabled={disabled}
       switchMode={switchMode}
       height={height}
-      width={width}
+      width={ width }
+      onClick={proceed || null}
     >
       <span className="children">{children}</span>
     </Mobile>
