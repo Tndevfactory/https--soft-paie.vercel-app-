@@ -90,10 +90,11 @@ const Mobile = styled(Desktop)`
   @media (max-width: 360px) {
   }
 `;
-
+ 
 const FichePaie = () => {
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiPdf, apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { pdfMethods } = prodMethods;
+  const { apiPdf} = pdfMethods;
   const { ui, notification, setNotification, switchMode } = prodStates;
 
   const [sectionSelector, setSectionSelector] = useState("");

@@ -225,7 +225,9 @@ const Mobile = styled(Desktop)`
 const Login1 = () => {
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiLogin } = prodMethods;
+  const { authMethods } = prodMethods;
+  const { apiLogin, apiLogout, apiRegister } = authMethods;
+
   const {
     loader,
     setLoader,
@@ -234,6 +236,10 @@ const Login1 = () => {
     setNotification,
     switchMode,
     setSwitchMode,
+    connectedRole,
+    setConnectedRole,
+    connectedId,
+    setConnectedId,
   } = prodStates;
 
   const [credential, setCredential] = useState({
@@ -315,23 +321,29 @@ const Login1 = () => {
   }
 
   if (LoginMutation.isError) {
-    // console.log(LoginMutation.error.message);
+    console.log(LoginMutation.error.message);
     m = LoginMutation.error.message;
   }
 
   if (LoginMutation.isSuccess) {
+    //console.log(LoginMutation.error.message);
     if (LoginMutation.data.message === "erreur authentification") {
       m = LoginMutation.data.message;
 
-      // console.log("mmmm");
-      //console.log(m);
+      //  console.log("mmmm");
+      // console.log(m);
     } else if (LoginMutation.data.message !== "erreur authentification") {
       Cookies.set("sp_token", LoginMutation.data.access_token);
-      //console.log(LoginMutation.data);
+      Cookies.set("sp_role", LoginMutation.data.role);
+      Cookies.set("sp_id", LoginMutation.data.user.id);
+      setConnectedRole(Cookies.get("sp_role"));
+      setConnectedId(Cookies.get("sp_id"));
+      // console.log(LoginMutation.data);
       LoginMutation.reset();
     }
-    if (LoginMutation.data.role === "employee") {
-      //console.log("employee redirect");
+
+    if (LoginMutation.data.role === "employe") {
+      // console.log("employee redirect");
       //console.log(LoginMutation.data);
 
       router.push(`/employee/${LoginMutation.data.user.id}`);
@@ -345,7 +357,7 @@ const Login1 = () => {
       router.push(`/manager/${LoginMutation.data.user.id}`);
     }
   }
-  
+
   React.useEffect(() => {
     setMsg({ msgAlert: m, typeAlert: "fail" });
   }, [m]);

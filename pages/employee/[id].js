@@ -23,6 +23,7 @@ import EditerProfil from "../../components/profile/EditerProfil";
 import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
+import Loader1 from "../../components/loader/Loader1";
 import {
   FaUser,
   FaRegListAlt,
@@ -33,7 +34,12 @@ import {
 } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
- 
+  min-width: 100%;
+  min-height: 100vh;
+  display: flex;
+  // justify-content: center;
+  //align-items: center;
+  flex-flow: column nowrap;
 `;
 
 const Mobile = styled(Desktop)`
@@ -55,7 +61,7 @@ export default function Profile() {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { ui, switchMode } = prodStates;
+  const { ui, switchMode, loader, setLoader } = prodStates;
 
   // const { isLoading, error, data } = useQuery("products", apiGet, {
   //   initialData: dt,
@@ -87,7 +93,7 @@ export default function Profile() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
-
+        {loader && <Loader1 />}
         <Dashboard1 switchMode={switchMode} />
         <Footer fixed={false} />
       </Mobile>

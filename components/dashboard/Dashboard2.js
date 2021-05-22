@@ -37,12 +37,12 @@ import {
 const font = "17rem";
 
 const Desktop = styled(motion.div)`
-  padding: 6rem 0rem 1rem 0rem;
+  padding: 6em 0em 1em 0em;
   display: flex;
 
   & > * {
-    //display: inline-block;
-    //min-height: 65vh;
+    display: inline-block;
+    min-height: 80vh;
     border-radius: 5px;
     padding: 0.5rem 2rem;
   }
@@ -98,10 +98,29 @@ const Desktop = styled(motion.div)`
   }
 
   .profil_username {
-    margin: 0.8rem 1rem;
+    margin: 0.7em 0em 0em 0em;
     .profil_username_label {
-      font-size: calc(0.72 * 1.5 * 100%);
-      font-weight: 600;
+      font-size: calc(0.72 * 1.3 * 100%);
+      font-weight: 450;
+      color: inherit;
+    }
+    .profil_username_value {
+      font-size: calc(0.72 * 1.3 * 100%);
+      font-weight: 400;
+      color: ${({ switchMode, ui }) =>
+        switchMode ? chroma(ui.dark) : chroma(ui.light)};
+    }
+  }
+  .profil_role {
+    margin: 0.1em 0em 0em 0em;
+    .profil_role_label {
+      font-size: calc(0.72 * 1.3 * 100%);
+      font-weight: 450;
+      color: inherit;
+    }
+    .profil_role_value {
+      font-size: calc(0.72 * 1.3 * 100%);
+      font-weight: 400;
       color: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : chroma(ui.light)};
     }
@@ -148,11 +167,12 @@ const Desktop = styled(motion.div)`
 `;
 
 const Mobile = styled(Desktop)`
-   //large screen
+  //large screen
   @media (min-width: 1920px) {
-    padding: 6em 0em 1em 0em;
-    min-height: 91vh;
-    
+    & > * {
+      min-height: 80vh;
+    }
+
     .fixed-drawer {
       min-width: 16%;
       margin: 0rem 0.5rem 0rem 0.5rem;
@@ -177,7 +197,7 @@ const Mobile = styled(Desktop)`
       margin: 1rem 0rem 1rem 0.5rem;
     }
     .section {
-      margin: 1rem 0rem 0.5rem 0rem;
+      margin: 1em 0em 0.5em 0em;
       gap: 7px;
       font-size: calc(0.72 * 1.4 * 100%);
     }
@@ -190,12 +210,23 @@ const Mobile = styled(Desktop)`
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
-    min-height: 89vh;
+    & > * {
+      min-height: 75vh;
+    }
+    .fixed-drawer {
+      min-width: 20%;
+      margin: 0rem 0.5rem 0rem 0.5rem;
+    }
+    .dash-content {
+      min-width: 77%;
+    }
   }
 
   @media (min-width: 1440px) and (max-width: 1535px) {
-   min-height: 90vh;
-   .fixed-drawer {
+    & > * {
+      min-height: 76.5vh;
+    }
+    .fixed-drawer {
       min-width: 20%;
       margin: 0rem 0.5rem 0rem 0.5rem;
     }
@@ -204,7 +235,9 @@ const Mobile = styled(Desktop)`
     }
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
-    min-height: 88vh;
+    & > * {
+      min-height: 72vh;
+    }
     .fixed-drawer {
       min-width: 20%;
       margin: 0rem 0.5rem 0rem 0.5rem;
@@ -241,12 +274,26 @@ const Mobile = styled(Desktop)`
     }
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
-   min-height: 87vh;
+    & > * {
+      min-height: 70.5vh;
+    }
     .fixed-drawer {
       min-width: 21%;
       margin: 0rem 0.5rem 0rem 0.5rem;
     }
-     .dash-content {
+    .manager {
+      margin: 1rem 0rem;
+      gap: 7px;
+      font-weight: 700;
+      font-size: calc(1.2 * 1 * 100%);
+
+      &:after {
+        bottom: 0;
+        height: 5px;
+        width: calc(0.72 * 1.1 * 100%);
+      }
+    }
+    .dash-content {
       min-width: 74%;
     }
     .section {
@@ -258,9 +305,9 @@ const Mobile = styled(Desktop)`
 
   //mobile
 
-  @media  (max-width: 600px) {
-     .fixed-drawer {
-      display:none;
+  @media (max-width: 600px) {
+    .fixed-drawer {
+      display: none;
     }
   }
   @media (min-width: 375px) and (max-width: 600px) {
@@ -285,7 +332,14 @@ export default function Dashboard2() {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { ui, switchMode } = prodStates;
+  const {
+    connectedRole,
+    setConnectedRole,
+    connectedId,
+    setConnectedId,
+    ui,
+    switchMode,
+  } = prodStates;
 
   // const { isLoading, error, data } = useQuery("products", apiGet, {
   //   initialData: dt,
@@ -304,7 +358,15 @@ export default function Dashboard2() {
 
   // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
   const [selectSection, setSelectSection] = useState("");
-
+React.useEffect(() => {
+ 
+  if (connectedId !== router.query.id) {
+    Cookies.set("sp_token", "");
+    Cookies.set("sp_role", "");
+    Cookies.set("sp_id", "");
+    router.push(`/`);
+  }
+}, [router.query.id]);
   return (
     <>
       <Head>
@@ -342,7 +404,12 @@ export default function Dashboard2() {
             />
           </div>
           <div className="profil_username">
-            <span className="profil_username_label">Mohamed Lahbib</span>
+            <span className="profil_username_label">Nom: </span>
+            <span className="profil_username_value">Mohamed Lahbib</span>
+          </div>
+          <div className="profil_role">
+            <span className="profil_role_label">Role: </span>
+            <span className="profil_role_value">employee</span>
           </div>
           <div
             className="section editer_profil "

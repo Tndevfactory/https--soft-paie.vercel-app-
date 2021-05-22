@@ -175,8 +175,8 @@ const Register1 = () => {
   const router = useRouter();
 
   const [prodMethods, prodStates] = ProdCtx();
-
-  const { apiRegister, apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { authMethods } = prodMethods;
+  const { apiLogin, apiLogout, apiRegister } = authMethods;
 
   const {
     loader,

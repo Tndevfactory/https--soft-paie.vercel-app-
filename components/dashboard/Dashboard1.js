@@ -6,17 +6,14 @@ import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
-import { Device } from "../../components/devices/Device";
-import Register1 from "../../components/registers/Register1";
 import Alert1 from "../../components/alerts/Alert1";
 import Loader from "../../components/loader/Loader1";
-import Footer from "../../components/footer/Footer";
-import Navbar from "../../components/navbar/Navbar";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
 import { format, compareAsc } from "date-fns";
-
+import { useRouter } from "next/router";
 import FichePaie from "../../components/profile/FichePaie";
 import Information from "../../components/profile/Information";
 import DemandeConge from "../../components/profile/DemandeConge";
@@ -34,16 +31,14 @@ import {
 } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
-  padding: 6rem 0rem 1rem 0rem;
+  padding: 6em 0em 1em 0em;
   display: flex;
 
-  min-height: 88vh;
   & > * {
     display: inline-block;
-
+    min-height: 80vh;
     border-radius: 5px;
     padding: 0.5rem 2rem;
-     
   }
 
   .fixed-drawer {
@@ -66,10 +61,29 @@ const Desktop = styled(motion.div)`
     }
   }
   .profil_username {
-    margin: 0.8rem 1rem;
+    margin: 0.7em 0em 0em 0em;
     .profil_username_label {
-      font-size: calc(0.72 * 1.5 * 100%);
-      font-weight: 600;
+      font-size: calc(0.72 * 1.3 * 100%);
+      font-weight: 450;
+      color: inherit;
+    }
+    .profil_username_value {
+      font-size: calc(0.72 * 1.3 * 100%);
+      font-weight: 400;
+      color: ${({ switchMode, ui }) =>
+        switchMode ? chroma(ui.dark) : chroma(ui.light)};
+    }
+  }
+  .profil_role {
+    margin: 0.1em 0em 0em 0em;
+    .profil_role_label {
+      font-size: calc(0.72 * 1.3 * 100%);
+      font-weight: 450;
+      color: inherit;
+    }
+    .profil_role_value {
+      font-size: calc(0.72 * 1.3 * 100%);
+      font-weight: 400;
       color: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : chroma(ui.light)};
     }
@@ -115,10 +129,12 @@ const Desktop = styled(motion.div)`
 `;
 
 const Mobile = styled(Desktop)`
-   //large screen
+  //large screen
   @media (min-width: 1920px) {
-    min-height: 90vh;
-    
+    & > * {
+      min-height: 80vh;
+    }
+
     .fixed-drawer {
       min-width: 16%;
       margin: 0rem 0.5rem 0rem 0.5rem;
@@ -156,12 +172,23 @@ const Mobile = styled(Desktop)`
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
-    min-height: 89vh;
+    & > * {
+      min-height: 75vh;
+    }
+    .fixed-drawer {
+      min-width: 20%;
+      margin: 0rem 0.5rem 0rem 0.5rem;
+    }
+    .dash-content {
+      min-width: 77%;
+    }
   }
 
   @media (min-width: 1440px) and (max-width: 1535px) {
-   min-height: 90vh;
-   .fixed-drawer {
+    & > * {
+      min-height: 76.5vh;
+    }
+    .fixed-drawer {
       min-width: 20%;
       margin: 0rem 0.5rem 0rem 0.5rem;
     }
@@ -170,7 +197,9 @@ const Mobile = styled(Desktop)`
     }
   }
   @media (min-width: 1366px) and (max-width: 1439px) {
-    min-height: 88vh;
+    & > * {
+      min-height: 72vh;
+    }
     .fixed-drawer {
       min-width: 20%;
       margin: 0rem 0.5rem 0rem 0.5rem;
@@ -207,12 +236,14 @@ const Mobile = styled(Desktop)`
     }
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
-   min-height: 87vh;
+    & > * {
+      min-height: 70.5vh;
+    }
     .fixed-drawer {
       min-width: 21%;
       margin: 0rem 0.5rem 0rem 0.5rem;
     }
-     .dash-content {
+    .dash-content {
       min-width: 74%;
     }
     .section {
@@ -224,9 +255,9 @@ const Mobile = styled(Desktop)`
 
   //mobile
 
-  @media  (max-width: 600px) {
-     .fixed-drawer {
-      display:none;
+  @media (max-width: 600px) {
+    .fixed-drawer {
+      display: none;
     }
   }
   @media (min-width: 375px) and (max-width: 600px) {
@@ -248,10 +279,20 @@ const Mobile = styled(Desktop)`
 // };{ dt }
 
 export default function Dashboard1() {
+  const router = useRouter();
+
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { ui, switchMode } = prodStates;
+  const {
+    connectedRole,
+    setConnectedRole,
+    connectedId,
+    setConnectedId,
+    ui,
+    switchMode,
+    DOMAIN,
+  } = prodStates;
 
   // const { isLoading, error, data } = useQuery("products", apiGet, {
   //   initialData: dt,
@@ -269,8 +310,21 @@ export default function Dashboard1() {
   // if (error) return "An error has occurred: " + error.message;
 
   // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
-  const [selectSection, setSelectSection] = useState("");
-
+  const [ selectSection, setSelectSection ] = useState("");
+  
+  React.useEffect(() => {
+    console.log("router.query.id");
+    console.log(router.query.id);
+    console.log("connectedId");
+    console.log(connectedId);
+    if (connectedId !== router.query.id) {
+      Cookies.set("sp_token", "");
+      Cookies.set("sp_role", "");
+      Cookies.set("sp_id", "");
+      router.push(`/`);
+    }
+    
+  }, [router.query.id]);
   return (
     <>
       <Head>
@@ -290,7 +344,9 @@ export default function Dashboard1() {
           </div>
           <div className="img-profile">
             <Image
-              src="/img/profil/profil.jpg"
+              //src="https://tndev3.tn-devfactory.com/uploads/1.jpg"
+              src={`${DOMAIN}/uploads/users/employe/fahem/fahem.jpg`}
+              //  src="DOMAIN/uploads/1.jpg"
               alt="Picture of something nice"
               layout="responsive"
               quality={65}
@@ -300,8 +356,14 @@ export default function Dashboard1() {
             />
           </div>
           <div className="profil_username">
-            <span className="profil_username_label">Mohamed Lahbib</span>
+            <span className="profil_username_label">Nom: </span>
+            <span className="profil_username_value">Mohamed Lahbib</span>
           </div>
+          <div className="profil_role">
+            <span className="profil_role_label">Role: </span>
+            <span className="profil_role_value">employee</span>
+          </div>
+
           <div
             className="section editer_profil "
             onClick={() => setSelectSection("profil")}

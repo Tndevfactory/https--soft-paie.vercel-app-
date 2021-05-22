@@ -81,6 +81,7 @@ const Desktop = styled(motion.header)`
       }
     }
     .login_link {
+      margin-top: 2px;
       font-size: 1.3em;
       color: green;
       &:hover {
@@ -95,6 +96,7 @@ const Desktop = styled(motion.header)`
       }
     }
     .logout_link {
+      margin-top: 2px;
       font-size: 1.3em;
       color: red;
       &:hover {
@@ -108,6 +110,9 @@ const Desktop = styled(motion.header)`
             : chroma(ui.light).darken(3)};
       }
     }
+  }
+  .switcheur {
+    margin-bottom: 5px;
   }
 `;
 
@@ -127,7 +132,8 @@ const Mobile = styled(Desktop)`
 const Navbar = () => {
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiLogout, apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { authMethods } = prodMethods;
+  const { apiLogin, apiLogout, apiRegister } = authMethods;
   const {
     loader,
     setLoader,
@@ -161,6 +167,8 @@ const Navbar = () => {
     //console.log(LogoutMutation.data);
 
     Cookies.set("sp_token", "");
+    Cookies.set("sp_role", "");
+    Cookies.set("sp_id", "");
     //console.log('"sp_token",');
 
     //setLoader(false);
@@ -202,8 +210,9 @@ const Navbar = () => {
             <FaSignOutAlt />
           </a>
         )}
-
-        <Switch />
+        <div className="switcheur">
+          <Switch />
+        </div>
       </div>
     </Mobile>
   );
