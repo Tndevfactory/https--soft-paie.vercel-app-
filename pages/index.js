@@ -1,11 +1,13 @@
 /** @format */
 import { motion } from "framer-motion";
-import React from "react";
+import React, {useState} from "react";
 import Head from "next/head";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
 import { ProdCtx, apiGet } from "../contexts/ProductsContext";
-import { Device } from "../components/devices/Device";
+
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import Login1 from "../components/logins/Login1";
 import chroma from "chroma-js";
 
@@ -24,9 +26,7 @@ const Desktop = styled(motion.div)`
 `;
 
 const Mobile = styled(Desktop)`
-  @media ${Device.mobile} {
-    margin-top: 0rem;
-  }
+  
 `;
 
 // export const getServerSideProps = async () => {
@@ -37,27 +37,20 @@ const Mobile = styled(Desktop)`
 
 export default function Home() {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { ui, switchMode, loader, setLoader } = prodStates;
+  const { loader, setLoader, ui, switchMode } = prodStates;
 
-  // const { isLoading, error, data } = useQuery("products", apiGet, {
-  //   initialData: dt,
-  //   initialStale: true,
-  // });
+  const [check, setCheck] = useState({
+    id: Cookies.get("sp_id"),
+    role: Cookies.get("sp_role"),
+    token: Cookies.get("sp_token"),
+  });
 
-  // const mDelete = useMutation((id) => apiDelete(id), {
-  //   onSuccess: () => queryClient.invalidateQueries("products"),
-  // });
-
-  // const mUpdate = useMutation((values) => apiUpdate(values));
-
-  // if (isLoading) return <div>loading ...</div>;
-
-  // if (error) return "An error has occurred: " + error.message;
-
-  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
-
+  React.useEffect(() => {
+    if (check.id.length === 0) router.push("/");
+  }, []);
   return (
     <>
       <Head>

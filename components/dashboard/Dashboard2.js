@@ -15,8 +15,9 @@ import Navbar from "../../components/navbar/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
+import Cookies from "js-cookie";
 import { format, compareAsc } from "date-fns";
-
+import { useRouter } from "next/router";
 import FichePaie from "../../components/profile/FichePaie";
 import Information from "../../components/profile/Information";
 import DemandeConge from "../../components/profile/DemandeConge";
@@ -82,6 +83,9 @@ const Desktop = styled(motion.div)`
 
   .img-profile {
     width: 40%;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.4);
   }
   .img {
     border-radius: 50%;
@@ -322,16 +326,27 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-// export const getServerSideProps = async () => {
-//   const dt = await apiGet();
 
-//   return { props: { dt } };
-// };{ dt }
+export const getServerSideProps = async ({ params: { id } }) => {
+  const initialData = await apiProfileShowOne(id);
 
-export default function Dashboard2() {
+  return { props: { initialData } };
+};
+
+export default function Dashboard2({ initialData }) {
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const { id } = router.query;
+
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet } = prodMethods;
+  const { profilMethods } = prodMethods;
+  const {
+    apiProfileShowAll,
+    apiProfileStore,
+    apiProfileShowOne,
+    apiProfileUpdate,
+    apiProfileDelete,
+  } = profilMethods;
   const {
     connectedRole,
     setConnectedRole,
@@ -339,34 +354,44 @@ export default function Dashboard2() {
     setConnectedId,
     ui,
     switchMode,
+    DOMAIN,
   } = prodStates;
-
-  // const { isLoading, error, data } = useQuery("products", apiGet, {
-  //   initialData: dt,
-  //   initialStale: true,
-  // });
-
-  // const mDelete = useMutation((id) => apiDelete(id), {
-  //   onSuccess: () => queryClient.invalidateQueries("products"),
-  // });
-
-  // const mUpdate = useMutation((values) => apiUpdate(values));
-
-  // if (isLoading) return <div>loading ...</div>;
-
-  // if (error) return "An error has occurred: " + error.message;
-
-  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
   const [selectSection, setSelectSection] = useState("");
-React.useEffect(() => {
- 
-  if (connectedId !== router.query.id) {
-    Cookies.set("sp_token", "");
-    Cookies.set("sp_role", "");
-    Cookies.set("sp_id", "");
-    router.push(`/`);
+
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["profil", id],
+    () => apiProfileShowOne(id),
+    {
+      initialData: initialData,
+      initialStale: true,
+    }
+  );
+
+  if (isLoading) {
+    console.log("loading");
   }
-}, [router.query.id]);
+  if (error) {
+    console.log("error");
+  }
+  //------------
+  console.log(data);
+  //-------------
+const [check, setCheck] = useState({
+  cid: Cookies.get("sp_id"),
+  role: Cookies.get("sp_role"),
+  token: Cookies.get("sp_token"),
+});
+
+  React.useEffect(() => {
+    if (Number(check.cid) !== Number(id)) {
+      Cookies.set("sp_token", "");
+      Cookies.set("sp_role", "");
+      Cookies.set("sp_id", "");
+      router.push(`/`);
+    }
+    return () => console.log("clean up");
+  }, [id]);
+
   return (
     <>
       <Head>
@@ -375,7 +400,7 @@ React.useEffect(() => {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Manager</title>
+        <title> Manager {data?.user.nom}</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode} font1={font}>
@@ -394,7 +419,7 @@ React.useEffect(() => {
           </div>
           <div className="img-profile">
             <Image
-              src="/img/profil/profil.jpg"
+              src={`${DOMAIN}/${data?.user.file}`}
               alt="Picture of something nice"
               layout="responsive"
               quality={65}
@@ -405,11 +430,11 @@ React.useEffect(() => {
           </div>
           <div className="profil_username">
             <span className="profil_username_label">Nom: </span>
-            <span className="profil_username_value">Mohamed Lahbib</span>
+            <span className="profil_username_value">{`${data?.user.nom} ${data?.user.prenom}`}</span>
           </div>
           <div className="profil_role">
             <span className="profil_role_label">Role: </span>
-            <span className="profil_role_value">employee</span>
+            <span className="profil_role_value">{data?.role}</span>
           </div>
           <div
             className="section editer_profil "

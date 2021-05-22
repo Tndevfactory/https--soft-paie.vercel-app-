@@ -336,8 +336,8 @@ const Login1 = () => {
       Cookies.set("sp_token", LoginMutation.data.access_token);
       Cookies.set("sp_role", LoginMutation.data.role);
       Cookies.set("sp_id", LoginMutation.data.user.id);
-      setConnectedRole(Cookies.get("sp_role"));
-      setConnectedId(Cookies.get("sp_id"));
+      // setConnectedRole(Cookies.get("sp_role"));
+      // setConnectedId(Cookies.get("sp_id"));
       // console.log(LoginMutation.data);
       LoginMutation.reset();
     }

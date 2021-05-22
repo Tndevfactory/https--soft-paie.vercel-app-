@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 import styled, { css } from "styled-components";
 import chroma from "chroma-js";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
@@ -10,7 +11,6 @@ import { SketchPicker } from "react-color";
 import Cookies from "js-cookie";
 
 const Desktop = styled.div`
-  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,15 +79,10 @@ const Desktop = styled.div`
 `;
 
 const Mobile = styled(Desktop)`
- 
-    //large screen
+  //large screen
   @media (min-width: 1920px) {
-  
     .block {
-  
-          
     }
-  
   }
 
   @media (min-width: 1536px) and (max-width: 1919px) {
@@ -98,33 +93,29 @@ const Mobile = styled(Desktop)`
   @media (min-width: 1366px) and (max-width: 1439px) {
   }
   @media (min-width: 1280px) and (max-width: 1365px) {
-    
   }
 
   //mobile
- @media  (max-width: 600px) {
-  
+  @media (max-width: 600px) {
     .block {
-    z-index: 1;
-    display: flex;
-    flex-flow:column wrap;
-    justify-content: space-around;
-    gap: 16px;}
+      z-index: 1;
+      display: flex;
+      flex-flow: column wrap;
+      justify-content: space-around;
+      gap: 16px;
+    }
   }
   @media (min-width: 375px) and (max-width: 600px) {
-   
   }
 
   @media (min-width: 361px) and (max-width: 374px) {
-    
   }
   @media (max-width: 360px) {
-    
-    }
-  
+  }
 `;
 
 const Config1 = () => {
+  const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiUpdate } = prodMethods;
   const { ui, setUi, switchMode, setSwitchMode } = prodStates;
@@ -161,6 +152,7 @@ const Config1 = () => {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
+      <h2 onClick={() => router.back()}>retour</h2>
       <div className="block">
         <div className="dark" onClick={handleDarkClick}>
           <h3>{switchMode ? "theme Actif" : "theme secondaire"}</h3>

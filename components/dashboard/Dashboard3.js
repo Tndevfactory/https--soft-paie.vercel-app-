@@ -15,8 +15,9 @@ import Navbar from "../../components/navbar/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import { format, compareAsc } from "date-fns";
-
 import FichePaie from "../../components/profile/FichePaie";
 import Information from "../../components/profile/Information";
 import DemandeConge from "../../components/profile/DemandeConge";
@@ -80,6 +81,9 @@ const Desktop = styled(motion.div)`
 
   .img-profile {
     width: 40%;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.4);
   }
   .img {
     border-radius: 50%;
@@ -314,17 +318,26 @@ const Mobile = styled(Desktop)`
     padding: 9rem 0rem 1rem 0rem;
   }
 `;
+// only one admin no need to router
+const adminId = 3;
+export const getServerSideProps = async (adminId) => {
+  const initialData = await apiProfileShowOne(adminId);
 
-// export const getServerSideProps = async () => {
-//   const dt = await apiGet();
+  return { props: { initialData } };
+};
 
-//   return { props: { dt } };
-// };{ dt }
-
-export default function Dashboard3() {
+export default function Dashboard3({ initialData }) {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet } = prodMethods;
+  const { profilMethods } = prodMethods;
+  const {
+    apiProfileShowAll,
+    apiProfileStore,
+    apiProfileShowOne,
+    apiProfileUpdate,
+    apiProfileDelete,
+  } = profilMethods;
   const {
     connectedRole,
     setConnectedRole,
@@ -332,33 +345,45 @@ export default function Dashboard3() {
     setConnectedId,
     ui,
     switchMode,
+    DOMAIN,
   } = prodStates;
-
-  // const { isLoading, error, data } = useQuery("products", apiGet, {
-  //   initialData: dt,
-  //   initialStale: true,
-  // });
-
-  // const mDelete = useMutation((id) => apiDelete(id), {
-  //   onSuccess: () => queryClient.invalidateQueries("products"),
-  // });
-
-  // const mUpdate = useMutation((values) => apiUpdate(values));
-
-  // if (isLoading) return <div>loading ...</div>;
-
-  // if (error) return "An error has occurred: " + error.message;
-
-  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
   const [selectSection, setSelectSection] = useState("");
+
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["profil", adminId],
+    () => apiProfileShowOne(adminId),
+    {
+      initialData: initialData,
+      initialStale: true,
+    }
+  );
+
+  if (isLoading) {
+    console.log("loading");
+  }
+  if (error) {
+    console.log("error");
+  }
+  //------------
+  console.log(data);
+
+  //-------------
+  const [check, setCheck] = useState({
+    cid: Cookies.get("sp_id"),
+    role: Cookies.get("sp_role"),
+    token: Cookies.get("sp_token"),
+  });
+
   React.useEffect(() => {
-    if (connectedId !== router.query.id) {
+    if (Number(check.cid) !== adminId) {
       Cookies.set("sp_token", "");
       Cookies.set("sp_role", "");
       Cookies.set("sp_id", "");
       router.push(`/`);
     }
-  }, [router.query.id]);
+    return () => console.log("clean up");
+  }, []);
+
   return (
     <>
       <Head>
@@ -367,7 +392,7 @@ export default function Dashboard3() {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Admin</title>
+        <title> Admin {data?.user.nom}</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
@@ -384,7 +409,7 @@ export default function Dashboard3() {
           </div>
           <div className="img-profile">
             <Image
-              src="/img/profil/profil.jpg"
+              src={`${DOMAIN}/${data?.user.file}`}
               alt="Picture of something nice"
               layout="responsive"
               quality={65}
@@ -395,11 +420,11 @@ export default function Dashboard3() {
           </div>
           <div className="profil_username">
             <span className="profil_username_label">Nom: </span>
-            <span className="profil_username_value">Mohamed Lahbib</span>
+            <span className="profil_username_value">{`${data?.user.nom} ${data?.user.prenom}`}</span>
           </div>
           <div className="profil_role">
             <span className="profil_role_label">Role: </span>
-            <span className="profil_role_value">employee</span>
+            <span className="profil_role_value">{data?.role}</span>
           </div>
           <div
             className="section editer_profil "

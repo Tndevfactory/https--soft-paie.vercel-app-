@@ -5,7 +5,7 @@ import Head from "next/head";
 import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import Alert1 from "../../components/alerts/Alert1";
 import Loader from "../../components/loader/Loader1";
 import Cookies from "js-cookie";
@@ -14,6 +14,7 @@ import Link from "next/link";
 import chroma from "chroma-js";
 import { format, compareAsc } from "date-fns";
 import { useRouter } from "next/router";
+
 import FichePaie from "../../components/profile/FichePaie";
 import Information from "../../components/profile/Information";
 import DemandeConge from "../../components/profile/DemandeConge";
@@ -21,6 +22,7 @@ import EditerProfil from "../../components/profile/EditerProfil";
 import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
+
 import {
   FaUser,
   FaRegListAlt,
@@ -49,6 +51,9 @@ const Desktop = styled(motion.div)`
 
   .img-profile {
     width: 40%;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.4);
   }
   .img {
     border-radius: 50%;
@@ -278,12 +283,26 @@ const Mobile = styled(Desktop)`
 //   return { props: { dt } };
 // };{ dt }
 
-export default function Dashboard1() {
-  const router = useRouter();
+export const getServerSideProps = async ({ params: { id } }) => {
+  const initialData = await apiProfileShowOne(id);
 
+  return { props: { initialData } };
+};
+
+export default function Dashboard1({ initialData }) {
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const { id } = router.query;
+
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet } = prodMethods;
+  const { profilMethods } = prodMethods;
+  const {
+    apiProfileShowAll,
+    apiProfileStore,
+    apiProfileShowOne,
+    apiProfileUpdate,
+    apiProfileDelete,
+  } = profilMethods;
   const {
     connectedRole,
     setConnectedRole,
@@ -293,38 +312,43 @@ export default function Dashboard1() {
     switchMode,
     DOMAIN,
   } = prodStates;
+  const [selectSection, setSelectSection] = useState("");
 
-  // const { isLoading, error, data } = useQuery("products", apiGet, {
-  //   initialData: dt,
-  //   initialStale: true,
-  // });
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["profil", id],
+    () => apiProfileShowOne(id),
+    {
+      initialData: initialData,
+      initialStale: true,
+    }
+  );
 
-  // const mDelete = useMutation((id) => apiDelete(id), {
-  //   onSuccess: () => queryClient.invalidateQueries("products"),
-  // });
+  if (isLoading) {
+    console.log("loading");
+  }
+  if (error) {
+    console.log("error");
+  }
+  //------------
+  console.log(data);
+  //-------------
 
-  // const mUpdate = useMutation((values) => apiUpdate(values));
+  const [check, setCheck] = useState({
+    cid: Cookies.get("sp_id"),
+    role: Cookies.get("sp_role"),
+    token: Cookies.get("sp_token"),
+  });
 
-  // if (isLoading) return <div>loading ...</div>;
-
-  // if (error) return "An error has occurred: " + error.message;
-
-  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
-  const [ selectSection, setSelectSection ] = useState("");
-  
   React.useEffect(() => {
-    console.log("router.query.id");
-    console.log(router.query.id);
-    console.log("connectedId");
-    console.log(connectedId);
-    if (connectedId !== router.query.id) {
+    if (Number(check.cid) !== Number(id)) {
       Cookies.set("sp_token", "");
       Cookies.set("sp_role", "");
       Cookies.set("sp_id", "");
       router.push(`/`);
     }
-    
-  }, [router.query.id]);
+    return () => console.log("clean up");
+  }, [id]);
+
   return (
     <>
       <Head>
@@ -333,7 +357,7 @@ export default function Dashboard1() {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Employee</title>
+        <title>Employe {data?.user.prenom}</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
@@ -345,7 +369,7 @@ export default function Dashboard1() {
           <div className="img-profile">
             <Image
               //src="https://tndev3.tn-devfactory.com/uploads/1.jpg"
-              src={`${DOMAIN}/uploads/users/employe/fahem/fahem.jpg`}
+              src={`${DOMAIN}/${data?.user.file}`}
               //  src="DOMAIN/uploads/1.jpg"
               alt="Picture of something nice"
               layout="responsive"
@@ -357,11 +381,11 @@ export default function Dashboard1() {
           </div>
           <div className="profil_username">
             <span className="profil_username_label">Nom: </span>
-            <span className="profil_username_value">Mohamed Lahbib</span>
+            <span className="profil_username_value">{`${data?.user.nom} ${data?.user.prenom}`}</span>
           </div>
           <div className="profil_role">
             <span className="profil_role_label">Role: </span>
-            <span className="profil_role_value">employee</span>
+            <span className="profil_role_value">{data?.role}</span>
           </div>
 
           <div
