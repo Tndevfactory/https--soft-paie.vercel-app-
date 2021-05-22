@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Checker;
-use App\Models\User;
 use PDF;
+use App\Models\User;
+use App\Models\Checker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,12 +14,22 @@ class CheckerController extends Controller
 
 {
 
+  public function testSchedule()
+  {
+  
+    return response([
+      "user" => 'method run every minute ',
+      "time" => Carbon::now(),
+     
+    ]);
+  }
+
   // Generate PDF
     public function createPDF() {
       // retreive all records from db
       $data = collect(User::all());
      view()->share('user',$data);
-      $pdf = PDF::loadView('pdf_view', $data);
+      $pdf = PDF::loadView('fiche_paie_pdf', $data);
 //dd( $pdf);
       // download PDF file with download method
       return $pdf->download('pdf_file.pdf');
@@ -52,8 +63,14 @@ class CheckerController extends Controller
   
     $accessToken = $user->createToken("authToken")->accessToken;
     
+    //adding employee role
+     User::find($user->id)->roles()->attach(1);
+     $r=User::find($user->id)->roles()->pluck('name')[0];
+    
+
     return response([
       "user" => $user,
+      "role" => $r,
       "access_token" => $accessToken,
     ]);
   }
@@ -79,9 +96,12 @@ class CheckerController extends Controller
       ->createToken("authToken")->accessToken;
 
       //return response(["message" => $accessToken]);
-
+    $role=auth()->user()->roles()->pluck('name')[0];
+   // return $role;
+   
     return response([
       "user" => auth()->user(),
+      "role" => $role,
       "access_token" => $accessToken,
     ]);
   }
@@ -127,7 +147,7 @@ public function admin(Request $request){
    */
   public function logout(Request $request)
   {
-    
+    return 'inside logout';
 
     if (Auth::check()) {
 
@@ -147,4 +167,7 @@ public function admin(Request $request){
       
     }
   }
+
+
+  
 }
