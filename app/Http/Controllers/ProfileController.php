@@ -96,10 +96,11 @@ class ProfileController extends Controller
     public function show($id)
     {
        
-        $found = collect(User::find($id));
-     
-        if(count($found) > 0){
-          return response($found);
+        $found = User::find($id);
+        $role=$found->roles->first()->name;
+
+        if($found){
+          return response(['user'=> $found,'role'=> $role,]);
         }else{
             return response(['success'=> 'profil non existant']);
         }

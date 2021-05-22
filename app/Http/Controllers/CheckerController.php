@@ -63,8 +63,8 @@ class CheckerController extends Controller
   
     $accessToken = $user->createToken("authToken")->accessToken;
     
-    //adding employee role
-     User::find($user->id)->roles()->attach(1);
+    //adding employee role ==> 3
+     User::find($user->id)->roles()->attach(3);
      $r=User::find($user->id)->roles()->pluck('name')[0];
     
 

@@ -16,6 +16,27 @@ class FichepaieController extends Controller
     {
         //
     }
+    /**
+     * download pdf file from public
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadFile()
+    {
+
+       // /home/ch/Desktop/dev/https-soft-paie.vercel.app-/server/storage//uploads/users/employe/fahem/mars-2021.pd
+        $location = public_path('uploads/users/employe/fahem/mars-2021.pdf');
+        
+        $filename = 'fiche-paie-mars2021.pdf';
+       
+        $headers =[
+        'Content-Description' => 'File Transfer',
+        'Content-Type' => 'application/pdf',
+        ];
+
+        return response()->download($location, $filename, $headers);
+        
+    }
 
     /**
      * Store a newly created resource in storage.

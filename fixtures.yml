@@ -22,9 +22,26 @@ $table->string('nom');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+roles:
+admin role_id == 1 
+manager role_id == 2
+employe role_id == 3
+
+// default userfor filling gap
+
+'nom' => 'User',
+'prenom' => 'User',
+'adresse' => 'Rue Tunis, 1023 Tunis',
+'gsm' => '99 999 999',
+'email' => 'default@soft-paie.tn',
+'password' => bcrypt('password'),
+'file' => 'uploads/users/default/user.jpg',
+'created_at'=> now(),
+'updated_at'=> now(),])
 
 // creation utilisateur 5 (1 admin, 2 managers (5 employes), 13 employees)
-manager id-> 1
+
+
 User::insert(
 [
 
@@ -85,7 +102,7 @@ User::insert([
 'gsm' => '22 419 371',
 'email' => 'fadlaoui@soft-paie.tn',
 'password' => bcrypt('password'),
-'file' => 'uploads/users/employe/fadlaoui/fadlaoui.jpg',
+'file' => 'uploads/users/employe/fadlaoui/fadlaoui.jpeg',
 'created_at'=> now(),
 'updated_at'=> now(),])
 
@@ -223,4 +240,51 @@ User::insert([
 'created_at'=> now(),
 'updated_at'=> now(),])
 
+//employe id-> 17
+User::insert([
+'nom' => 'Faleh',
+'prenom' => 'Faleh',
+'adresse' =>  null,
+'gsm' => null,
+'email' => 'faleh@soft-paie.tn',
+'password' => bcrypt('password'),
+'file' => null,
+'created_at'=> now(),
+'updated_at'=> now(),])
+
+//employe id-> 18
+User::insert([
+'nom' => 'Latrech',
+'prenom' => 'Iheb',
+'adresse' =>  null,
+'gsm' => null,
+'email' => 'iheblatrech1998@gmail.com',
+'password' => bcrypt('password'),
+'file' => null,
+'created_at'=> now(),
+'updated_at'=> now(),])
+
+//employe id-> 19
+User::insert([
+'nom' => 'Barhoumi',
+'prenom' => 'Chawki',
+'adresse' =>  null,
+'gsm' => null,
+'email' => 'tndevfactory@gmail.com',
+'password' => bcrypt('password'),
+'file' => null,
+'created_at'=> now(),
+'updated_at'=> now(),])
+
+//employe id-> 20
+User::insert([
+'nom' => 'Tndev',
+'prenom' => 'Factory',
+'adresse' =>  null,
+'gsm' => null,
+'email' => 'tndevfactory@outlook.com',
+'password' => bcrypt('password'),
+'file' => null,
+'created_at'=> now(),
+'updated_at'=> now(),])
 

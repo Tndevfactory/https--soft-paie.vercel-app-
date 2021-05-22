@@ -6,14 +6,18 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\CheckerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FichepaieController;
 
 
 
 //scheduler
 Route::get('/schedule', [CheckerController::class, 'testSchedule']);
 
-//pdf
+//make pdf from db
 Route::get('/pdf', [CheckerController::class, 'createPDF']);
+
+//download file from public storage
+Route::get('/downloadFile', [FichepaieController::class, 'downloadFile']);
 
 //profiles
 Route::get('/profiles', [ProfileController::class, 'index']);
