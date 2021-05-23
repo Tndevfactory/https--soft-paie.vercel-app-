@@ -10,13 +10,33 @@ import { Device } from "../devices/Device";
 import { SketchPicker } from "react-color";
 import Cookies from "js-cookie";
 
+import { FaChevronLeft, FaRegArrowAltCircleLeft } from "react-icons/fa";
+
 const Desktop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 2em;
   min-width: 30%;
   padding: 1em;
-
+  .back {
+    color: red;
+    cursor: pointer;
+  }
+  .back_icon {
+    color: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+    font-size: 0.9em;
+  }
+  .back_text {
+    color: #222;
+    margin-left: 4px;
+    transition: all 0.5s;
+    &:hover {
+      text-shadow: 0.51px 0.41px 0.91px rgba(0, 0, 0, 0.5);
+    }
+  }
   .block {
     z-index: 1;
     display: flex;
@@ -152,7 +172,10 @@ const Config1 = () => {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <h2 onClick={() => router.back()}>retour</h2>
+      <h2 className="back" onClick={() => router.back()}>
+        <FaRegArrowAltCircleLeft className="back_icon" />
+        <span className="back_text">Retour</span>
+      </h2>
       <div className="block">
         <div className="dark" onClick={handleDarkClick}>
           <h3>{switchMode ? "theme Actif" : "theme secondaire"}</h3>

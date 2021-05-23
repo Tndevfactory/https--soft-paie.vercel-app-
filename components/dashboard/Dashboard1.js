@@ -304,12 +304,6 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-// export const getServerSideProps = async () => {
-//   const dt = await apiGet();
-
-//   return { props: { dt } };
-// };{ dt }
-
 export const getServerSideProps = async ({ params: { id } }) => {
   const initialData = await apiProfileShowOne(id);
 

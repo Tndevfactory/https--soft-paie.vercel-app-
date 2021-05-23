@@ -1,12 +1,16 @@
 /** @format */
 import { motion } from "framer-motion";
-import React from "react";
 import Head from "next/head";
 import styled, { css } from "styled-components";
-import SendMail from "../../components/mail/SendMail";
 import NotFound from "../../components/404/NotFound";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import chroma from "chroma-js";
+import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import Cookies from "js-cookie";
+import { FaChevronLeft, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
   min-width: 100%;
@@ -16,6 +20,23 @@ const Desktop = styled(motion.div)`
   gap: 3em;
   align-items: center;
   flex-flow: column nowrap;
+  .back {
+    color: red;
+    cursor: pointer;
+  }
+  .back_icon {
+    color: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+    font-size: 0.9em;
+  }
+  .back_text {
+    color: #222;
+    margin-left: 4px;
+    transition: all 0.5s;
+    &:hover {
+      text-shadow: 0.51px 0.41px 0.91px rgba(0, 0, 0, 0.5);
+    }
+  }
 `;
 
 const Mobile = styled(Desktop)`
@@ -28,6 +49,10 @@ const Mobile = styled(Desktop)`
 `;
 
 export default function NotFoundPage() {
+  const router = useRouter();
+  const [prodMethods, prodStates] = ProdCtx();
+  const { apiUpdate } = prodMethods;
+  const { ui, setUi, switchMode, setSwitchMode } = prodStates;
   return (
     <>
       <Head>
@@ -39,7 +64,7 @@ export default function NotFoundPage() {
         <title> 404</title>
       </Head>
 
-      <Mobile>
+      <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
         <NotFound />
         <Footer fixed={true} />

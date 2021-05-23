@@ -82,8 +82,16 @@ const Desktop = styled(motion.header)`
     }
     .login_link {
       margin-top: 2px;
-      font-size: 1.3em;
-      color: green;
+      font-size: 1.25em;
+     
+      color: ${({ switchMode, ui }) =>
+        switchMode
+          ? chroma(ui.dark).luminance() < 0.4
+            ? chroma("green").brighten(1)
+            : chroma("green").darken(1)
+          : chroma(ui.light).luminance() < 0.4
+          ? chroma("green").brighten(1)
+          : chroma("green").darken(1)};
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
@@ -97,8 +105,17 @@ const Desktop = styled(motion.header)`
     }
     .logout_link {
       margin-top: 2px;
-      font-size: 1.3em;
-      color: red;
+      font-size: 1.25em;
+      
+      color: ${({ switchMode, ui }) =>
+        switchMode
+          ? chroma(ui.dark).luminance() < 0.4
+            ? chroma("red").brighten(1)
+            : chroma("red").darken(1)
+          : chroma(ui.light).luminance() < 0.4
+          ? chroma("red").brighten(1)
+          : chroma("red").darken(1)};
+
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
