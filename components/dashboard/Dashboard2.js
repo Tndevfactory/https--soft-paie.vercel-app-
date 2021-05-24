@@ -382,8 +382,18 @@ export default function Dashboard2({ initialData }) {
   } = prodStates;
   const [selectSection, setSelectSection] = useState("");
 
+  const [profilManager, setProfilManager] = useState({
+    nom: "",
+    prenom: "",
+    email: "",
+    telephone: "",
+    adresse: "",
+    file: "",
+    role: "",
+  });
+
   const { isLoading, error, data, isFetching } = useQuery(
-    ["profil", id],
+    ["dashboard2", id],
     () => apiProfileShowOne(id),
     {
       initialData: initialData,
@@ -415,7 +425,21 @@ export default function Dashboard2({ initialData }) {
     }
     return () => console.log("clean up");
   }, [id]);
-
+  React.useEffect(() => {
+    setProfilManager({
+      nom: data?.user.nom,
+      prenom: data?.user.prenom,
+      email: data?.user.email,
+      telephone: data?.user.gsm,
+      adresse: data?.user.adresse,
+      file: data?.user.file,
+      role: data?.role,
+    
+    });
+    return () => {
+      console.log("");
+    };
+  }, [data]);
   return (
     <>
       <Head>
@@ -424,7 +448,7 @@ export default function Dashboard2({ initialData }) {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Manager {data?.user.nom}</title>
+        <title> Manager {profilManager.nom}</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode} font1={font}>
@@ -446,7 +470,7 @@ export default function Dashboard2({ initialData }) {
               src={`${DOMAIN}/${
                 data?.user.file === null
                   ? "uploads/users/default/user.jpg"
-                  : data?.user.file
+                  : profilManager.file
               }`}
               alt={data?.user.nom}
               layout="responsive"
@@ -458,11 +482,11 @@ export default function Dashboard2({ initialData }) {
           </div>
           <div className="profil_username">
             <span className="profil_username_label">Nom: </span>
-            <span className="profil_username_value">{`${data?.user.nom} ${data?.user.prenom}`}</span>
+            <span className="profil_username_value">{`${profilManager.nom} ${profilManager.prenom}`}</span>
           </div>
           <div className="profil_role">
             <span className="profil_role_label">Role: </span>
-            <span className="profil_role_value">{data?.role}</span>
+            <span className="profil_role_value">{profilManager.role}</span>
           </div>
           <div
             className="section editer_profil "

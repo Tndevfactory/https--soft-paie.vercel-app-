@@ -69,18 +69,7 @@ export default function Admin() {
   const { apiGet } = prodMethods;
   const { loader, setLoader, ui, switchMode } = prodStates;
 
-  const [check, setCheck] = useState({
-    id: Cookies.get("sp_id"),
-    role: Cookies.get("sp_role"),
-    token: Cookies.get("sp_token"),
-  });
-
-  // React.useEffect(() => {
-  //   if (Number(check.id) !== 3) {
-  //     router.push("/");
-  //   }
-  //   return () => console.log("");
-  // }, []);
+  
   return (
     <>
       <Head>

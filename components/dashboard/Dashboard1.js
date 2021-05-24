@@ -333,10 +333,21 @@ export default function Dashboard1({ initialData }) {
     switchMode,
     DOMAIN,
   } = prodStates;
+
   const [selectSection, setSelectSection] = useState("");
 
+  const [profilInfo, setProfilInfo] = useState({
+    nom: "",
+    prenom: "",
+    email: "",
+    telephone: "",
+    adresse: "",
+    file: "",
+    role: "",
+  });
+
   const { isLoading, error, data, isFetching } = useQuery(
-    ["profil", id],
+    ["dashboard1", id],
     () => apiProfileShowOne(id),
     {
       initialData: initialData,
@@ -351,6 +362,9 @@ export default function Dashboard1({ initialData }) {
   if (error) {
     console.log("error");
   }
+
+  // console.log("dashboard1 query with initial data ");
+  // console.log(data);
 
   const [check, setCheck] = useState({
     cid: Cookies.get("sp_id") || 0,
@@ -368,6 +382,22 @@ export default function Dashboard1({ initialData }) {
     return () => console.log("clean up");
   }, [id]);
 
+  React.useEffect(() => {
+    setProfilInfo({
+      nom: data?.user.nom,
+      prenom: data?.user.prenom,
+      email: data?.user.email,
+      telephone: data?.user.gsm,
+      adresse: data?.user.adresse,
+      file: data?.user.file,
+      role: data?.role,
+     
+    });
+    return () => {
+      console.log("");
+    };
+  }, [data]);
+
   return (
     <>
       <Head>
@@ -376,7 +406,7 @@ export default function Dashboard1({ initialData }) {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title>Employe {data?.user.prenom}</title>
+        <title>Employe {profilInfo.prenom}</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
@@ -389,12 +419,12 @@ export default function Dashboard1({ initialData }) {
             <Image
               //src="https://tndev3.tn-devfactory.com/uploads/1.jpg"
               src={`${DOMAIN}/${
-                data?.user.file === null
+                profilInfo.file === null
                   ? "uploads/users/default/user.jpg"
-                  : data?.user.file
+                  : profilInfo.file
               }`}
               //  src="DOMAIN/uploads/1.jpg"
-              alt={data?.user.nom}
+              alt={profilInfo.nom}
               layout="responsive"
               quality={65}
               height={30}
@@ -404,11 +434,11 @@ export default function Dashboard1({ initialData }) {
           </div>
           <div className="profil_username">
             <span className="profil_username_label">Nom: </span>
-            <span className="profil_username_value">{`${data?.user.nom} ${data?.user.prenom}`}</span>
+            <span className="profil_username_value">{`${profilInfo.nom} ${profilInfo.prenom}`}</span>
           </div>
           <div className="profil_role">
             <span className="profil_role_label">Role: </span>
-            <span className="profil_role_value">{data?.role}</span>
+            <span className="profil_role_value">{profilInfo.role}</span>
           </div>
 
           <div

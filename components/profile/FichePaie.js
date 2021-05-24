@@ -20,6 +20,7 @@ import chroma from "chroma-js";
 import { format, compareAsc } from "date-fns";
 
 import {
+  FaDownload,
   FaUser,
   FaRegListAlt,
   FaRegMoneyBillAlt,
@@ -34,13 +35,27 @@ const Desktop = styled(motion.div)`
     padding: 1rem;
     .form_search {
       display: flex;
-      gap: 5px;
+      gap: 2px;
+    }
+    input {
+      border: 1px #bbb solid;
+      border-radius: 5px;
+      padding: 0em 1em;
+      height: 2em;
+      &:focus {
+        border: 1px #888 solid;
+        outline: none;
+      }
     }
   }
   .row_fixed {
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+
     width: 100%;
-    padding: 0.5em;
+    padding: 0.3em;
     display: flex;
+    font-size: 0.9em;
     justify-content: space-around;
     background: ${({ switchMode, ui }) =>
       switchMode ? chroma(ui.dark) : chroma(ui.light)};
@@ -58,11 +73,20 @@ const Desktop = styled(motion.div)`
     margin: 0.3em 0em 0.3em 0em;
     width: 100%;
     padding: 0.3em;
-
+    font-size: 0.9em;
     display: flex;
+    border: solid 1px #999;
     justify-content: space-around;
     align-items: center;
     background: rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    cursor: pointer;
+    & > * {
+      width: 8%;
+    }
+    &:hover {
+      box-shadow: 1px 1px 0.8px 1px rgba(0, 0, 0, 0.3);
+    }
   }
 `;
 
@@ -122,18 +146,17 @@ const FichePaie = () => {
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <div className="row_search">
-        <form className="form_search" action="">
+        <form className="form_search">
           <input type="text" />
-          <Button1 type="submit" disabled={false} width={7} height={2.2}>
-            search
+          <Button1 type="submit" disabled={false} width={6} height={2}>
+            Rechercher
           </Button1>
         </form>
       </div>
       <div className="row_fixed">
         <div>Mois</div>
         <div>Annee</div>
-
-        <div>Telecharger</div>
+        <div>Télécharger</div>
       </div>
 
       <div className="row">
@@ -145,42 +168,75 @@ const FichePaie = () => {
             proceed={handleDowloadPdf}
             type="submit"
             disabled={false}
-            width={5.3}
-            height={2}
+            width={1.8}
+            height={1.3}
           >
-            download
+            <FaDownload />
           </Button1>
         </div>
       </div>
       <div className="row">
-        <div>Mars</div>
+        <div>Janvier</div>
         <div>2021</div>
 
         <div>
           <Button1
-            proceed={handlePdf}
+            proceed={handleDowloadPdf}
             type="submit"
             disabled={false}
-            width={5.3}
-            height={2}
+            width={1.8}
+            height={1.3}
           >
-            Make pdf
+            <FaDownload />
           </Button1>
         </div>
       </div>
       <div className="row">
-        <div>Mars</div>
+        <div>Fevrier</div>
         <div>2021</div>
 
         <div>
           <Button1
-            proceed={handlePdf}
+            proceed={handleDowloadPdf}
             type="submit"
             disabled={false}
-            width={5.3}
-            height={2}
+            width={1.8}
+            height={1.3}
           >
-            Make pdf
+            <FaDownload />
+          </Button1>
+        </div>
+      </div>
+
+      <div className="row">
+        <div>Avril</div>
+        <div>2021</div>
+
+        <div>
+          <Button1
+            proceed={handleDowloadPdf}
+            type="submit"
+            disabled={false}
+            width={1.8}
+            height={1.3}
+          >
+            <FaDownload />
+          </Button1>
+        </div>
+      </div>
+      <div className="row">
+        <div>Mai</div>
+        <div>2021</div>
+
+        <div>
+          <Button1
+            proceed={handleDowloadPdf}
+            type="submit"
+            disabled={false}
+            width={1.8}
+            height={1.3}
+          >
+            <FaDownload />
           </Button1>
         </div>
       </div>

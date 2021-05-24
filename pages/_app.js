@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps, router }) {
         <ProductProvider>
           <Component {...pageProps} key={router.route} />
         </ProductProvider>
-        {/* <ReactQueryDevtools initialIsOpen /> */}
+        <ReactQueryDevtools initialIsOpen />
       </QueryClientProvider>
     </>
   );

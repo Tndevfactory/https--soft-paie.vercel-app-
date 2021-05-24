@@ -9,7 +9,7 @@ import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
 import { useRouter } from "next/router";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx } from "../../contexts/ProductsContext";
+import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
@@ -101,12 +101,20 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-export default function Profil() {
+// export const getServerSideProps = async ({ params: { id } }) => {
+//   const initialData = await apiProfileShowOne(id);
+
+//   return { props: { initialData } };
+// };
+
+export default function Profil({ initialData }) {
+  const queryClient = useQueryClient();
   let errorProfile = "";
   let successProfile = "";
   let loaderProfile = "";
 
   const router = useRouter();
+
   const { id } = router.query;
 
   const [prodMethods, prodStates] = ProdCtx();
@@ -130,6 +138,31 @@ export default function Profil() {
     switchMode,
     setSwitchMode,
   } = prodStates;
+
+  // query city
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["editerProfil", id],
+    () => apiProfileShowOne(id),
+    {
+      initialData: initialData,
+      initialStale: true,
+    }
+  );
+
+  // query test
+
+  if (isLoading) {
+    console.log("loading");
+  }
+
+  if (error) {
+    console.log("error");
+    console.log(error.message);
+  }
+  if (data) {
+    console.log("editerProfilquery");
+    console.log(data);
+  }
 
   const [msgProfile, setMsgProfile] = useState({
     msgAlert: "",
@@ -235,17 +268,22 @@ export default function Profil() {
     }
   };
 
-    let cfg = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-//-------------------------used for update only
-    const upd = async (id, fd, cfg) => {
-      const data = await apiProfileUpdate(id, fd, cfg);
-      console.log(data);
-    };
-//--------------------------------------------------
+  let cfg = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  //-------------------------used for update only
+  const upd = async (id, fd, cfg) => {
+    const data = await apiProfileUpdate(id, fd, cfg);
+    console.log("data inside axios");
+    console.log(data.success);
+    if (data.success) {
+      // queryClient.invalidateQueries("dashboard1");
+      // queryClient.invalidateQueries("edit-profil");
+    }
+  };
+  //--------------------------------------------------
   const handleSubmit = (e) => {
     e.preventDefault();
     const fd = new FormData();
@@ -261,25 +299,7 @@ export default function Profil() {
     fd.append("_method", "PUT");
 
     console.log(Array.from(fd));
-    upd(id,fd,cfg);
-    //UpdateProfileMutation.mutate(id, fd);
-
-    // if (handleValidate()) {
-    //   console.log(" all data verified before sent");
-
-    //   Object.keys(credentialP).map((key) => {
-    //     if (credentialP[key] !== "") {
-    //       console.log(key, credentialP[key]);
-    //       fd.append(key, credentialP[key]);
-    //     }
-    //   });
-    //   console.log("fd inside handle submit");
-    //   console.log(Array.from(fd));
-    //   UpdateProfileMutation.mutate(id, fd, cfg);
-    // } else {
-    //   console.log("profile  data not completed");
-    //   UpdateProfileMutation.reset();
-    // }
+    upd(id, fd, cfg);
   };
   if (UpdateProfileMutation.isLoading) {
     loaderProfile = "loading";
@@ -297,16 +317,40 @@ export default function Profil() {
   }
 
   React.useEffect(() => {
+    setCredentialP({
+      nom: data?.user.nom,
+      prenom: data?.user.prenom,
+      email: data?.user.email,
+      telephone: data?.user.gsm,
+      adresse: data?.user.adresse,
+      password: data?.user.password,
+    });
+    return () => {
+      console.log("");
+    };
+  }, [data]);
+
+  React.useEffect(() => {
     setMsgProfile({ msgAlert: successProfile, typeAlert: "success" });
+
+    return () => {
+      console.log("");
+    };
   }, [successProfile]);
 
   React.useEffect(() => {
     setMsgProfile({ msgAlert: errorProfile, typeAlert: "fail" });
+    return () => {
+      console.log("");
+    };
   }, [errorProfile]);
 
   React.useEffect(() => {
     if (loaderProfile !== "") setLoader(true);
     if (errorProfile !== "") setLoader(false);
+    return () => {
+      console.log("");
+    };
   }, [loaderProfile]);
 
   return (

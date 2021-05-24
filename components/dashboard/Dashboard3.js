@@ -344,17 +344,21 @@ const Mobile = styled(Desktop)`
     padding: 9rem 0rem 1rem 0rem;
   }
 `;
-// only one admin no need to router
-const adminId = 3;
-export const getServerSideProps = async (adminId) => {
-  const initialData = await apiProfileShowOne(adminId);
+export const getServerSideProps = async ({ params: { id } }) => {
+  const initialData = await apiProfileShowOne(id);
 
   return { props: { initialData } };
 };
 
 export default function Dashboard3({ initialData }) {
-  const queryClient = useQueryClient();
   const router = useRouter();
+  const { id } = router.query;
+
+  // console.log("router.query.id");
+  // console.log(router);
+
+  const queryClient = useQueryClient();
+
   const [prodMethods, prodStates] = ProdCtx();
   const { profilMethods } = prodMethods;
   const {
@@ -375,9 +379,19 @@ export default function Dashboard3({ initialData }) {
   } = prodStates;
   const [selectSection, setSelectSection] = useState("");
 
+  const [profilAdmin, setProfilAdmin] = useState({
+    nom: "",
+    prenom: "",
+    email: "",
+    telephone: "",
+    adresse: "",
+    file: "",
+    role: "",
+  });
+
   const { isLoading, error, data, isFetching } = useQuery(
-    ["profil", adminId],
-    () => apiProfileShowOne(adminId),
+    ["dashboard3", id],
+    () => apiProfileShowOne(id),
     {
       initialData: initialData,
       initialStale: true,
@@ -390,10 +404,7 @@ export default function Dashboard3({ initialData }) {
   if (error) {
     console.log("error");
   }
-  //------------
-  console.log(data);
 
-  //-------------
   const [check, setCheck] = useState({
     cid: Cookies.get("sp_id") || 0,
     role: Cookies.get("sp_role") || 0,
@@ -401,14 +412,29 @@ export default function Dashboard3({ initialData }) {
   });
 
   React.useEffect(() => {
-    if (Number(check.cid) !== adminId) {
+    if (Number(check.cid) !== Number(id)) {
       Cookies.set("sp_token", "");
       Cookies.set("sp_role", "");
       Cookies.set("sp_id", "");
       router.push(`/`);
     }
-    return () => console.log("clean up");
+    return () => console.log("");
   }, []);
+
+  React.useEffect(() => {
+    setProfilAdmin({
+      nom: data?.user.nom ,
+      prenom: data?.user.prenom ,
+      email: data?.user.email ,
+      telephone: data?.user.gsm ,
+      adresse: data?.user.adresse ,
+      file: data?.user.file ,
+      role: data?.role ,
+    });
+    return () => {
+      console.log("");
+    };
+  }, [data]);
 
   return (
     <>
@@ -418,7 +444,7 @@ export default function Dashboard3({ initialData }) {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-        <title> Admin {data?.user.nom}</title>
+        <title> Admin {profilAdmin.nom}</title>
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
@@ -436,11 +462,11 @@ export default function Dashboard3({ initialData }) {
           <div className="img-profile">
             <Image
               src={`${DOMAIN}/${
-                data?.user.file === null
+                profilAdmin.file === null
                   ? "uploads/users/default/user.jpg"
-                  : data?.user.file
+                  : profilAdmin.file
               }`}
-              alt={data?.user.nom}
+              alt={profilAdmin.nom}
               layout="responsive"
               quality={65}
               height={30}
@@ -450,11 +476,11 @@ export default function Dashboard3({ initialData }) {
           </div>
           <div className="profil_username">
             <span className="profil_username_label">Nom: </span>
-            <span className="profil_username_value">{`${data?.user.nom} ${data?.user.prenom}`}</span>
+            <span className="profil_username_value">{`${profilAdmin.nom} ${profilAdmin.prenom}`}</span>
           </div>
           <div className="profil_role">
             <span className="profil_role_label">Role: </span>
-            <span className="profil_role_value">{data?.role}</span>
+            <span className="profil_role_value">{profilAdmin.role}</span>
           </div>
           <div
             className="section editer_profil "

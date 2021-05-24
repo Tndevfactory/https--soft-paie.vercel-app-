@@ -50,34 +50,12 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-// export const getServerSideProps = async () => {
-//   const dt = await apiGet();
-
-//   return { props: { dt } };
-// };{ dt }
 
 export default function Manager() {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
   const { ui, switchMode } = prodStates;
-
-  // const { isLoading, error, data } = useQuery("products", apiGet, {
-  //   initialData: dt,
-  //   initialStale: true,
-  // });
-
-  // const mDelete = useMutation((id) => apiDelete(id), {
-  //   onSuccess: () => queryClient.invalidateQueries("products"),
-  // });
-
-  // const mUpdate = useMutation((values) => apiUpdate(values));
-
-  // if (isLoading) return <div>loading ...</div>;
-
-  // if (error) return "An error has occurred: " + error.message;
-
-  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
 
   return (
     <>

@@ -350,7 +350,7 @@ const Login1 = () => {
     }
     if (LoginMutation.data.role === "admin") {
       //console.log("admin redirect");
-      router.push(`/admin/`);
+      router.push(`/admin/${LoginMutation.data.user.id}`);
     }
     if (LoginMutation.data.role === "manager") {
       //console.log("manager redirect");
