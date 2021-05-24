@@ -91,8 +91,10 @@ export const apiPdf = async () => {
 };
 
 // download pdf from server public storage
-export const downloadPdf = async () => {
-  const { data } = await api.get("/downloadFile", { responseType: "blob" });
+export const downloadPdf = async (year, month, id) => {
+  const { data } = await api.get(`/downloadFile/${year}/${month}/${id}`, {
+    responseType: "blob",
+  });
   return data;
 };
 const pdfMethods = { apiPdf, downloadPdf };
@@ -106,8 +108,12 @@ export const apiSendBulkPdf = async (fd, cfg) => {
   const { data } = await api.post(`/simple-mail-api`, fd, cfg);
   return data;
 };
+export const apiMassSender = async (yearM, monthM) => {
+  const { data } = await api.get(`/mail-pdf/${yearM}/${monthM}`);
+  return data;
+};
 
-const mailMethods = { apiSendMail };
+const mailMethods = { apiSendMail, apiSendBulkPdf, apiMassSender };
 
 // Product api
 export const apiProductAdd = async (values) => {

@@ -117,6 +117,7 @@ const Desktop = styled(motion.div)`
     }
     .profil_username_value {
       font-size: calc(0.72 * 1.4 * 100%);
+      text-transform: capitalize;
       font-weight: 400;
       color: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : chroma(ui.light)};

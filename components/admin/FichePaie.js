@@ -1,19 +1,19 @@
 /** @format */
 import { motion } from "framer-motion";
-import Button1 from "../buttons/Button1";
+import Button1 from "../master/components/buttons/Button1";
 
 import React, { useState } from "react";
 import Head from "next/head";
-import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
+import Breadcrumb1 from "../master/components/breadcrumbs/Breadcrumb1";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
-import { Device } from "../devices/Device";
-import Register1 from "../registers/Register1";
-import Alert1 from "../alerts/Alert1";
-import Loader from "../loader/Loader1";
-import Footer from "../footer/Footer";
-import Navbar from "../navbar/Navbar";
+import { ProdCtx, apiGet } from "../master/contexts/ProductsContext";
+import { Device } from "../master/components/devices/Device";
+import Register1 from "../master/components/registers/Register1";
+import Alert1 from "../master/components/alerts/Alert1";
+import Loader from "../master/components/loader/Loader1";
+import Footer from "../master/components/footer/Footer";
+import Navbar from "../master/components/navbar/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";

@@ -14,7 +14,7 @@ import Link from "next/link";
 import chroma from "chroma-js";
 import { format, compareAsc } from "date-fns";
 import { useRouter } from "next/router";
-
+import axios from "axios";
 import FichePaie from "../../components/profile/FichePaie";
 import Information from "../../components/profile/Information";
 import DemandeConge from "../../components/profile/DemandeConge";
@@ -304,11 +304,11 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-export const getServerSideProps = async ({ params: { id } }) => {
+export async function getServerSideProps({ params: { id } }) {
   const initialData = await apiProfileShowOne(id);
-
+  //const initialData = await axios.get(`/profiles/${id}`);
   return { props: { initialData } };
-};
+}
 
 export default function Dashboard1({ initialData }) {
   const queryClient = useQueryClient();
@@ -346,9 +346,16 @@ export default function Dashboard1({ initialData }) {
     role: "",
   });
 
+  //after refresh page id become undefined causing error solution may be the cookies
+  const [check, setCheck] = useState({
+    cid: Cookies.get("sp_id") || 0,
+    role: Cookies.get("sp_role") || 0,
+    token: Cookies.get("sp_token") || 0,
+  });
+
   const { isLoading, error, data, isFetching } = useQuery(
-    ["dashboard1", id],
-    () => apiProfileShowOne(id),
+    ["dashboard1", check.cid],
+    () => apiProfileShowOne(check.cid),
     {
       initialData: initialData,
       initialStale: true,
@@ -366,23 +373,28 @@ export default function Dashboard1({ initialData }) {
   // console.log("dashboard1 query with initial data ");
   // console.log(data);
 
-  const [check, setCheck] = useState({
-    cid: Cookies.get("sp_id") || 0,
-    role: Cookies.get("sp_role") || 0,
-    token: Cookies.get("sp_token") || 0,
-  });
+  // React.useEffect(() => {
+  //   if (Number(check.cid) !== Number(id)) {
+  //     // check role and redirect to correct dashboard number
+  //     if (check.role === "employe") {
+  //       //router.push(`/employee/${id}`);
+  //       router.push(`/`);
+  //     } else if (check.role === "manager") {
+  //       //router.push(`/manager/${id}`);
+  //       router.push(`/`);
+  //     } else if (check.role === "admin") {
+  //       //router.push(`/admin/${id}`);
+  //       router.push(`/`);
+  //     } else {
+  //       router.push(`/`);
+  //     }
+  //   }
+  //   return () => console.log("clean up");
+  // }, [id]);
 
   React.useEffect(() => {
-    if (Number(check.cid) !== Number(id)) {
-      Cookies.set("sp_token", "");
-      Cookies.set("sp_role", "");
-      Cookies.set("sp_id", "");
-      router.push(`/`);
-    }
-    return () => console.log("clean up");
-  }, [id]);
-
-  React.useEffect(() => {
+    console.log("data undefined");
+    console.log(data);
     setProfilInfo({
       nom: data?.user.nom,
       prenom: data?.user.prenom,
@@ -391,10 +403,10 @@ export default function Dashboard1({ initialData }) {
       adresse: data?.user.adresse,
       file: data?.user.file,
       role: data?.role,
-     
     });
+
     return () => {
-      console.log("");
+      console.log("cleanup chech data dashboard1");
     };
   }, [data]);
 
@@ -524,7 +536,7 @@ export default function Dashboard1({ initialData }) {
             )}
             {selectSection === "paie" && (
               <div className="component component_paie">
-                <FichePaie />
+                <FichePaie data={ data}/>
               </div>
             )}
             {selectSection === "planification" && (

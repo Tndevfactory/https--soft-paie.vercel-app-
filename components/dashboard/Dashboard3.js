@@ -22,6 +22,7 @@ import FichePaie from "../../components/profile/FichePaie";
 import Information from "../../components/profile/Information";
 import DemandeConge from "../../components/profile/DemandeConge";
 import EditerProfil from "../../components/profile/EditerProfil";
+import MassMail from "../../components/mail/MassMail";
 import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
@@ -45,7 +46,7 @@ const Desktop = styled(motion.div)`
   display: flex;
 
   & > * {
-    display: inline-block;
+    //display: inline-block;
     min-height: 80vh;
     border-radius: 5px;
     padding: 0.5rem 2rem;
@@ -113,6 +114,7 @@ const Desktop = styled(motion.div)`
     .profil_username_value {
       font-size: calc(0.72 * 1.4 * 100%);
       font-weight: 400;
+      text-transform: capitalize;
       color: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : chroma(ui.light)};
     }
@@ -423,13 +425,13 @@ export default function Dashboard3({ initialData }) {
 
   React.useEffect(() => {
     setProfilAdmin({
-      nom: data?.user.nom ,
-      prenom: data?.user.prenom ,
-      email: data?.user.email ,
-      telephone: data?.user.gsm ,
-      adresse: data?.user.adresse ,
-      file: data?.user.file ,
-      role: data?.role ,
+      nom: data?.user.nom,
+      prenom: data?.user.prenom,
+      email: data?.user.email,
+      telephone: data?.user.gsm,
+      adresse: data?.user.adresse,
+      file: data?.user.file,
+      role: data?.role,
     });
     return () => {
       console.log("");
@@ -523,12 +525,13 @@ export default function Dashboard3({ initialData }) {
           </div>
           <div
             className="section information "
-            onClick={() => setSelectSection("informations")}
+            onClick={() => setSelectSection("mail salaire")}
           >
             <FaMailBulk />
             <span>Envoyer Mail Salaire</span>
           </div>
         </aside>
+
         <div className="dash-content">
           <div className="bread-crumb">
             <Breadcrumb1
@@ -542,9 +545,9 @@ export default function Dashboard3({ initialData }) {
                 <Default setSelectSection={setSelectSection} />
               </div>
             )}
-            {selectSection === "informations" && (
+            {selectSection === "mail salaire" && (
               <div className="component component_informations">
-                <Information />
+                <MassMail />
               </div>
             )}
             {selectSection === "conge" && (

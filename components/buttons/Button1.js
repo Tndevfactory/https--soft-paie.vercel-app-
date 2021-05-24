@@ -8,11 +8,11 @@ import { Device } from "../devices/Device";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
 const Desktop = styled(motion.button)`
-  padding: .2em .3em;
+  padding: 0.2em 0.3em;
   position: relative;
   display: inline-block;
   letter-spacing: 0.04em;
-  font-weight:500;
+  font-weight: 500;
   border-radius: 6px;
 
   height: ${({ height }) => height + "rem"};
@@ -20,7 +20,7 @@ const Desktop = styled(motion.button)`
 
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   border: none;
-  transition: background 0.3s ;
+  transition: background 0.3s;
 
   background: ${({ disabled, switchMode, ui }) =>
     disabled
@@ -76,8 +76,12 @@ const Desktop = styled(motion.button)`
   align-items: center;
   flex-flow: column nowrap;
   .children {
-    font-size: 0.8em;
+    font-size: 0.85em;
     text-transform: capitalize;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
   }
 `;
 
@@ -105,7 +109,7 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-const Button1 = ({ children, height, width, disabled , proceed}) => {
+const Button1 = ({ children, height, width, disabled, proceed }) => {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, notification, setNotification, switchMode, setSwitchMode } =
@@ -119,7 +123,7 @@ const Button1 = ({ children, height, width, disabled , proceed}) => {
       disabled={disabled}
       switchMode={switchMode}
       height={height}
-      width={ width }
+      width={width}
       onClick={proceed || null}
     >
       <span className="children">{children}</span>

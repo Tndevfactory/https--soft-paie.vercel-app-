@@ -85,7 +85,7 @@ const Desktop = styled(motion.div)`
       width: 8%;
     }
     &:hover {
-      box-shadow: 1px 1px 0.8px 1px rgba(0, 0, 0, 0.3);
+      box-shadow: 0.31px 1px 0.5px 1px rgba(0, 0, 0, 0.2);
     }
   }
 `;
@@ -115,7 +115,7 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-const FichePaie = () => {
+const FichePaie = ({ data }) => {
   const [prodMethods, prodStates] = ProdCtx();
   const { pdfMethods } = prodMethods;
   const { apiPdf, downloadPdf } = pdfMethods;
@@ -136,8 +136,8 @@ const FichePaie = () => {
     window.open(fileURL);
   };
 
-  const handleDowloadPdf = async () => {
-    let res = await downloadPdf();
+  const handleDowloadPdf = async (year, month, id) => {
+    let res = await downloadPdf(year, month, id);
 
     const file = new Blob([res], { type: "application/pdf" });
     const fileURL = URL.createObjectURL(file);
@@ -160,12 +160,61 @@ const FichePaie = () => {
       </div>
 
       <div className="row">
+        <div>Mai</div>
+        <div>2021</div>
+
+        <div>
+          <Button1
+            proceed={() => handleDowloadPdf("2021", "05", data?.user.id)}
+            type="submit"
+            disabled={false}
+            width={1.8}
+            height={1.3}
+          >
+            <FaDownload />
+          </Button1>
+        </div>
+      </div>
+      <div className="row">
+        <div>Avril</div>
+        <div>2021</div>
+
+        <div>
+          <Button1
+            proceed={() => handleDowloadPdf("2021", "04", data?.user.id)}
+            type="submit"
+            disabled={false}
+            width={1.8}
+            height={1.3}
+          >
+            <FaDownload />
+          </Button1>
+        </div>
+      </div>
+      <div className="row">
         <div>Mars</div>
         <div>2021</div>
 
         <div>
           <Button1
-            proceed={handleDowloadPdf}
+            proceed={() => handleDowloadPdf("2021", "03", data?.user.id)}
+            type="submit"
+            disabled={false}
+            width={1.8}
+            height={1.3}
+          >
+            <FaDownload />
+          </Button1>
+        </div>
+      </div>
+
+      <div className="row">
+        <div>Fevrier</div>
+        <div>2021</div>
+
+        <div>
+          <Button1
+            proceed={() => handleDowloadPdf("2021", "02", data?.user.id)}
             type="submit"
             disabled={false}
             width={1.8}
@@ -181,56 +230,7 @@ const FichePaie = () => {
 
         <div>
           <Button1
-            proceed={handleDowloadPdf}
-            type="submit"
-            disabled={false}
-            width={1.8}
-            height={1.3}
-          >
-            <FaDownload />
-          </Button1>
-        </div>
-      </div>
-      <div className="row">
-        <div>Fevrier</div>
-        <div>2021</div>
-
-        <div>
-          <Button1
-            proceed={handleDowloadPdf}
-            type="submit"
-            disabled={false}
-            width={1.8}
-            height={1.3}
-          >
-            <FaDownload />
-          </Button1>
-        </div>
-      </div>
-
-      <div className="row">
-        <div>Avril</div>
-        <div>2021</div>
-
-        <div>
-          <Button1
-            proceed={handleDowloadPdf}
-            type="submit"
-            disabled={false}
-            width={1.8}
-            height={1.3}
-          >
-            <FaDownload />
-          </Button1>
-        </div>
-      </div>
-      <div className="row">
-        <div>Mai</div>
-        <div>2021</div>
-
-        <div>
-          <Button1
-            proceed={handleDowloadPdf}
+            proceed={() => handleDowloadPdf("2021", "01", data?.user.id)}
             type="submit"
             disabled={false}
             width={1.8}
