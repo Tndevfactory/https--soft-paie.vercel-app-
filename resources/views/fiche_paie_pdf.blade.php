@@ -112,7 +112,7 @@ margin-top:35px;margin-bottom:30px}
    <div class="telephone"><span>GSM:</span>+216 79 10 00 00</div>
    <div class="email"><span>Email:</span>ressource-humaine@soft-paie.com</div>
  </div>
- <div class="employe"><span>Employé:</span>Mohamed Belhaj</div>
+ <div class="employe"><span>Employé:</span>Fekih Hfaied</div>
 <table id="info">
   <thead>
 
@@ -122,19 +122,15 @@ margin-top:35px;margin-bottom:30px}
       <th>Date recrutement</th>
       <th>Taux Horaire</th>
       <th>Numéro CNSS</th>
-      
-     
     </tr>
   </thead>
   <tbody>
-
     <tr>
-      <td class='bulletin'> Mars-2021</td>
-      <td>301</td>
-      <td>12/12/2018</td>
-      <td>5.400</td>
-      <td>0016445332</td>
-      
+      <td class='bulletin'> mai-2021</td>
+      <td>8</td>
+      <td>22/03/2019</td>
+      <td>5.450</td>
+      <td>00157445399</td>
     </tr>
     
   </tbody>
@@ -154,11 +150,11 @@ margin-top:35px;margin-bottom:30px}
   <tbody>
 
     <tr>
-     <td>Marié</td>
-     <td>3</td>
+     <td>Celibataire</td>
+     <td>0</td>
      <td>Comptable</td>
      <td>CDD</td>
-     <td>12 jours</td>
+     <td>13 jours</td>
     </tr>
     
   </tbody>
@@ -180,66 +176,66 @@ margin-top:35px;margin-bottom:30px}
 
     <tr class='numerique'>
       <td class='item'>Heures travaillées</td>
-      <td >160</td>
+      <td >145</td>
       <td class='numerique'></td>
-      <td class='numerique'>5.400</td>
-      <td class='numerique'>900.000</td>
+      <td class='numerique'>5.450</td>
+      <td class='numerique'>915.500</td>
       <td></td>
     </tr>
     <tr class='numerique'>
       <td class='item'>Prime ancienneté</td>
       <td class='numerique'></td>
-      <td class='numerique'>300.000</td>
+      <td class='numerique'>50.000</td>
       <td class='numerique'></td>
-      <td class='numerique'>300.000</td>
+      <td class='numerique'>50.000</td>
       <td></td>
     </tr>
     <tr class='numerique'>
       <td class='item'>Indemnité de transport</td>
       <td></td>
-      <td class='numerique'>120.000</td>
+      <td class='numerique'>60.000</td>
       <td class='numerique'></td>
-      <td class='numerique'>120.000</td>
+      <td class='numerique'>60.000</td>
       <td></td>
     </tr>
     <tr class='numerique'>
       <td class='item'>Prime de rendement</td>
       <td class='numerique'></td>
-      <td class='numerique'>4%</td>
       <td class='numerique'></td>
-      <td class='numerique'>405.000</td>
+      <td class='numerique'>2%</td>
+      <td class='numerique'>160.500</td>
       <td></td>
     </tr>
     <tr class='numerique'>
       <td class='item'>Heures supplementaires</td>
-      <td class='numerique'>7</td>
-      <td class='numerique'>405.000</td>
-      <td class='numerique'>5.000</td>
-      <td class='numerique'>405.000</td>
+      <td class='numerique'></td>
+      <td class='numerique'></td>
+      <td class='numerique'></td>
+      <td class='numerique'></td>
       <td></td>
     </tr>
     <tr class='numerique'>
       <td class='item'>Gratification exceptionelle</td>
-      <td class='numerique'>7</td>
-      <td class='numerique'>405.000</td>
-      <td class='numerique'>5.000</td>
-      <td class='numerique'>405.000</td>
+      <td class='numerique'></td>
+      <td class='numerique'></td>
+      <td class='numerique'></td>
+      <td class='numerique'></td>
       <td></td>
     </tr>
     <tr class='numerique'>
       <td class='item'>Congé payé</td>
-      <td class='numerique'>50.000</td>
       <td class='numerique'></td>
-      <td class='numerique'>5.400</td>
-      <td class='numerique'>400.000</td>
+      <td class='numerique'></td>
+      <td class='numerique'></td>
+      <td class='numerique'></td>
       <td></td>
     </tr>
     <tr class='numerique'>
       <td class='item'>Ticket resto</td>
-      <td class='numerique'>50.000</td>
+      <td class='numerique'>14</td>
       <td class='numerique'></td>
-      <td class='numerique'>5.400</td>
-      <td class='numerique'>400.000</td>
+      <td class='numerique'>5.000</td>
+      <td class='numerique'>70.000</td>
       <td></td>
     </tr>
     <tr class='focus'>
@@ -247,7 +243,7 @@ margin-top:35px;margin-bottom:30px}
       <td></td>
       <td></td>
       <td></td>
-      <td>1600.000</td>
+      <td>1200.640</td>
       <td></td>
     </tr>
     <tr class='numerique'>
@@ -256,23 +252,23 @@ margin-top:35px;margin-bottom:30px}
       <td></td>
       <td class='numerique'>7.8%</td>
       <td></td>
-      <td class='retrait'>240.000</td>
+      <td class='retrait'>125.757</td>
     </tr>
     <tr class='focus'>
       <td>Salaire imposable</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>1360.000</td>
+      <td>1103.883</td>
       <td></td>
     </tr>
     <tr class='numerique'>
       <td class='item'>Impot sur le revenu (irpp)</td>
       <td></td>
       <td></td>
-      <td class='numerique'>15%</td>
+      <td class='numerique'>10%</td>
       <td></td>
-      <td class='retrait'>290.000</td>
+      <td class='retrait'>118.582</td>
     </tr>
     <tr class='focus'>
       <td class='salaire'>Salaire net</td>
@@ -280,7 +276,7 @@ margin-top:35px;margin-bottom:30px}
       <td></td>
       <td></td>
       <td></td>
-      <td class='salaire_net'>1070.560</td>
+      <td class='salaire_net'>1265.401</td>
     </tr>
   </tbody>
  

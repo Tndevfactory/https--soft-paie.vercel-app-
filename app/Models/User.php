@@ -22,11 +22,8 @@ class User extends Authenticatable
         'nom',
         'prenom',
         'adresse',
-        'telephone',
-        'dob',
-        'nb_enfant',
-        'etat_civil',
-        'avatar',
+        'gsm',
+         'file',
         'email',
         'password',
     ];

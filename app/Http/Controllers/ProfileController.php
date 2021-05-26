@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -15,13 +17,10 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
+        if($request->item == ''){
+         
            return User::all()->toArray();
-        
-         if($request->item == ''){
-           // recherche globale 
-           return User::all()->toArray();
-            
-
+   
         }else{
 
              // recherche ciblée reduite s
@@ -37,10 +36,8 @@ class ProfileController extends Controller
                 }else{
                       return response(['success'=> 'not found']);
                 }
-
         }
-        
-    }
+   }
 
     /**
      * Store a newly created resource in storage.
@@ -50,29 +47,11 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
+        return request->all();
          $file= $request->file;
-
-          //File Name
-        //$info_file=$file->getClientOriginalName();
-
-        //Display File Extension
-       //$info_file=$file->getClientOriginalExtension();
-
-        //Display File Real Path
-       // $info_file=$file->getRealPath();
-
-        //Display File Size
         $info_file=$file->getSize();
-
-        //Display File Mime Type
-        //$info_file=$file->getMimeType();
-
-        //Move Uploaded File
-        //$destinationPath = 'uploads';
-        //$info_file=$file->move($destinationPath,$file->getClientOriginalName());
-
-        //dd($info_file);
-        return($info_file);
+       
+        // return($info_file);
 
         $request->validate([
             'description'=>'required',
@@ -97,12 +76,14 @@ class ProfileController extends Controller
     {
        
         $found = User::find($id);
-        $role=$found->roles->first()->name;
-
+        if($found){
+          $role=$found->roles->first()->name;
+        }
+       
         if($found){
           return response(['user'=> $found,'role'=> $role,]);
-        }else{
-            return response(['success'=> 'profil non existant']);
+          }else{
+          return response(['success'=> 'profil non existant']);
         }
       
     }
@@ -116,55 +97,96 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+      
+         $found = User::find($id);
+         $role=$found->roles->first()->name;
+    
+      $validatedData = $request->validate([
+      "prenom" => "nullable|required|max:55",
+      "nom" => "nullable|required|max:55",
+      "adresse" => "nullable|required|max:130",
+      "telephone" => "nullable",
+      "password" => "nullable",
+      "email" => "unique:users,email," . $request->id,
+     "file"=> 'nullable',
+     ]);
+      // "file"=> "nullable|sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+    //return 'done';
+      $validatedData["nom"] = Str::lower($request->nom);
 
-       // return 'inside update';
-        //return $request->nom;
-         $file = $request->file;
-
-          //File Name
-        //$info_file=$file->getClientOriginalName();
-
-        //Display File Extension
-       //$info_file=$file->getClientOriginalExtension();
-
-        //Display File Real Path
-       // $info_file=$file->getRealPath();
-
-        //Display File Size
-        $info_file=$file->getSize();
-
-        //Display File Mime Type
-        //$info_file=$file->getMimeType();
-
-        //Move Uploaded File
-        //$destinationPath = 'uploads';
-        //$info_file=$file->move($destinationPath,$file->getClientOriginalName());
-
-        //dd($info_file);
-        return($info_file);
-
-        return $request->all();
-        //return $id;
-         $filename = $request->file->getClientOriginalName();
-         return $filename ;
+     //initialisation
+       $path_info=$found->file;
        
-       
+        if ($request->hasFile('file')) {
+              $file = $request->file;
+              $file_name=$file->getClientOriginalName();
+              $file_extension=$file->getClientOriginalExtension();
+              $file_path=$file->getRealPath();
+              $file_size=$file->getSize();
+              $file_mimetype=$file->getMimeType();
 
-         $name = Input::file('photo')->getClientOriginalName();
+              if($file_extension != 'jpg'){
+                $error_bag=[
+                   'ok'=>  false ,
+                  'response'=> 'mauvais format',
+                   'data'=> [],
+                ];
+                return  $error_bag;
 
-        return $name;
-       
-        $found = User::find($id);
+              }
 
-         if($found){
-                $found->update($request->all());
-                return response(['success'=> 'mise a jour avec succes']);
-           }else{
-                return response(['success'=> 'profil non existant']);
-           }
-       
+              if($role=="admin"){
+              $manualPath='uploads/users/admin/'.$found->nom.'-'.$found->id;
+              }elseif($role=="manager"){
+              $manualPath='uploads/users/manager/'.$found->nom.'-'.$found->id;
+              }elseif($role=="employe"){
+                $manualPath='uploads/users/employe/'.$found->nom.'-'.$found->id;
+              }
+            
+              if(User::where('id', $found->id)->pluck('file')[0] == null){
+                  $path=$manualPath;
+                
+              }else{
+                $filepath=User::where('id', $found->id)->pluck('file')[0];
+                $path=Str::of($filepath)->dirname();
+              }
+
+             $current = Carbon::now()->format('YmdHs');
+             $path_info=$file->move($path,$found->prenom.$current.'.'.$file_extension);
+         }
+
+
         
-    }
+           $record = User::where('id', $id)->update([
+              'nom'=>Str::lower($request->nom) ,
+              'prenom'=>Str::lower($request->prenom),
+              'gsm'=>Str::lower($request->telephone),
+              'email'=>Str::lower($request->email),
+              'adresse'=>Str::lower($request->adresse),
+              'file'=>Str::lower($path_info),
+         ]);
+
+            if($record){
+                $ok = true;
+                $response='modifier avec succes';
+                $data='';
+            }else{
+               $ok = false;
+                $response='erreur modification impossibe';
+                $data='';
+            }
+                 
+          return [
+            'ok'=>  $ok ,
+            'response'=> $response,
+            'data'=> $data,
+            ];
+         
+        
+    
+    
+    
+        }
 
     /**
      * Remove the specified resource from storage.

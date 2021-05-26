@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 use PDF;
+use Exception;
 use App\Models\User;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class MailController extends Controller
 {
@@ -27,8 +30,8 @@ class MailController extends Controller
                     ->attachData($pdf->output(), "fiche-de-paie.pdf");
         });
   
-        //dd('Mail sent successfully');
     }
+
      /**
      * mass fiche de paie to all employee
      *
@@ -38,8 +41,6 @@ class MailController extends Controller
     {
 
        $emails=User::pluck('email');
-
-        //dd($emails);
 
         $data["email"] = "devops12345678910@gmail.com";
         $data["title"] = "fiche-de-paie-mars-2021";
@@ -55,7 +56,6 @@ class MailController extends Controller
                         ->attachData($pdf->output(), "fiche-de-paie.pdf");
             });
         }
-
        
     }
 
@@ -66,48 +66,15 @@ class MailController extends Controller
      */
     public function simpleMail(Request $request)
     {
-        // $data = array(
-        //         'name'=> $request->name,
-        //         'email'=> $request->email,
-        //         'text'=> $request->text,
-        //         'category'=> $request->category,
-        //         'company'=> $request->company,
-        //         'number'=> $request->number
-        //     );
-
-
-        //$all= $request->all();
+   
         $title= $request->title;
         $body= $request->body;
         $file= $request->file;
 
-        //File Name
-        //$info_file=$file->getClientOriginalName();
-
-        //Display File Extension
-       //$info_file=$file->getClientOriginalExtension();
-
-        //Display File Real Path
-       // $info_file=$file->getRealPath();
-
-        //Display File Size
-        //$info_file=$file->getSize();
-
-        //Display File Mime Type
-        //$info_file=$file->getMimeType();
-
-        //Move Uploaded File
-        //$destinationPath = 'uploads';
-        //$info_file=$file->move($destinationPath,$file->getClientOriginalName());
-
-        //dd($info_file);
-        //return($info_file);
-
-        $sender["email"] = "devops12345678910@gmail.com";
+        $sender["email"] = "tndev8@gmail.com";
         $sender["title"] = $title ?? 'no title';
         $sender["body"] = $body ?? 'no body';
-  
-        
+         
   
         Mail::send('emails.simple_mail', $sender, function($message) use($sender, $file) {
             $message->to( $sender["email"] ,  'soft-paie' )
@@ -121,12 +88,54 @@ class MailController extends Controller
 
         
         $data = [
-
             ["success" => "mail sent", ], 
-
             ["info" => "pretty sure that is sent ch", ]
         ];
        
+        return $data;
+    }
+
+
+    public function SenderFichePaieFromPublic($yearm, $monthm)
+    {
+        
+
+       $emails=User::pluck('email');
+
+        $msg["title"] = 'fiche-de-paie'.'-'.$monthm.'-'.$yearm ;
+        $msg["body"] = 'Bonjour, ci-joint la fiche de paie de mois de'. $monthm. ' '. $yearm ;
+  
+        $location = public_path('uploads/users/employe/fekih-8/202101.pdf');
+      
+        $failures = [];
+        $success=[];
+
+   foreach($emails as $email){
+         try {
+
+            Mail::send('emails.corps_pdf_mail', $msg, function($message) use($msg, $location , $email) {
+                    $message->to($email,'soft-paie')->subject($msg["title"])->attach($location ,  [
+                            'as' => 'mars2021.pdf',
+                        'mime' => 'application/pdf',
+                    ]);
+                });
+
+            $success[]=$email;
+
+            } catch (\Exception $e) {
+
+                if (count(Mail::failures()) > 0) {
+                    $failures[] = Mail::failures()[0];
+                }
+                
+            }
+        }
+            
+       
+        $data=[
+            'failed recepients' => $failures,
+            'sent recepients' => $success,
+          ];
         return $data;
     }
 }

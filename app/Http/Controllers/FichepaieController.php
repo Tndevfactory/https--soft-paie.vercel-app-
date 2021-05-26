@@ -2,11 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+use App\Models\User;
 use App\Models\Fichepaie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FichepaieController extends Controller
 {
+
+// Generate PDF
+    public function createPDF() {
+      // retreive all records from db
+      $data = collect(User::all());
+     view()->share('users',$data);
+      $pdf = PDF::loadView('fiche_paie_pdf', $data);
+//save to disk
+    //   Storage::put('public/pdf/invoice.pdf', $pdf->output());
+
+//save to disk2
+      $path = public_path('pdfpublic');
+      $fileName =  'hfaied202105' . '.' . 'pdf' ;
+      $pdf->save($path . '/' . $fileName);
+//dd( $pdf);
+      // download PDF file with download method
+      return $pdf->download('pdf_file.pdf');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -21,13 +44,21 @@ class FichepaieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function downloadFile()
+    public function downloadFile($year, $month, $id)
     {
+        $user=User::find($id);
 
-       // /home/ch/Desktop/dev/https-soft-paie.vercel.app-/server/storage//uploads/users/employe/fahem/mars-2021.pd
-        $location = public_path('uploads/users/employe/fahem/mars-2021.pdf');
+        if($user){
+          $role=$user->roles->first()->name;
+
+        $directory = $user->nom.'-'.$id;
         
-        $filename = 'fiche-paie-mars2021.pdf';
+        $fichePaie=$year. $month.'.pdf';
+        
+        $location = public_path('uploads/users/'.$role. '/'. $directory .'/'.$fichePaie);
+       
+        
+        $filename = $fichePaie;
        
         $headers =[
         'Content-Description' => 'File Transfer',
@@ -35,6 +66,10 @@ class FichepaieController extends Controller
         ];
 
         return response()->download($location, $filename, $headers);
+        }else{
+             return response(['success'=> 'user not found']);
+        }
+
         
     }
 

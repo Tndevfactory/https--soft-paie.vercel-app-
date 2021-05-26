@@ -14,10 +14,10 @@ use App\Http\Controllers\FichepaieController;
 Route::get('/schedule', [CheckerController::class, 'testSchedule']);
 
 //make pdf from db
-Route::get('/pdf', [CheckerController::class, 'createPDF']);
+Route::get('/pdf', [FichepaieController::class, 'createPDF']);
 
 //download file from public storage
-Route::get('/downloadFile', [FichepaieController::class, 'downloadFile']);
+Route::get('/downloadFile/{year}/{month}/{id}', [FichepaieController::class, 'downloadFile']);
 
 //profiles
 Route::get('/profiles', [ProfileController::class, 'index']);
@@ -46,3 +46,4 @@ Route::apiResource('products', ProductController::class);
 
 //api mail
 Route::post('simple-mail-api', [MailController::class, 'simpleMail']);
+Route::get('mail-pdf/{yearm}/{monthm}/', [MailController::class, 'SenderFichePaieFromPublic']);

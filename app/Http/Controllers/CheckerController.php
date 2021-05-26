@@ -5,36 +5,17 @@ namespace App\Http\Controllers;
 use PDF;
 use App\Models\User;
 use App\Models\Checker;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class CheckerController extends Controller
 
 {
-
-  public function testSchedule()
-  {
   
-    return response([
-      "user" => 'method run every minute ',
-      "time" => Carbon::now(),
-     
-    ]);
-  }
-
-  // Generate PDF
-    public function createPDF() {
-      // retreive all records from db
-      $data = collect(User::all());
-     view()->share('user',$data);
-      $pdf = PDF::loadView('fiche_paie_pdf', $data);
-//dd( $pdf);
-      // download PDF file with download method
-      return $pdf->download('pdf_file.pdf');
-    }
-
     /**
    * Registration
    */
@@ -43,18 +24,16 @@ class CheckerController extends Controller
    
 
     $validatedData = $request->validate([
-      "prenom" => "required|max:55",
       "nom" => "required|max:55",
+      "prenom" => "required|max:55",
       "adresse" => "nullable",
-      "telephone" => "nullable",
-      "dob" => "nullable",
-      "nb_enfant" => "nullable",
-      "etat_civil" => "nullable",
+      "gsm" => "nullable",
       "email" => "email|required|unique:users",
       "password" => "required|confirmed",
-      "avatar" => "nullable",
+      "file" => "nullable",
      ]);
    
+    $validatedData["nom"] = Str::lower($request->nom);
     $validatedData["password"] = bcrypt($request->password);
     //return response(["creation" => $validatedData  ]);
 
@@ -65,13 +44,22 @@ class CheckerController extends Controller
     
     //adding employee role ==> 3
      User::find($user->id)->roles()->attach(3);
-     $r=User::find($user->id)->roles()->pluck('name')[0];
+     $role=User::find($user->id)->roles()->pluck('name')[0];
+    
+    // creating directory for user
+    $directory = $user->nom.'-'.$user->id;
+     $path = public_path('uploads/users/'.$role.'/'.$directory);
+
+    if(!File::isDirectory($path)){
+        File::makeDirectory($path, 0777, true, true);
+    }
     
 
     return response([
       "user" => $user,
-      "role" => $r,
+      "role" => $role,
       "access_token" => $accessToken,
+      'Directory'=> $path,
     ]);
   }
 
