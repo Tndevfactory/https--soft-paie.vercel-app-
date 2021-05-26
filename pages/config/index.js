@@ -3,19 +3,20 @@ import { motion } from "framer-motion";
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import { Device } from "../../components/devices/Device";
 import chroma from "chroma-js";
 import Config from "../../components/config/Config1";
-import Alert1 from "../../components/alerts/Alert1";
+
 import Loader from "../../components/loader/Loader1";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
+import Loader1 from "../../components/loader/Loader1";
 
 const Desktop = styled(motion.div)`
   min-width: 100%;
   min-height: 100vh;
-//background-color:pink;
+  //background-color:pink;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,39 +35,17 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-// export const getServerSideProps = async () => {
-//   const dt = await apiGet();
-
-//   return { props: { dt } };
-// };{ dt }
-
 export default function Config_page() {
   const queryClient = useQueryClient();
 
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { ui, switchMode } = prodStates;
-
-  // const { isLoading, error, data } = useQuery("products", apiGet, {
-  //   initialData: dt,
-  //   initialStale: true,
-  // });
-
-  // const mDelete = useMutation((id) => apiDelete(id), {
-  //   onSuccess: () => queryClient.invalidateQueries("products"),
-  // });
-
-  // const mUpdate = useMutation((values) => apiUpdate(values));
-
-  // if (isLoading) return <div>loading ...</div>;
-
-  // if (error) return "An error has occurred: " + error.message;
-
-  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
+  const { loader, setLoader, ui, switchMode } = prodStates;
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <Navbar />
+      {loader && <Loader1 />}
       <Config />
       <Footer fixed={true} />
     </Mobile>

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Head from "next/head";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Register1 from "../../components/registers/Register1";
@@ -52,21 +52,36 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-// export const getServerSideProps = async () => {
-//   const dt = await apiGet();
+export async function getServerSideProps({ params: { id } }) {
+  const initialData = await apiProfileShowOne(id);
 
-//   return { props: { dt } };
-// };{ dt }
+  //const initialData = await axios.get(`/profiles/${id}`);
+  return { props: { initialData } };
+}
 
-export default function Profile() {
-const queryClient = useQueryClient();
-const router = useRouter();
-const [prodMethods, prodStates] = ProdCtx();
-const { apiGet } = prodMethods;
-const { loader, setLoader, ui, switchMode } = prodStates;
+export default function Profile({ initialData }) {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const [prodMethods, prodStates] = ProdCtx();
+  const { profilMethods } = prodMethods;
+  const { apiProfileShowOne } = profilMethods;
 
+  const {
+    initialDataHotssr1,
+    setInitialDataHotssr1,
+    loader,
+    setLoader,
+    ui,
+    switchMode,
+  } = prodStates;
 
-
+  setInitialDataHotssr1(initialData);
+  // console.log("initialData");
+  // console.log(initialDataHotssr);
+  // console.log("initialData-------------home login page--index.js");
+  // console.log(initialData);
+  // console.log("initialDataHotssr1-------------home login page--index.js");
+  // console.log(initialDataHotssr1);
   return (
     <>
       <Head>

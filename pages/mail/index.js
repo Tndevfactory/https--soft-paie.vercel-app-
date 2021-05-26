@@ -4,6 +4,8 @@ import React from "react";
 import Head from "next/head";
 import styled, { css } from "styled-components";
 import SendMail from "../../components/mail/SendMail";
+import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
+import Loader1 from "../../components/loader/Loader1";
 
 const Desktop = styled(motion.div)`
   min-width: 100%;
@@ -25,6 +27,18 @@ const Mobile = styled(Desktop)`
 `;
 
 export default function SendMailPage() {
+  const queryClient = useQueryClient();
+  const [prodMethods, prodStates] = ProdCtx();
+  const { apiGet } = prodMethods;
+  const {
+    initialDataHotssr1,
+    setInitialDataHotssr1,
+    loader,
+    setLoader,
+    ui,
+    switchMode,
+  } = prodStates;
+
   return (
     <>
       <Head>
@@ -37,6 +51,7 @@ export default function SendMailPage() {
       </Head>
 
       <Mobile>
+        {loader && <Loader1 />}
         <SendMail />
       </Mobile>
     </>

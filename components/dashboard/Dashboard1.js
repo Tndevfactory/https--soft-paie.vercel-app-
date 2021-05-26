@@ -3,7 +3,12 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import Head from "next/head";
 import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import {
+  MutationCache,
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from "react-query";
 import styled, { css } from "styled-components";
 import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import Alert1 from "../../components/alerts/Alert1";
@@ -304,13 +309,7 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-export async function getServerSideProps({ params: { id } }) {
-  const initialData = await apiProfileShowOne(id);
-  //const initialData = await axios.get(`/profiles/${id}`);
-  return { props: { initialData } };
-}
-
-export default function Dashboard1({ initialData }) {
+export default function Dashboard1() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { id } = router.query;
@@ -325,6 +324,9 @@ export default function Dashboard1({ initialData }) {
     apiProfileDelete,
   } = profilMethods;
   const {
+    initialDataHotssr1,
+    setInitialDataHotssr1,
+
     connectedRole,
     setConnectedRole,
     connectedId,
@@ -353,48 +355,36 @@ export default function Dashboard1({ initialData }) {
     token: Cookies.get("sp_token") || 0,
   });
 
-  const { isLoading, error, data, isFetching } = useQuery(
-    ["dashboard1", check.cid],
+  const { isSuccess, isLoading, refetch, error, data, isFetching } = useQuery(
+    ["dashboard1"],
     () => apiProfileShowOne(check.cid),
     {
-      initialData: initialData,
+      initialData: initialDataHotssr1,
       initialStale: true,
+      //enabled: false,
     }
   );
 
   if (isLoading) {
-    console.log("loading");
+    //console.log("loading");
   }
 
   if (error) {
-    console.log("error");
+  }
+  if (isSuccess) {
   }
 
-  // console.log("dashboard1 query with initial data ");
-  // console.log(data);
-
-  // React.useEffect(() => {
-  //   if (Number(check.cid) !== Number(id)) {
-  //     // check role and redirect to correct dashboard number
-  //     if (check.role === "employe") {
-  //       //router.push(`/employee/${id}`);
-  //       router.push(`/`);
-  //     } else if (check.role === "manager") {
-  //       //router.push(`/manager/${id}`);
-  //       router.push(`/`);
-  //     } else if (check.role === "admin") {
-  //       //router.push(`/admin/${id}`);
-  //       router.push(`/`);
-  //     } else {
-  //       router.push(`/`);
-  //     }
-  //   }
-  //   return () => console.log("clean up");
-  // }, [id]);
+  React.useEffect(() => {
+    if (Number(check.cid) !== Number(id)) {
+      Cookies.set("sp_token", "");
+      Cookies.set("sp_role", "");
+      Cookies.set("sp_id", "");
+      router.push(`/`);
+    }
+    return () => console.log("");
+  }, [id]);
 
   React.useEffect(() => {
-    console.log("data undefined");
-    console.log(data);
     setProfilInfo({
       nom: data?.user.nom,
       prenom: data?.user.prenom,
@@ -406,7 +396,7 @@ export default function Dashboard1({ initialData }) {
     });
 
     return () => {
-      console.log("cleanup chech data dashboard1");
+      console.log("purge use effect fill up setProfilInfo  ");
     };
   }, [data]);
 
@@ -446,6 +436,7 @@ export default function Dashboard1({ initialData }) {
           </div>
           <div className="profil_username">
             <span className="profil_username_label">Nom: </span>
+
             <span className="profil_username_value">{`${profilInfo.nom} ${profilInfo.prenom}`}</span>
           </div>
           <div className="profil_role">
@@ -536,7 +527,7 @@ export default function Dashboard1({ initialData }) {
             )}
             {selectSection === "paie" && (
               <div className="component component_paie">
-                <FichePaie data={ data}/>
+                <FichePaie data={data} />
               </div>
             )}
             {selectSection === "planification" && (

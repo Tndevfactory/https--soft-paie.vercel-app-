@@ -9,8 +9,6 @@ import { useMutation } from "react-query";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import Button1 from "../buttons/Button1";
 import Cookies from "js-cookie";
-import Loader1 from "../loader/Loader1";
-import Alert1 from "../alerts/Alert1";
 import Alert2 from "../alerts/Alert2";
 
 const Desktop = styled(motion.div)`
@@ -229,6 +227,8 @@ const Login1 = () => {
   const { apiLogin, apiLogout, apiRegister } = authMethods;
 
   const {
+    initialDataHotssr,
+    setInitialDataHotssr,
     loader,
     setLoader,
     ui,
@@ -254,6 +254,7 @@ const Login1 = () => {
     msgAlert: "",
     typeAlert: "",
   });
+
   let m = "";
   let loaderM = "";
 
@@ -304,24 +305,24 @@ const Login1 = () => {
     // setNotification({ notifType: "fail", notifMsg: "ttt000000" });
 
     if (handleValidate()) {
-      console.log("all data verified before sent");
+    //  console.log("all data verified before sent");
       LoginMutation.mutate({
         email: credential.email,
         password: credential.password,
       });
     } else {
-      console.log(" data not completed before sent");
+      //console.log(" data not completed before sent");
       LoginMutation.reset();
     }
   };
 
   if (LoginMutation.isLoading) {
     loaderM = "loading";
-    console.log("loading...");
+   // console.log("loading...");
   }
 
   if (LoginMutation.isError) {
-    console.log(LoginMutation.error.message);
+   // console.log(LoginMutation.error.message);
     m = LoginMutation.error.message;
   }
 
@@ -360,10 +361,12 @@ const Login1 = () => {
 
   React.useEffect(() => {
     setMsg({ msgAlert: m, typeAlert: "fail" });
+    return () => {console.log('')}
   }, [m]);
   React.useEffect(() => {
     if (loaderM !== "") setLoader(true);
     if (m !== "") setLoader(false);
+     return () => {console.log('')}
   }, [loaderM, m]);
   return (
     <Mobile ui={ui} switchMode={switchMode}>

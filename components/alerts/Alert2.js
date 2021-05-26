@@ -18,9 +18,9 @@ const Alert2_st = styled(motion.div)`
   width: 100%;
   background-color: ${({ alertType }) =>
     alertType === "fail"
-      ? chroma("red").brighten(1)
+      ? chroma("crimson")
       : alertType === "success"
-      ? chroma("green").brighten(1)
+      ? chroma("seagreen")
       : "transparent"};
   color: white;
   font-weight: 600;

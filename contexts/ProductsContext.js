@@ -64,6 +64,14 @@ export const apiProfileShowOne = async (id) => {
 };
 
 //-------------------------------------------------------
+// used with mutation only
+export const apiProfileUpdateMutation = async ( id, values) => {
+  const { data } = await api.put(`/profilesput/${id}`, values,);
+  return data;
+};
+//-------------------------------------------------------------
+
+//-------------------------------------------------------
 //used only with axios in different components --> voir editer profil employee
 export const apiProfileUpdate = async (id, fd, cfg) => {
   const { data } = await api.post(`/profiles/${id}`, fd, cfg);
@@ -77,6 +85,7 @@ export const apiProfileDelete = async (id) => {
 };
 
 const profilMethods = {
+  apiProfileUpdateMutation,
   apiProfileShowAll,
   apiProfileStore,
   apiProfileShowOne,
@@ -157,6 +166,10 @@ const productMethods = {
 };
 
 export const ProductProvider = ({ children }) => {
+  //hotssr from page getserversideprops initial data
+
+  const [initialDataHotssr1, setInitialDataHotssr1] = useState();
+
   const [connectedRole, setConnectedRole] = useState("");
   const [connectedId, setConnectedId] = useState("");
 
@@ -215,6 +228,8 @@ export const ProductProvider = ({ children }) => {
   };
 
   const states = {
+    initialDataHotssr1,
+    setInitialDataHotssr1,
     loader,
     setLoader,
     notification,

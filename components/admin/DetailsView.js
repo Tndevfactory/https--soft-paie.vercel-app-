@@ -19,13 +19,14 @@ import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
 import FormData from "form-data";
-import AlertUtil from "../../components/alerts/AlertUtil";
-import LoaderUtil from "../../components/loader/LoaderUtil";
+import AlertUtil from "../alerts/AlertUtil";
+import LoaderUtil from "../loader/LoaderUtil";
 import Alert2 from "../alerts/Alert2";
 
 import {
   FaInfoCircle,
   FaCheck,
+  FaRegArrowAltCircleLeft,
   FaUpload,
   FaUser,
   FaRegListAlt,
@@ -66,13 +67,37 @@ const Desktop = styled(motion.div)`
   }
 
   .form_profil {
+    //min-width: 60vw;
     display: flex;
     flex-flow: column nowrap;
     gap: 16px;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(250, 250, 250, 0.85);
+    box-shadow: 1px 1px 5px 0.51px rgba(0, 0, 0, 0.2);
     border: #bbb 1px solid;
     padding: 1em;
     border-radius: 12px;
+    .form_profil_section {
+      display: flex;
+      justify-content: space-around;
+      gap: 1em;
+
+      & > * {
+        min-width: 35em;
+      }
+    }
+
+    .form_profil_section_left {
+      //background-color: rgba(255, 100, 20, 0.5);
+      display: flex;
+      flex-flow: column nowrap;
+      gap: 0.51em;
+    }
+    .form_profil_section_right {
+      //background-color: rgba(255, 0, 230, 0.5);
+      display: flex;
+      flex-flow: column nowrap;
+      gap: 0.51em;
+    }
   }
 
   label {
@@ -104,14 +129,21 @@ const Desktop = styled(motion.div)`
     margin-bottom: 5px;
   }
 
-  .profil_adresse {
-    min-width: 30vw;
-    .label_adresse {
-    }
-    .profil_area {
-      width: 100%;
-      //background: red;
-      padding: 1rem;
+  .back {
+    color: red;
+    cursor: pointer;
+  }
+  .back_icon {
+    color: ${({ switchMode, ui }) =>
+      switchMode ? chroma(ui.dark) : chroma(ui.light)};
+    font-size: 0.9em;
+  }
+  .back_text {
+    color: #222;
+    margin-left: 4px;
+    transition: all 0.5s;
+    &:hover {
+      text-shadow: 0.51px 0.41px 0.91px rgba(0, 0, 0, 0.5);
     }
   }
 `;
@@ -156,7 +188,7 @@ const variants = {
   exit: { opacity: 0 },
 };
 
-export default function Profil() {
+export default function DetailsView({ setSelectSection }) {
   const queryClient = useQueryClient();
 
   const [typeA, setTypeA] = useState("initialType");
@@ -439,104 +471,191 @@ export default function Profil() {
         </AnimatePresence>
       </motion.div>
 
+      <h3
+        className="back"
+        onClick={() => setSelectSection("Gestion Employees")}
+      >
+        <FaRegArrowAltCircleLeft className="back_icon" />
+        <span className="back_text">Retour Gestion employes </span>
+      </h3>
+
       <form className="form_profil" onSubmit={handleSubmit}>
-        <div className="profil_nom">
-          <label htmlFor="nom">Nom:</label>
-          <input
-            autoComplete="false"
-            value={credentialP.nom}
-            type="text"
-            name="nom"
-            onChange={handleOnChange}
-          />
-          <div className="error">
-            {credentialP.nomError && credentialP.nomError}
+        <div className="form_profil_section">
+          {/* form_profil_section_left start */}
+          <div className="form_profil_section_left">
+            <div className="profil_nom">
+              <label htmlFor="nom">Nom:</label>
+              <input
+                autoComplete="false"
+                value={credentialP.nom}
+                type="text"
+                name="nom"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.nomError && credentialP.nomError}
+              </div>
+            </div>
+            <div className="profil_prenom">
+              <label htmlFor="prenom">Prenom:</label>
+              <input
+                autoComplete="false"
+                value={credentialP.prenom}
+                type="text"
+                name="prenom"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.prenomError && credentialP.prenomError}
+              </div>
+            </div>
+            <div className="profil_email">
+              <label htmlFor="email">Email:</label>
+              <input
+                autoComplete="false"
+                value={credentialP.email}
+                type="email"
+                name="email"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.emailError && credentialP.emailError}
+              </div>
+            </div>
+            <div className="profil_email">
+              <label htmlFor="email">Email:</label>
+              <input
+                autoComplete="false"
+                value={credentialP.email}
+                type="email"
+                name="email"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.emailError && credentialP.emailError}
+              </div>
+            </div>
+            <div className="profil_email">
+              <label htmlFor="email">Email:</label>
+              <input
+                autoComplete="false"
+                value={credentialP.email}
+                type="email"
+                name="email"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.emailError && credentialP.emailError}
+              </div>
+            </div>
+            <div className="profil_email">
+              <label htmlFor="email">Email:</label>
+              <input
+                autoComplete="false"
+                value={credentialP.email}
+                type="email"
+                name="email"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.emailError && credentialP.emailError}
+              </div>
+            </div>
           </div>
-        </div>
+          {/* form_profil_section_left stop */}
 
-        <div className="profil_prenom">
-          <label htmlFor="prenom">Prenom:</label>
-          <input
-            autoComplete="false"
-            value={credentialP.prenom}
-            type="text"
-            name="prenom"
-            onChange={handleOnChange}
-          />
-          <div className="error">
-            {credentialP.prenomError && credentialP.prenomError}
+          {/* form_profil_section_right start */}
+          <div className="form_profil_section_right">
+            <div className="profil_email">
+              <label htmlFor="email">Password:</label>
+              <input
+                autoComplete="false"
+                value={credentialP.password}
+                type="password"
+                name="password"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.passwordError && credentialP.passwordError}
+              </div>
+            </div>
+            <div className="profil_telephone">
+              <label htmlFor="telephone">Telephone:</label>
+              <input
+                autoComplete="false"
+                value={credentialP.telephone}
+                type="text"
+                name="telephone"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.telephoneError && credentialP.telephoneError}
+              </div>
+            </div>
+            <div className="profil_adresse">
+              <label className="label_adresse" htmlFor="adresse">
+                Adresse:
+              </label>
+              <input
+                autoComplete="false"
+                value={credentialP.adresse}
+                type="text"
+                name="adresse"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.adresseError && credentialP.adresseError}
+              </div>
+            </div>
+            <div className="profil_adresse">
+              <label className="label_adresse" htmlFor="adresse">
+                Adresse:
+              </label>
+              <input
+                autoComplete="false"
+                value={credentialP.adresse}
+                type="text"
+                name="adresse"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.adresseError && credentialP.adresseError}
+              </div>
+            </div>
+            <div className="profil_adresse">
+              <label className="label_adresse" htmlFor="adresse">
+                Adresse:
+              </label>
+              <input
+                autoComplete="false"
+                value={credentialP.adresse}
+                type="text"
+                name="adresse"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.adresseError && credentialP.adresseError}
+              </div>
+            </div>
+            <div className="profil_adresse">
+              <label className="label_adresse" htmlFor="adresse">
+                Adresse:
+              </label>
+              <input
+                autoComplete="false"
+                value={credentialP.adresse}
+                type="text"
+                name="adresse"
+                onChange={handleOnChange}
+              />
+              <div className="error">
+                {credentialP.adresseError && credentialP.adresseError}
+              </div>
+            </div>
           </div>
+          {/* form_profil_section_right stop */}
         </div>
-        <div className="profil_email">
-          <label htmlFor="email">Email:</label>
-          <input
-            autoComplete="false"
-            value={credentialP.email}
-            type="email"
-            name="email"
-            onChange={handleOnChange}
-          />
-          <div className="error">
-            {credentialP.emailError && credentialP.emailError}
-          </div>
-        </div>
-        <div className="profil_email">
-          <label htmlFor="email">Password:</label>
-          <input
-            autoComplete="false"
-            value={credentialP.password}
-            type="password"
-            name="password"
-            onChange={handleOnChange}
-          />
-          <div className="error">
-            {credentialP.passwordError && credentialP.passwordError}
-          </div>
-        </div>
-
-        <div className="profil_telephone">
-          <label htmlFor="telephone">Telephone:</label>
-          <input
-            autoComplete="false"
-            value={credentialP.telephone}
-            type="text"
-            name="telephone"
-            onChange={handleOnChange}
-          />
-          <div className="error">
-            {credentialP.telephoneError && credentialP.telephoneError}
-          </div>
-        </div>
-
-        <div className="profil_adresse">
-          <label className="label_adresse" htmlFor="adresse">
-            Adresse:
-          </label>
-          <input
-            autoComplete="false"
-            value={credentialP.adresse}
-            type="text"
-            name="adresse"
-            onChange={handleOnChange}
-          />
-          <div className="error">
-            {credentialP.adresseError && credentialP.adresseError}
-          </div>
-        </div>
-
-        <div className="profil_avatar">
-          <label htmlFor="avatar">Photo profil:</label>
-          <input
-            autoComplete="false"
-            type="file"
-            name="file"
-            onChange={handleFile}
-          />
-
-          <div className="error">
-            {credentialP.fileError && credentialP.fileError}
-          </div>
-        </div>
+        {/* form_profil_section_stop */}
 
         <Button1 type="submit" disabled={false} width={8} height={2.2}>
           Valider

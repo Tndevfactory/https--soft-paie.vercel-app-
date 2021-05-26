@@ -352,13 +352,7 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-export const getServerSideProps = async ({ params: { id } }) => {
-  const initialData = await apiProfileShowOne(id);
-
-  return { props: { initialData } };
-};
-
-export default function Dashboard2({ initialData }) {
+export default function Dashboard2() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { id } = router.query;
@@ -366,13 +360,15 @@ export default function Dashboard2({ initialData }) {
   const [prodMethods, prodStates] = ProdCtx();
   const { profilMethods } = prodMethods;
   const {
-    apiProfileShowAll,
     apiProfileStore,
     apiProfileShowOne,
     apiProfileUpdate,
     apiProfileDelete,
   } = profilMethods;
+
   const {
+    initialDataHotssr1,
+    setInitialDataHotssr1,
     connectedRole,
     setConnectedRole,
     connectedId,
@@ -397,7 +393,7 @@ export default function Dashboard2({ initialData }) {
     ["dashboard2", id],
     () => apiProfileShowOne(id),
     {
-      initialData: initialData,
+      initialData: initialDataHotssr1,
       initialStale: true,
     }
   );
@@ -416,7 +412,6 @@ export default function Dashboard2({ initialData }) {
     role: Cookies.get("sp_role") || 0,
     token: Cookies.get("sp_token") || 0,
   });
-
   React.useEffect(() => {
     if (Number(check.cid) !== Number(id)) {
       Cookies.set("sp_token", "");
@@ -424,8 +419,9 @@ export default function Dashboard2({ initialData }) {
       Cookies.set("sp_id", "");
       router.push(`/`);
     }
-    return () => console.log("clean up");
+    return () => console.log("");
   }, [id]);
+
   React.useEffect(() => {
     setProfilManager({
       nom: data?.user.nom,
@@ -435,7 +431,6 @@ export default function Dashboard2({ initialData }) {
       adresse: data?.user.adresse,
       file: data?.user.file,
       role: data?.role,
-    
     });
     return () => {
       console.log("");
@@ -469,11 +464,11 @@ export default function Dashboard2({ initialData }) {
           <div className="img-profile">
             <Image
               src={`${DOMAIN}/${
-                data?.user.file === null
+                profilManager.file === null
                   ? "uploads/users/default/user.jpg"
                   : profilManager.file
               }`}
-              alt={data?.user.nom}
+              alt={profilManager.nom}
               layout="responsive"
               quality={65}
               height={30}

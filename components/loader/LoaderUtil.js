@@ -13,7 +13,7 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
-const Loader_st = styled(motion.div)`
+const Desktop = styled(motion.div)`
   position: absolute;
   display: flex;
   justify-content: flex-end;
@@ -35,33 +35,33 @@ const Loader_st = styled(motion.div)`
   }
 `;
 
-const Loader1 = () => {
+const Mobile = styled(Desktop)`
+  @media (min-width: 375px) and (max-width: 600px) {
+  }
+  @media (min-width: 361px) and (max-width: 374px) {
+  }
+  @media (max-width: 360px) {
+  }
+`;
+export default function LoaderUtil({ setLoaderRun }) {
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet, apiDelete, apiUpdate } = prodMethods;
   const { ui, setLoader, loader, setNotification, switchMode } = prodStates;
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const y = useMotionValue(-100);
   const opacity = useTransform(y, [-100, 0], [0, 1]);
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setLoader(false);
-    }, 500);
-  }, []);
-
   return (
-    <Loader_st ui={ui} switchMode={switchMode}>
+    <Mobile ui={ui} switchMode={switchMode}>
       <Loader
         type="Bars"
         color={switchMode ? ui.dark : ui.light}
         height={70}
         width={70}
-        timeout={500} //3 secs
-        className="loader_1"
+        timeout={2000} //3 secs controle based on state of mutation to be real
+        className="loader_info"
       />
-    </Loader_st>
+    </Mobile>
   );
-};
-
-export default Loader1;
+}

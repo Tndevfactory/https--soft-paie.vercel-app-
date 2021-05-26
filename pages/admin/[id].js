@@ -7,11 +7,11 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import { Device } from "../../components/devices/Device";
 import Register1 from "../../components/registers/Register1";
-import Alert1 from "../../components/alerts/Alert1";
-import Loader from "../../components/loader/Loader1";
+
+import Loader1 from "../../components/loader/Loader1";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import Image from "next/image";
@@ -56,20 +56,29 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-// export const getServerSideProps = async () => {
-//   const dt = await apiGet();
+export async function getServerSideProps({ params: { id } }) {
+  const initialData = await apiProfileShowOne(id);
+  //const initialData = await axios.get(`/profiles/${id}`);
+  return { props: { initialData } };
+}
 
-//   return { props: { dt } };
-// };{ dt }
-
-export default function Admin() {
+export default function Admin({ initialData }) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
-  const { loader, setLoader, ui, switchMode } = prodStates;
+  const {
+    initialDataHotssr1,
+    setInitialDataHotssr1,
+    loader,
+    setLoader,
+    ui,
+    switchMode,
+  } = prodStates;
 
-  
+  setInitialDataHotssr1(initialData);
+  // console.log("initialData");
+  // console.log(initialDataHotssr);
   return (
     <>
       <Head>
@@ -83,6 +92,7 @@ export default function Admin() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
+        {loader && <Loader1 />}
 
         <Dashboard3 switchMode={switchMode} />
         <Footer fixed={false} />

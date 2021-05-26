@@ -26,6 +26,9 @@ import MassMail from "../../components/mail/MassMail";
 import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
+import GestionEmployees from "../admin/GestionEmployees";
+import DetailsView from "../admin/DetailsView";
+
 import {
   FaInfoCircle,
   FaUserCog,
@@ -187,7 +190,7 @@ const Desktop = styled(motion.div)`
     flex-direction: column;
   }
   .component {
-    align-self: flex-start;
+    align-self: center;
   }
 `;
 
@@ -346,13 +349,8 @@ const Mobile = styled(Desktop)`
     padding: 9rem 0rem 1rem 0rem;
   }
 `;
-export const getServerSideProps = async ({ params: { id } }) => {
-  const initialData = await apiProfileShowOne(id);
 
-  return { props: { initialData } };
-};
-
-export default function Dashboard3({ initialData }) {
+export default function Dashboard3() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -371,6 +369,8 @@ export default function Dashboard3({ initialData }) {
     apiProfileDelete,
   } = profilMethods;
   const {
+    initialDataHotssr1,
+    setInitialDataHotssr1,
     connectedRole,
     setConnectedRole,
     connectedId,
@@ -395,7 +395,7 @@ export default function Dashboard3({ initialData }) {
     ["dashboard3", id],
     () => apiProfileShowOne(id),
     {
-      initialData: initialData,
+      initialData: initialDataHotssr1,
       initialStale: true,
     }
   );
@@ -450,6 +450,7 @@ export default function Dashboard3({ initialData }) {
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
+        {/* fixed drawer start */}
         <aside className="fixed-drawer">
           <div className="admin">
             <div className="admin_logo">
@@ -503,7 +504,7 @@ export default function Dashboard3({ initialData }) {
           </div>
           <div
             className="section fiche_de_paie "
-            onClick={() => setSelectSection("paie")}
+            onClick={() => setSelectSection("Gestion Employees")}
           >
             <FaUserCog />
             <span>Gérer employées</span>
@@ -532,6 +533,9 @@ export default function Dashboard3({ initialData }) {
           </div>
         </aside>
 
+        {/* fixed drawer end  */}
+
+        {/* dashboard right content start */}
         <div className="dash-content">
           <div className="bread-crumb">
             <Breadcrumb1
@@ -560,9 +564,14 @@ export default function Dashboard3({ initialData }) {
                 <Reclamation />
               </div>
             )}
-            {selectSection === "paie" && (
+            {selectSection === "Gestion Employees" && (
               <div className="component component_paie">
-                <FichePaie />
+                <GestionEmployees setSelectSection={setSelectSection} />
+              </div>
+            )}
+            {selectSection === "DetailsView" && (
+              <div className="component component_paie">
+                <DetailsView setSelectSection={setSelectSection} />
               </div>
             )}
             {selectSection === "planification" && (
@@ -577,6 +586,7 @@ export default function Dashboard3({ initialData }) {
             )}
           </div>
         </div>
+        {/* dashboard right content end */}
       </Mobile>
     </>
   );

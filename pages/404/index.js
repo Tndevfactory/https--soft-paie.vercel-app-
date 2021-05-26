@@ -8,7 +8,8 @@ import Navbar from "../../components/navbar/Navbar";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import chroma from "chroma-js";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import Loader1 from "../../components/loader/Loader1";
+import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import Cookies from "js-cookie";
 import { FaChevronLeft, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
@@ -52,7 +53,7 @@ export default function NotFoundPage() {
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiUpdate } = prodMethods;
-  const { ui, setUi, switchMode, setSwitchMode } = prodStates;
+  const { ui, setUi, switchMode, loader, setLoader, setSwitchMode } = prodStates;
   return (
     <>
       <Head>
@@ -66,6 +67,7 @@ export default function NotFoundPage() {
 
       <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
+        {loader && <Loader1 />}
         <NotFound />
         <Footer fixed={true} />
       </Mobile>

@@ -4,7 +4,7 @@ import React from "react";
 import Head from "next/head";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import Register1 from "../../components/registers/Register1";
 import Loader1 from "../../components/loader/Loader1";
 import Footer from "../../components/footer/Footer";
@@ -36,27 +36,18 @@ const Mobile = styled(Desktop)`
 // };{ dt }
 
 export default function Register() {
-  const queryClient = useQueryClient();
-  const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet } = prodMethods;
-  const { loader, ui, switchMode } = prodStates;
-
-  // const { isLoading, error, data } = useQuery("products", apiGet, {
-  //   initialData: dt,
-  //   initialStale: true,
-  // });
-
-  // const mDelete = useMutation((id) => apiDelete(id), {
-  //   onSuccess: () => queryClient.invalidateQueries("products"),
-  // });
-
-  // const mUpdate = useMutation((values) => apiUpdate(values));
-
-  // if (isLoading) return <div>loading ...</div>;
-
-  // if (error) return "An error has occurred: " + error.message;
-
-  // if (mDelete.isError) return "An error has occurred: " + mDelete.error.message;
+ const queryClient = useQueryClient();
+ const [prodMethods, prodStates] = ProdCtx();
+ const { apiGet } = prodMethods;
+ const {
+   initialDataHotssr1,
+   setInitialDataHotssr1,
+   loader,
+   setLoader,
+   ui,
+   switchMode,
+ } = prodStates;
+  
 
   return (
     <>
