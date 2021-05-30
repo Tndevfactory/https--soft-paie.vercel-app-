@@ -19,14 +19,13 @@ const DOMAIN = process.env.DOMAIN;
 
 console.log("DOMAIN for assets");
 console.log(DOMAIN);
-
+//baseURL: BASE_URL_SERVER,
 const api = axios.create({
-  //baseURL: BASE_URL_SERVER,
   baseURL: process.env.BASE_URL,
 });
 
 api.interceptors.request.use(function (config) {
-  config.headers = { "X-Requested-With": "XMLHttpRequest" };
+  // config.headers = { "X-Requested-With": "XMLHttpRequest" };
 
   const token = Cookies.get("sp_token") ? Cookies.get("sp_token") : null;
   config.headers.Authorization = token ? `Bearer ${token}` : "";
@@ -65,8 +64,8 @@ export const apiProfileShowOne = async (id) => {
 
 //-------------------------------------------------------
 // used with mutation only
-export const apiProfileUpdateMutation = async ( id, values) => {
-  const { data } = await api.put(`/profilesput/${id}`, values,);
+export const apiProfileUpdateMutation = async (id, values) => {
+  const { data } = await api.put(`/profilesput/${id}`, values);
   return data;
 };
 //-------------------------------------------------------------

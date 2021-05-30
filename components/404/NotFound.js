@@ -12,18 +12,16 @@ import Cookies from "js-cookie";
 import { FaChevronLeft, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
-  min-width: 100%;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
-  gap: 3em;
+  gap: 3rem;
   align-items: center;
   flex-flow: column nowrap;
 `;
 
 const Mobile = styled(Desktop)`
   .back {
-    color: red;
+    color: pink;
     cursor: pointer;
   }
   .back_icon {

@@ -30,9 +30,9 @@ const Desktop = styled(motion.header)`
 
   font-family: ${({ ui }) => ui.navFont};
 
-  padding: 0.5em 0.8em;
-  font-weight: 500;
-  font-size: 1.7em;
+  padding: 0.5rem 1.5rem;
+  font-weight: 400;
+  font-size: 1.6rem;
   letter-spacing: 0.1px;
   text-transform: uppercase;
   //text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
@@ -66,9 +66,10 @@ const Desktop = styled(motion.header)`
   .switch-zone {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 1rem;
     .config_link {
-      font-size: 1.7rem;
+      font-size: 1.5rem;
+      cursor: pointer;
       &:hover {
         color: ${({ switchMode, ui }) =>
           switchMode
@@ -83,7 +84,7 @@ const Desktop = styled(motion.header)`
     .login_link {
       margin-top: 2px;
       font-size: 1.25em;
-     
+      cursor: pointer;
       color: ${({ switchMode, ui }) =>
         switchMode
           ? chroma(ui.dark).luminance() < 0.4
@@ -106,7 +107,7 @@ const Desktop = styled(motion.header)`
     .logout_link {
       margin-top: 2px;
       font-size: 1.25em;
-      
+      cursor: pointer;
       color: ${({ switchMode, ui }) =>
         switchMode
           ? chroma(ui.dark).luminance() < 0.4
@@ -129,7 +130,7 @@ const Desktop = styled(motion.header)`
     }
   }
   .switcheur {
-    margin-bottom: 5px;
+    margin-bottom: 0.3rem;
   }
 `;
 
@@ -205,8 +206,8 @@ const Navbar = () => {
         <Image
           src="/img/logos/logo.png"
           alt="soft - paie logo"
-          width={35}
-          height={35}
+          width={32}
+          height={32}
         />
       </div>
       <div className="switch-zone">

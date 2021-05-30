@@ -60,8 +60,7 @@ export async function getServerSideProps({ params: { id } }) {
 }
 
 export default function Profile({ initialData }) {
-  console.log("inside empl page employee redirect");
-  console.log(initialData);
+  console.log("inside empl pageemployee redirect");
   const queryClient = useQueryClient();
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
@@ -77,13 +76,13 @@ export default function Profile({ initialData }) {
     switchMode,
   } = prodStates;
 
-  // setInitialDataHotssr1(initialData);
-  // // console.log("initialData");
-  // // console.log(initialDataHotssr);
-  // // console.log("initialData-------------home login page--index.js");
-  // // console.log(initialData);
-  // // console.log("initialDataHotssr1-------------home login page--index.js");
-  // // console.log(initialDataHotssr1);
+  setInitialDataHotssr1(initialData);
+  // console.log("initialData");
+  // console.log(initialDataHotssr);
+  // console.log("initialData-------------home login page--index.js");
+  // console.log(initialData);
+  // console.log("initialDataHotssr1-------------home login page--index.js");
+  // console.log(initialDataHotssr1);
   return (
     <>
       <Head>
@@ -94,13 +93,12 @@ export default function Profile({ initialData }) {
         <meta name="robots" content="index, follow" />
         <title> Employee</title>
       </Head>
-      {/* ui={ui} switchMode={switchMode} */}
-      <Mobile>
+
+      <Mobile ui={ui} switchMode={switchMode}>
         <Navbar />
-        {/* {loader && <Loader1 />} */}
+        {loader && <Loader1 />}
         <Dashboard1 switchMode={switchMode} />
         <Footer fixed={false} />
-        console.log("inside emp page");
       </Mobile>
     </>
   );

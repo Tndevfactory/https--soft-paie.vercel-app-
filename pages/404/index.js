@@ -14,29 +14,27 @@ import Cookies from "js-cookie";
 import { FaChevronLeft, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
+  min-height: 100vh;
   min-width: 100%;
-  min-height: 80vh;
-  display: flex;
-  justify-content: center;
-  gap: 3em;
-  align-items: center;
-  flex-flow: column nowrap;
-  .back {
-    color: red;
-    cursor: pointer;
+  background-color: rgb(183, 180, 187);
+  overflow-x: hidden;
+  line-height: 2;
+  //background: red;
+  .main {
+    // background: pink;
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //flex-flow: column;
   }
-  .back_icon {
-    color: ${({ switchMode, ui }) =>
-      switchMode ? chroma(ui.dark) : chroma(ui.light)};
-    font-size: 0.9em;
-  }
-  .back_text {
-    color: #222;
-    margin-left: 4px;
-    transition: all 0.5s;
-    &:hover {
-      text-shadow: 0.51px 0.41px 0.91px rgba(0, 0, 0, 0.5);
-    }
+  .bottom {
+    padding: 0;
+    //background: orange;
+    min-height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
   }
 `;
 
@@ -53,7 +51,8 @@ export default function NotFoundPage() {
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiUpdate } = prodMethods;
-  const { ui, setUi, switchMode, loader, setLoader, setSwitchMode } = prodStates;
+  const { ui, setUi, switchMode, loader, setLoader, setSwitchMode } =
+    prodStates;
   return (
     <>
       <Head>
@@ -66,10 +65,17 @@ export default function NotFoundPage() {
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
-        <Navbar />
-        {loader && <Loader1 />}
-        <NotFound />
-        <Footer fixed={true} />
+        {/* solution litte screen */}
+
+        <div className="main">
+          <Navbar />
+
+          <NotFound />
+        </div>
+
+        <div className="bottom">
+          <Footer fixed={false} />
+        </div>
       </Mobile>
     </>
   );

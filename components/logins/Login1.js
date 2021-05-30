@@ -12,12 +12,11 @@ import Cookies from "js-cookie";
 import Alert2 from "../alerts/Alert2";
 
 const Desktop = styled(motion.div)`
-  min-width: 30vw;
-  height: auto;
-  //margin-top:15em;
-
+  margin-top: 3rem;
+  flex: 0 0 25rem;
   .form_container {
     width: 100%;
+
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
     background-color: rgba(255, 255, 255, 0.75);
     padding: 1rem;
@@ -26,10 +25,10 @@ const Desktop = styled(motion.div)`
     flex-flow: column wrap;
   }
   .title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-transform: capitalize;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.7rem;
     color: ${({ switchMode, ui }) =>
       switchMode
         ? chroma(ui.dark).luminance() < 0.4
@@ -41,7 +40,8 @@ const Desktop = styled(motion.div)`
   }
   .label {
     font-weight: 400;
-    margin-top: 6px;
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
   }
   input {
     width: 100%;
@@ -49,6 +49,8 @@ const Desktop = styled(motion.div)`
     padding: 1px 0.7rem;
     border: 1px solid;
     border-radius: 2%;
+    font-size: 0.85rem;
+    border: 0.05rem solid #aaa;
   }
   .zone_password {
     position: relative;
@@ -61,14 +63,14 @@ const Desktop = styled(motion.div)`
   }
   .error {
     color: crimson;
-    font-size: 13px;
+    font-size: 0.8rem;
     font-weight: 500;
     font-style: italic;
     margin-left: 4px;
-    margin-bottom: 5px;
+    margin-bottom: 0.1rem;
   }
   .btn {
-    margin-top: 20px;
+    margin-top: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -76,9 +78,9 @@ const Desktop = styled(motion.div)`
 
   .register_phrase {
     align-self: flex-end;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     a {
-      font-size: 0.87em;
+      font-size: 0.87rem;
       font-weight: 500;
       cursor: pointer;
       &:hover {
@@ -110,14 +112,15 @@ const Mobile = styled(Desktop)`
 
   //mobile
 
-  @media (min-width: 375px) and (max-width: 600px) {
+  @media (max-width: 600px) {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-flow: column nowrap;
+    flex-flow: column;
     .form_container {
-      margin-top: 30px;
-      margin-bottom: 0.3rem;
+      margin-top: 12rem;
+      margin-bottom: 5rem;
       .title {
         font-size: 1.5rem;
       }
@@ -138,81 +141,6 @@ const Mobile = styled(Desktop)`
           &:hover {
             color: ${({ switchMode, ui }) =>
               switchMode ? chroma(ui.dark) : chroma(ui.light)};
-          }
-        }
-      }
-    }
-  }
-
-  @media (min-width: 361px) and (max-width: 374px) {
-    margin-top: 180px;
-    margin-bottom: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column nowrap;
-    width: 60vh;
-    .form_container {
-      width: 88%;
-      margin-top: 10px;
-      margin-bottom: 0.5rem;
-
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-      .btn {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .register_phrase {
-          font-size: 9px;
-          a {
-            font-size: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            &:hover {
-              color: ${({ switchMode, ui }) =>
-                switchMode ? chroma(ui.dark) : chroma(ui.light)};
-            }
-          }
-        }
-      }
-    }
-  }
-  @media (max-width: 360px) {
-    margin-top: 180px;
-    margin-bottom: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column nowrap;
-
-    width: 60vh;
-    .form_container {
-      width: 95%;
-      margin-top: 10px;
-      margin-bottom: 0.5rem;
-      .title {
-        font-size: 1.5rem;
-      }
-      .btn {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .register_phrase {
-          font-size: 10px;
-          a {
-            font-size: 11px;
-            font-weight: 500;
-            cursor: pointer;
-            &:hover {
-              color: ${({ switchMode, ui }) =>
-                switchMode ? chroma(ui.dark) : chroma(ui.light)};
-            }
           }
         }
       }
@@ -305,7 +233,7 @@ const Login1 = () => {
     // setNotification({ notifType: "fail", notifMsg: "ttt000000" });
 
     if (handleValidate()) {
-    //  console.log("all data verified before sent");
+      //  console.log("all data verified before sent");
       LoginMutation.mutate({
         email: credential.email,
         password: credential.password,
@@ -318,11 +246,11 @@ const Login1 = () => {
 
   if (LoginMutation.isLoading) {
     loaderM = "loading";
-   // console.log("loading...");
+    // console.log("loading...");
   }
 
   if (LoginMutation.isError) {
-   // console.log(LoginMutation.error.message);
+    // console.log(LoginMutation.error.message);
     m = LoginMutation.error.message;
   }
 
@@ -344,7 +272,7 @@ const Login1 = () => {
     }
 
     if (LoginMutation.data.role === "employe") {
-      // console.log("employee redirect");
+      console.log("employee redirect");
       //console.log(LoginMutation.data);
 
       router.push(`/employee/${LoginMutation.data.user.id}`);
@@ -361,12 +289,16 @@ const Login1 = () => {
 
   React.useEffect(() => {
     setMsg({ msgAlert: m, typeAlert: "fail" });
-    return () => {console.log('')}
+    return () => {
+      console.log("");
+    };
   }, [m]);
   React.useEffect(() => {
     if (loaderM !== "") setLoader(true);
     if (m !== "") setLoader(false);
-     return () => {console.log('')}
+    return () => {
+      console.log("");
+    };
   }, [loaderM, m]);
   return (
     <Mobile ui={ui} switchMode={switchMode}>

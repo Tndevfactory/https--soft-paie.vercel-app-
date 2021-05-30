@@ -13,13 +13,13 @@ import Cookies from "js-cookie";
 import { FaChevronLeft, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 const Desktop = styled.div`
+  margin-top: 4rem;
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
-  gap: 2em;
-  min-width: 30%;
-  padding: 1em;
+  flex-flow: column nowrap;
+  //background-color: red;
+  gap: 1rem;
+  padding: 1rem;
   .back {
     color: red;
     cursor: pointer;
@@ -27,10 +27,11 @@ const Desktop = styled.div`
   .back_icon {
     color: ${({ switchMode, ui }) =>
       switchMode ? chroma(ui.dark) : chroma(ui.light)};
-    font-size: 0.9em;
+    font-size: 0.9rem;
   }
   .back_text {
     color: #222;
+    font-size: 0.9rem;
     margin-left: 4px;
     transition: all 0.5s;
     &:hover {
@@ -38,11 +39,14 @@ const Desktop = styled.div`
     }
   }
   .block {
+    // min-height: 50%;
     z-index: 1;
     display: flex;
     justify-content: space-around;
-    gap: 3em;
+    gap: 3rem;
     h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
       text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
       text-align: center;
       text-transform: capitalize;
@@ -59,7 +63,7 @@ const Desktop = styled.div`
       background: ${({ switchMode, ui }) =>
         switchMode ? chroma(ui.dark) : "transparent"};
 
-      padding: 1.5em;
+      padding: 1rem;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -79,7 +83,7 @@ const Desktop = styled.div`
     .light {
       background: ${({ switchMode, ui }) =>
         switchMode ? "transparent" : chroma(ui.light)};
-      padding: 1.5em;
+      padding: 1em;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -99,7 +103,6 @@ const Desktop = styled.div`
 `;
 
 const Mobile = styled(Desktop)`
-  //large screen
   @media (min-width: 1920px) {
     .block {
     }
@@ -110,27 +113,13 @@ const Mobile = styled(Desktop)`
 
   @media (min-width: 1440px) and (max-width: 1535px) {
   }
-  @media (min-width: 1366px) and (max-width: 1439px) {
-  }
-  @media (min-width: 1280px) and (max-width: 1365px) {
-  }
-
-  //mobile
-  @media (max-width: 600px) {
+  @media (max-width: 666px) {
+    margin-top: 13rem;
     .block {
-      z-index: 1;
       display: flex;
-      flex-flow: column wrap;
+      flex-direction: column;
       justify-content: space-around;
-      gap: 16px;
     }
-  }
-  @media (min-width: 375px) and (max-width: 600px) {
-  }
-
-  @media (min-width: 361px) and (max-width: 374px) {
-  }
-  @media (max-width: 360px) {
   }
 `;
 
@@ -172,10 +161,10 @@ const Config1 = () => {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <h2 className="back" onClick={() => router.back()}>
+      <span className="back" onClick={() => router.back()}>
         <FaRegArrowAltCircleLeft className="back_icon" />
         <span className="back_text">Retour</span>
-      </h2>
+      </span>
       <div className="block">
         <div className="dark" onClick={handleDarkClick}>
           <h3>{switchMode ? "theme Actif" : "theme secondaire"}</h3>

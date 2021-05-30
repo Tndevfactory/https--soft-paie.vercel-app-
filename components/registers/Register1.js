@@ -14,9 +14,8 @@ import Alert1 from "../alerts/Alert1";
 import Alert2 from "../alerts/Alert2";
 
 const Desktop = styled(motion.div)`
-  //margin-top:7.5em;
-
-  min-width: 30vw;
+  margin-top: 5rem;
+  flex: 0 1 30rem;
   .form_container {
     width: 100%;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
@@ -28,7 +27,7 @@ const Desktop = styled(motion.div)`
     gap: -0.21em;
   }
   .title {
-    font-size: 1.6em;
+    font-size: 1.4rem;
     text-transform: capitalize;
     text-align: center;
     margin-bottom: 0rem;
@@ -43,31 +42,33 @@ const Desktop = styled(motion.div)`
   }
   .label {
     font-weight: 400;
-    margin-top: 6px;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
   }
   input {
     width: 100%;
-    height: 1.9em;
+    height: 1.9rem;
     padding: 1px 0.7rem;
     border: 1px solid;
     border-radius: 2%;
+    border: 0.05rem solid #aaa;
   }
   .zone_password {
     position: relative;
     .show_password {
       position: absolute;
-      top: 7px;
+      top: 5px;
       right: 15px;
       cursor: pointer;
     }
   }
   .error {
     color: crimson;
-    font-size: 13px;
+    font-size: 0.8rem;
     font-weight: 500;
     font-style: italic;
     margin-left: 4px;
-    margin-bottom: 5px;
+    margin-bottom: 0.1rem;
   }
   .btn {
     margin-top: 20px;
@@ -78,9 +79,9 @@ const Desktop = styled(motion.div)`
 
   .register_phrase {
     align-self: flex-end;
-    font-size: 12px;
+    font-size: 0.8rem;
     a {
-      font-size: 12px;
+      font-size: 0.87rem;
 
       font-weight: 500;
       cursor: pointer;
@@ -322,8 +323,8 @@ const Register1 = () => {
   if (RegisterMutation.isSuccess) {
     //console.log(RegisterMutation.data);
     Cookies.set("sp_token", RegisterMutation.data.access_token);
-     Cookies.set("sp_role", RegisterMutation.data.role);
-     Cookies.set("sp_id", RegisterMutation.data.user.id);
+    Cookies.set("sp_role", RegisterMutation.data.role);
+    Cookies.set("sp_id", RegisterMutation.data.user.id);
     //console.log(LoginMutation.data);
     RegisterMutation.reset();
 

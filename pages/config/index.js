@@ -14,13 +14,28 @@ import Navbar from "../../components/navbar/Navbar";
 import Loader1 from "../../components/loader/Loader1";
 
 const Desktop = styled(motion.div)`
-  min-width: 100%;
   min-height: 100vh;
-  //background-color:pink;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column nowrap;
+  min-width: 100%;
+  background-color: rgb(183, 180, 187);
+  overflow-x: hidden;
+  line-height: 2;
+  //background: red;
+  .main {
+    // background: pink;
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //flex-flow: column;
+  }
+  .bottom {
+    padding: 0;
+    //background: orange;
+    min-height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
   .expandable {
     color: ${({ switchMode, ui }) =>
       switchMode ? chroma("#ddd").darken(1) : chroma("#ddd")};
@@ -44,10 +59,16 @@ export default function Config_page() {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <Navbar />
-      {loader && <Loader1 />}
-      <Config />
-      <Footer fixed={true} />
+    
+      <div className="main">
+          <Navbar />
+         
+          <Config />
+        </div>
+
+        <div className="bottom">
+          <Footer fixed={false} />
+        </div>
     </Mobile>
   );
 }

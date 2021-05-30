@@ -1,4 +1,5 @@
 /** @format */
+import "../styles/home.module.css";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import Head from "next/head";
@@ -15,12 +16,28 @@ import Footer from "../components/footer/Footer";
 import Navbar from "../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
-  min-width: 100%;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column nowrap;
+  min-width: 100%;
+  background-color: rgb(183, 180, 187);
+  overflow-x: hidden;
+  line-height: 2;
+  //background: red;
+  .main {
+    // background: pink;
+    min-height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //flex-flow: column;
+  }
+  .bottom {
+    padding: 0;
+    //background: orange;
+    min-height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
 `;
 
 const Mobile = styled(Desktop)``;
@@ -57,10 +74,17 @@ export default function Home() {
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
-        <Navbar />
-        {loader && <Loader1 />}
-        <Login1 switchMode={switchMode} />
-        <Footer fixed={true} />
+        {/* solution litte screen */}
+
+        <div className="main">
+          <Navbar />
+          {loader && <Loader1 />}
+          <Login1 switchMode={switchMode} />
+        </div>
+
+        <div className="bottom">
+          <Footer fixed={false} />
+        </div>
       </Mobile>
     </>
   );

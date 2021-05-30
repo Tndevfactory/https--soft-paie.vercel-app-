@@ -1,5 +1,5 @@
 /** @format */
-import "antd/dist/antd.css";
+
 import "../styles/globals.css";
 
 import Head from "next/head";
@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps, router }) {
         <meta name="og:title" property="og:title" content="soft paie" />
         <meta name="twitter:card" content="soft paie" />
         <meta name="robots" content="index, follow" />
-
+       
         <title>Soft-paie</title>
       </Head>
       <QueryClientProvider client={queryClient}>

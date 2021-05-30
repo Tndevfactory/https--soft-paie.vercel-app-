@@ -11,16 +11,44 @@ import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 
 const Desktop = styled(motion.div)`
-  min-width: 100%;
   min-height: 100vh;
-  //background-color:pink;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column nowrap;
+  min-width: 100%;
+  background-color: rgb(183, 180, 187);
+  overflow-x: hidden;
+  line-height: 2;
+  //background: red;
+  .main {
+    // background: pink;
+    min-height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //flex-flow: column;
+  }
+  .bottom {
+    padding: 0;
+    //background: orange;
+    min-height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
 `;
 
 const Mobile = styled(Desktop)`
+  @media (min-width: 1536px) and (max-width: 1919px) {
+  }
+
+  @media (min-width: 1440px) and (max-width: 1535px) {
+  }
+  @media (min-width: 1366px) and (max-width: 1439px) {
+    .main {
+      padding-top: 2rem;
+      padding-bottom: 1rem;
+    }
+  }
+  @media (min-width: 1280px) and (max-width: 1365px) {
+  }
   @media (min-width: 361px) and (max-width: 600px) {
     margin-top: 0.5rem;
   }
@@ -36,18 +64,17 @@ const Mobile = styled(Desktop)`
 // };{ dt }
 
 export default function Register() {
- const queryClient = useQueryClient();
- const [prodMethods, prodStates] = ProdCtx();
- const { apiGet } = prodMethods;
- const {
-   initialDataHotssr1,
-   setInitialDataHotssr1,
-   loader,
-   setLoader,
-   ui,
-   switchMode,
- } = prodStates;
-  
+  const queryClient = useQueryClient();
+  const [prodMethods, prodStates] = ProdCtx();
+  const { apiGet } = prodMethods;
+  const {
+    initialDataHotssr1,
+    setInitialDataHotssr1,
+    loader,
+    setLoader,
+    ui,
+    switchMode,
+  } = prodStates;
 
   return (
     <>
@@ -61,11 +88,17 @@ export default function Register() {
       </Head>
 
       <Mobile ui={ui} switchMode={switchMode}>
-        <Navbar />
-        {loader && <Loader1 />}
+        {/* solution litte screen */}
 
-        <Register1 switchMode={switchMode} />
-        <Footer fixed={true} />
+        <div className="main">
+          <Navbar />
+          {loader && <Loader1 />}
+          <Register1 switchMode={switchMode} />
+        </div>
+
+        <div className="bottom">
+          <Footer fixed={false} />
+        </div>
       </Mobile>
     </>
   );
