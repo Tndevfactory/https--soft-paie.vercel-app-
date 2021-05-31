@@ -54,7 +54,7 @@ const Desktop = styled(motion.div)`
     border-radius: 5px;
     padding: 0.5rem 2rem;
     background: rgba(230, 230, 230, 0.9);
-    border: 3px crimson solid;
+    border: 2px crimson solid;
   }
 
   .fixed-drawer {
@@ -66,27 +66,30 @@ const Desktop = styled(motion.div)`
     display: flex;
     margin: 1rem 0rem;
     gap: 7px;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     font-family: ${({ ui }) => ui.navFont};
-    font-size: 1.5rem;
+
     color: ${({ switchMode, ui }) =>
       switchMode ? chroma(ui.dark) : chroma(ui.light)};
+  }
+
+  .admin_logo {
+    font-size: 1.5rem;
+  }
+  .admin_title {
+    font-size: 1.5rem;
     position: relative;
     &:after {
       position: absolute;
+      left: 0px;
       bottom: 0;
       height: 5px;
-      width: 165px;
+      width: 100%;
       background: red;
       border-right: 1px white;
       content: "";
     }
-  }
-
-  .admin_logo {
-  }
-  .admin_title {
   }
 
   .img-profile {

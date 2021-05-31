@@ -110,3 +110,14 @@ styled:
       background-color: ${color};
       color: ${chroma.contrast(color, "black") >= 4 ? "black" : "white"};
     `}
+
+
+ // console.log("e.target.value");
+    // console.log(e.target.value);
+    // console.log(e.target.id);
+    // console.log("managerSelect.current-id");
+    // console.log(managerRefs.current[Number(e.target.id) - 1]);
+    // console.log("html id");
+    // console.log(managerRefs.current[Number(e.target.id) - 1].id);
+     managerRefs.current[1].value = 3;
+    setManagerId({ value: e.target.value });

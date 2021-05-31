@@ -100,7 +100,7 @@ export default function Profile({ initialData }) {
         {/* {loader && <Loader1 />} */}
         <Dashboard1 switchMode={switchMode} />
         <Footer fixed={false} />
-        console.log("inside emp page");
+       
       </Mobile>
     </>
   );

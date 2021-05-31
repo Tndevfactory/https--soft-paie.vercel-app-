@@ -62,28 +62,32 @@ const Desktop = styled(motion.div)`
     display: flex;
     margin: 1rem 0rem;
     gap: 7px;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     font-family: ${({ ui }) => ui.navFont};
     /* font-size: ${({ font1 }) => font1}; */
     font-size: calc(1.2 * 1.2 * 100%);
     color: ${({ switchMode, ui }) =>
       switchMode ? chroma(ui.dark) : chroma(ui.light)};
-    position: relative;
-    &:after {
-      position: absolute;
-      bottom: 0;
-      height: 5px;
-      width: calc(0.72 * 1.2 * 100%);
-      background: green;
-      border-right: 1px white;
-      content: "";
-    }
+    
   }
 
   .manager_logo {
+    font-size: 1.5rem;
   }
   .manager_title {
+    font-size: 1.5rem;
+    position: relative;
+    &:after {
+      position: absolute;
+      left: 0px;
+      bottom: 0;
+      height: 5px;
+      width: 100%;
+      background: red;
+      border-right: 1px white;
+      content: "";
+    }
   }
 
   .img-profile {

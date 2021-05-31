@@ -30,31 +30,46 @@ import {
 } from "react-icons/fa";
 
 const options = [
-  { value: "erreur", label: "Erreur salaire" },
-  { value: "Retard", label: "Retard de versement" },
-  { value: "Information", label: "Information erronee" },
+  { value: "1", label: "Erreur salaire" },
+  { value: "2", label: "Retard de versement" },
+  { value: "3", label: "Information erronee" },
 ];
 
 const Desktop = styled(motion.div)`
   min-width: 70vw;
 
-  .form_recla {
+  .form_reclamation {
     display: flex;
     flex-flow: column nowrap;
     gap: 5px;
   }
-  .recla_select {
+  .reclamation_type {
     max-width: 40%;
     gap: 1rem;
-    margin: 0.5rem 0rem 1rem 0rem;
+    margin: 0.5rem 0rem 1rem 1rem;
   }
-  .recla_raison {
+  .reclamation_select {
+    padding: 0.5rem;
+    margin-left: 1rem;
+    text-align: center;
+    border: 1px solid #aaa;
+    &:focus {
+      outline: none;
+      border: 1px solid #888;
+    }
+  }
+  .reclamation_raison {
     max-width: 50%;
     display: flex;
     flex-flow: column nowrap;
     margin-bottom: 1rem;
-    .recla_area {
-      padding: 1rem;
+    .reclamation_area {
+      padding: 1.1rem;
+      border: 1px solid #aaa;
+      &:focus {
+        outline: none;
+        border: 1px solid #888;
+      }
     }
   }
 `;
@@ -86,36 +101,83 @@ const Mobile = styled(Desktop)`
 
 const Reclamation = () => {
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { demandeReclamationMethods, apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { apiDemandeReclamationPost} = demandeReclamationMethods;
+
   const { ui, notification, setNotification, switchMode } = prodStates;
 
   const [sectionSelector, setSectionSelector] = useState("");
-  const breadcrumb = {
-    root: "Employee",
-    active: "Fiche de paie",
+
+  const [reclamationType, setReclamationType] = useState();
+  const [reclamationCorps, setReclamationCorps] = useState();
+
+  let cfg = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+
+  const postDemandeReclamation = async (fd, cfg) => {
+    let res = await apiDemandeReclamationPost(fd, cfg);
+    // queryClient.invalidateQueries("crud-admin");
+    // queryClient.resetQueries("crud-admin", { exact: true });
+    return res;
+  };
+
+  
+  const fd = new FormData();
+
+  const handleDemandeReclamation = (e) => {
+    e.preventDefault();
+    fd.append("reclamationType", reclamationType);
+    fd.append("reclamationCorps", reclamationCorps);
+    
+    // fd.append("_method", "put"); // spoof method laravel
+
+    postDemandeReclamation(fd, cfg)
+      .then((res) => {
+        if (res.ok) {
+          //  setUpdRes({ ok: res.ok, response1: res.response });
+          console.log(res.response, res.ok);
+          console.log(res);
+        } else {
+          //  setUpdRes({
+          //     ok: res.ok,
+          //     response2: "Impossible d'éffectuer la modification",
+          //   });
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <form className="form_recla" action="">
+      <form className="form_reclamation" onSubmit={handleDemandeReclamation} action="">
         <h3>Deposer une reclamation</h3>
-        <div className="recla_select">
+        <div className="reclamation_type">
           <label htmlFor="">Motif:</label>
-          <Select options={options} />
+          <select
+            value={reclamationType}
+            name=""
+            id=""
+            className="reclamation_select"
+            onChange={(e) => setReclamationType(e.target.value)}
+          >
+            {options.map((item) => (
+              <option value={item.value}>{item.label}</option>
+            ))}
+          </select>
         </div>
-        <div className="recla_raison">
+        <div className="reclamation_raison">
           <label htmlFor="">Raison:</label>
           <textarea
-            className="recla_area"
+            className="reclamation_area"
             id="recla"
             name="recla"
             rows="4"
             cols="5"
-          >
-            bio employee Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Nobis omnis voluptatum sunt repudiandae. Dolorum suscipit
-            rerum, hic vitae quisquam minima laudantium esse est, ipsa placeat
-            blanditiis qui iusto maiores et.
-          </textarea>
+            value={reclamationCorps}
+            onChange={(e) => setReclamationCorps(e.target.value)}
+          ></textarea>
         </div>
         <Button1 type="submit" disabled={false} width={5} height={2.2}>
           valider

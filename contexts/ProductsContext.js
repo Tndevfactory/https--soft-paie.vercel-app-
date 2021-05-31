@@ -32,23 +32,93 @@ api.interceptors.request.use(function (config) {
   return config;
 });
 
-// identification to checkers controller
+// checkerController user and auth handler
+
 export const apiLogin = async (values) => {
   const { data } = await api.post("/login", values);
   return data;
 };
+
 export const apiRegister = async (values) => {
   const { data } = await api.post("/register", values);
   return data;
 };
+
 export const apiLogout = async () => {
   const { data } = await api.get("/logout");
   return data;
 };
 
-const authMethods = { apiLogin, apiLogout, apiRegister };
+export const apiDeleteUser = async (id) => {
+  const { data } = await api.delete(`/delete-user/${id}`);
+  return data;
+};
 
-// profil
+const authMethods = {
+  apiLogin,
+  apiLogout,
+  apiRegister,
+  apiDeleteUser,
+};
+
+// DemandesReclamation------------------------------------------------------
+//DemandeReclamationController
+export const apiDemandeReclamationPost = async (fd, cfg) => {
+  const { data } = await api.post(`/demande-reclamation/`, fd, cfg);
+  return data;
+};
+const demandeReclamationMethods = {
+  apiDemandeReclamationPost,
+};
+
+// DemandesCongé------------------------------------------------------
+//DemandeCongeController
+export const apiDemandeCongePost = async (fd, cfg) => {
+  const { data } = await api.post(`/demande-conge/`, fd, cfg);
+  return data;
+};
+const demandeCongeMethods = {
+  apiDemandeCongePost,
+};
+
+// ressources------------------------------------------------------
+// ressources ressourceController
+export const apiRessourceUpdate = async (id, fd, cfg) => {
+  const { data } = await api.post(`/ressources/${id}`, fd, cfg);
+  return data;
+};
+const ressourcesMethods = {
+  apiRessourceUpdate,
+};
+
+// role------------------------------------------------------
+// Role crudadmin RoleController
+export const apiRoleUpdate = async (id, fd, cfg) => {
+  const { data } = await api.post(`/roles/${id}`, fd, cfg);
+  return data;
+};
+const roleMethods = {
+  apiRoleUpdate,
+};
+
+// Hierarchie ------------------------------------------------------
+// Hierarchie crudadmin HierarchieController
+//used only with axios in different components formData--> voir editer profil employee
+export const apiHierarchieUpdate = async (id, fd, cfg) => {
+  const { data } = await api.post(`/hierarchies/${id}`, fd, cfg);
+  return data;
+};
+
+const hierarchieMethods = {
+  apiHierarchieUpdate,
+};
+
+//profil -----------------------------------------------------------------
+// profil component crudadmin  controller ProfileController
+export const apiProfileCrudAdminShowAll = async () => {
+  const { data } = await api.get(`/profiles/crud-admin`);
+  return data;
+};
 export const apiProfileShowAll = async () => {
   const { data } = await api.get(`/profiles/`);
   return data;
@@ -62,21 +132,17 @@ export const apiProfileShowOne = async (id) => {
   return data;
 };
 
-//-------------------------------------------------------
 // used with mutation only
 export const apiProfileUpdateMutation = async (id, values) => {
   const { data } = await api.put(`/profilesput/${id}`, values);
   return data;
 };
-//-------------------------------------------------------------
 
-//-------------------------------------------------------
-//used only with axios in different components --> voir editer profil employee
+//used only with axios in different components formData--> voir editer profil employee
 export const apiProfileUpdate = async (id, fd, cfg) => {
   const { data } = await api.post(`/profiles/${id}`, fd, cfg);
   return data;
 };
-//-------------------------------------------------------------
 
 export const apiProfileDelete = async (id) => {
   const { data } = await api.delete(`/profiles/${id}`);
@@ -84,6 +150,7 @@ export const apiProfileDelete = async (id) => {
 };
 
 const profilMethods = {
+  apiProfileCrudAdminShowAll,
   apiProfileUpdateMutation,
   apiProfileShowAll,
   apiProfileStore,
@@ -92,6 +159,7 @@ const profilMethods = {
   apiProfileDelete,
 };
 
+//pdf-------------------------------------------------------------------
 // generate pdf from db
 export const apiPdf = async () => {
   const { data } = await api.get("/pdf", { responseType: "blob" });
@@ -107,7 +175,7 @@ export const downloadPdf = async (year, month, id) => {
 };
 const pdfMethods = { apiPdf, downloadPdf };
 
-//sendMail
+//sendMail----------------------------------------------------------
 export const apiSendMail = async (fd, cfg) => {
   const { data } = await api.post(`/simple-mail-api`, fd, cfg);
   return data;
@@ -123,7 +191,7 @@ export const apiMassSender = async (yearM, monthM) => {
 
 const mailMethods = { apiSendMail, apiSendBulkPdf, apiMassSender };
 
-// Product api
+// Product api----------------------------------------------------------------
 export const apiProductAdd = async (values) => {
   const { data } = await api.post("/products", values);
   return data;
@@ -180,6 +248,7 @@ export const ProductProvider = ({ children }) => {
   });
 
   const [loader, setLoader] = useState(false);
+  const [stal, setStal] = useState();
 
   const uiVars = {
     // initial// from database config user
@@ -219,6 +288,11 @@ export const ProductProvider = ({ children }) => {
   });
 
   const methods = {
+    demandeReclamationMethods,
+    demandeCongeMethods,
+    ressourcesMethods,
+    roleMethods,
+    hierarchieMethods,
     authMethods,
     profilMethods,
     pdfMethods,
@@ -227,6 +301,8 @@ export const ProductProvider = ({ children }) => {
   };
 
   const states = {
+    stal,
+    setStal,
     initialDataHotssr1,
     setInitialDataHotssr1,
     loader,

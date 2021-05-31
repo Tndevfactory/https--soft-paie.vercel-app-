@@ -28,18 +28,15 @@ import {
   FaCheck,
   FaRegArrowAltCircleLeft,
   FaUpload,
-  FaUser,
-  FaRegListAlt,
-  FaRegMoneyBillAlt,
-  FaRecycle,
-  FaParking,
-  FaSkating,
+  FaEye,
+  FaEyeSlash,
 } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
   display: flex;
   flex-direction: column;
 
+  min-width: 50vw;
   .alert_localy {
     background: transparent;
     height: 2em;
@@ -67,7 +64,7 @@ const Desktop = styled(motion.div)`
   }
 
   .form_profil {
-    //min-width: 60vw;
+    width: 100%;
     display: flex;
     flex-flow: column nowrap;
     gap: 16px;
@@ -79,10 +76,16 @@ const Desktop = styled(motion.div)`
     .form_profil_section {
       display: flex;
       justify-content: space-around;
+      width: 100%;
+      @media (max-width: 600px) {
+        flex-direction: column;
+      }
       gap: 1em;
 
       & > * {
-        min-width: 35em;
+        //flex: 0 0 35rem;
+        width: 100%;
+        //  min-width: 35em;
       }
     }
 
@@ -118,6 +121,16 @@ const Desktop = styled(motion.div)`
     &:focus {
       outline: none;
       border: 1px solid #999;
+    }
+  }
+
+  .zone_password {
+    position: relative;
+    .show_password {
+      position: absolute;
+      top: 2.5rem;
+      right: 15px;
+      cursor: pointer;
     }
   }
   .error {
@@ -213,6 +226,8 @@ export default function DetailsView({ setSelectSection }) {
   const { apiSendMail } = mailMethods;
 
   const {
+    stal,
+    setStal,
     initialDataHotssr,
     setInitialDataHotssr,
     loader,
@@ -227,7 +242,7 @@ export default function DetailsView({ setSelectSection }) {
   // query city
   const { isSuccess, isLoading, refetch, error, data, isFetching } = useQuery(
     ["editerProfil1"],
-    () => apiProfileShowOne(id),
+    () => apiProfileShowOne(stal),
     {
       initialData: initialDataHotssr,
       initialStale: true,
@@ -523,7 +538,7 @@ export default function DetailsView({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_email">
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="email">etat_civil</label>
               <input
                 autoComplete="false"
                 value={credentialP.email}
@@ -536,7 +551,7 @@ export default function DetailsView({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_email">
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="email">nb_enfant</label>
               <input
                 autoComplete="false"
                 value={credentialP.email}
@@ -549,7 +564,7 @@ export default function DetailsView({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_email">
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="email">num_cnss</label>
               <input
                 autoComplete="false"
                 value={credentialP.email}
@@ -566,19 +581,26 @@ export default function DetailsView({ setSelectSection }) {
 
           {/* form_profil_section_right start */}
           <div className="form_profil_section_right">
-            <div className="profil_email">
-              <label htmlFor="email">Password:</label>
+            <div className="zone_password">
+              <label htmlFor="email">Mot de passe:</label>
               <input
                 autoComplete="false"
                 value={credentialP.password}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 onChange={handleOnChange}
               />
-              <div className="error">
-                {credentialP.passwordError && credentialP.passwordError}
+              <div
+                className="show_password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </div>
             </div>
+            <div className="error">
+              {credentialP.passwordError && credentialP.passwordError}
+            </div>
+
             <div className="profil_telephone">
               <label htmlFor="telephone">Telephone:</label>
               <input
@@ -609,7 +631,7 @@ export default function DetailsView({ setSelectSection }) {
             </div>
             <div className="profil_adresse">
               <label className="label_adresse" htmlFor="adresse">
-                Adresse:
+                type_contrat
               </label>
               <input
                 autoComplete="false"
@@ -624,7 +646,7 @@ export default function DetailsView({ setSelectSection }) {
             </div>
             <div className="profil_adresse">
               <label className="label_adresse" htmlFor="adresse">
-                Adresse:
+                rib
               </label>
               <input
                 autoComplete="false"
@@ -639,7 +661,7 @@ export default function DetailsView({ setSelectSection }) {
             </div>
             <div className="profil_adresse">
               <label className="label_adresse" htmlFor="adresse">
-                Adresse:
+                qualification
               </label>
               <input
                 autoComplete="false"

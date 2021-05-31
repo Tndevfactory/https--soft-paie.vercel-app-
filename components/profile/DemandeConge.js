@@ -4,6 +4,7 @@ import Button1 from "../buttons/Button1";
 import DatePicker from "react-datepicker";
 import React, { useState } from "react";
 import Head from "next/head";
+
 import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
@@ -40,6 +41,11 @@ const Desktop = styled(motion.div)`
     display: flex;
     gap: 1rem;
     margin: 0.5rem 0rem 1rem 0rem;
+
+    input {
+      border: 1px solid #888;
+      text-align: center;
+    }
   }
 
   label {
@@ -49,6 +55,7 @@ const Desktop = styled(motion.div)`
     padding: 1rem;
     max-width: 50%;
     margin-bottom: 1rem;
+    border: 1px solid #888;
   }
 `;
 
@@ -79,48 +86,94 @@ const Mobile = styled(Desktop)`
 
 const DemandeConges = () => {
   const [prodMethods, prodStates] = ProdCtx();
-  const { apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { demandeCongeMethods, apiGet, apiDelete, apiUpdate } = prodMethods;
+  const { apiDemandeCongePost } = demandeCongeMethods;
   const { ui, notification, setNotification, switchMode } = prodStates;
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [corpsDemande, setCorpsDemande] = useState("");
 
   const [sectionSelector, setSectionSelector] = useState("");
-  
+
+  let cfg = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+
+  const postDemandeConge = async (fd, cfg) => {
+    let res = await apiDemandeCongePost(fd, cfg);
+    // queryClient.invalidateQueries("crud-admin");
+    // queryClient.resetQueries("crud-admin", { exact: true });
+    return res;
+  };
+
+  const fd = new FormData();
+
+  const handleDemandeConge = (e) => {
+    e.preventDefault();
+    fd.append("startDate", startDate);
+    fd.append("endDate", endDate);
+    fd.append("corpsDemande", corpsDemande);
+    // fd.append("_method", "put"); // spoof method laravel
+
+    postDemandeConge(fd, cfg)
+      .then((res) => {
+        if (res.ok) {
+          //  setUpdRes({ ok: res.ok, response1: res.response });
+          console.log(res.response, res.ok);
+          console.log(res);
+        } else {
+          //  setUpdRes({
+          //     ok: res.ok,
+          //     response2: "Impossible d'éffectuer la modification",
+          //   });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Mobile ui={ui} switchMode={switchMode}>
-      <form className="form_conge" action="">
+      <form className="form_conge" action="" onSubmit={handleDemandeConge}>
         <h3>Deposer un conge</h3>
         <div className="date_choice">
           <div className="start_date">
-          
-            <label for="start">Date de debut:</label>
+            <label htmlFor="start">Date de debut:</label>
             <input
               type="date"
               id="start"
               name="trip-start"
-              value="2021-06-07"
-              min={new Date()}
+              value={startDate}
+              // min={new Date()}
+              onChange={(e) => setStartDate(e.target.value)}
             />
           </div>
           <div className="end_date">
             {" "}
-            <label for="end">Date de fin:</label>
+            <label htmlFor="end">Date de fin:</label>
             <input
               type="date"
               id="end"
               name="trip-end"
-              value="2021-06-20"
-              min={new Date()}
+              value={endDate}
+              // min={new Date()}
+              onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
         </div>
         <label htmlFor="">Motif:</label>
-        <textarea className="cp_area" id="cp" name="cp" rows="4" cols="5">
-          bio employee Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Nobis omnis voluptatum sunt repudiandae. Dolorum suscipit rerum, hic
-          vitae quisquam minima laudantium esse est, ipsa placeat blanditiis qui
-          iusto maiores et.
+        <textarea
+          value={corpsDemande}
+          onChange={(e) => setCorpsDemande(e.target.value)}
+          className="cp_area"
+          id="cp"
+          name="cp"
+          rows="4"
+          cols="5"
+        >
+         
         </textarea>
         <Button1 type="submit" disabled={false} width={5} height={2.2}>
           valider

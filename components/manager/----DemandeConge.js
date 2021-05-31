@@ -41,6 +41,9 @@ const Desktop = styled(motion.div)`
     gap: 1rem;
     margin: 0.5rem 0rem 1rem 0rem;
   }
+  input {
+    border: 1px solid #ddd;
+  }
 
   label {
     display: block;
@@ -49,6 +52,9 @@ const Desktop = styled(motion.div)`
     padding: 1rem;
     max-width: 50%;
     margin-bottom: 1rem;
+    textarea {
+      border: 1px solid #ddd;
+    }
   }
 `;
 
@@ -74,14 +80,13 @@ const DemandeConges = () => {
   const [endDate, setEndDate] = useState(new Date());
 
   const [sectionSelector, setSectionSelector] = useState("");
-  
+
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <form className="form_conge" action="">
         <h3>Deposer un conge</h3>
         <div className="date_choice">
           <div className="start_date">
-          
             <label for="start">Date de debut:</label>
             <input
               type="date"
@@ -105,10 +110,7 @@ const DemandeConges = () => {
         </div>
         <label htmlFor="">Motif:</label>
         <textarea className="cp_area" id="cp" name="cp" rows="4" cols="5">
-          bio employee Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Nobis omnis voluptatum sunt repudiandae. Dolorum suscipit rerum, hic
-          vitae quisquam minima laudantium esse est, ipsa placeat blanditiis qui
-          iusto maiores et.
+          bia
         </textarea>
         <Button1 type="submit" disabled={false} width={5} height={2.2}>
           valider
