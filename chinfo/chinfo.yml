@@ -27,3 +27,52 @@ git pull branch 'client':
   git pull
   git push origin client
 
+$employees = DB::table('users')->join('hierarchies', 'users.id', '=', 'hierarchies.user_id')->join('ressources', 'users.id', '=', 'ressources.user_id')->join('role_user', 'users.id', 'role_user.user_id')->join('roles', 'role_user.role_id', 'roles.id')->select('users.*', 'hierarchies.*','ressources.*', 'roles.*')->get()
+
+
+$employees = DB::table('users')->leftJoin('hierarchies', 'users.id', '=', 'hierarchies.user_id')->leftJoin('ressources', 'users.id', '=', 'ressources.user_id')->leftJoin('role_user', 'users.id', 'role_user.user_id')->leftJoin('roles', 'role_user.role_id', 'roles.id')->select('users.id','users.nom','users.prenom','users.file','hierarchies.manager_name','hierarchies.manager_id','ressources.actif','roles.name')->get()
+
+
+
+ const handlePdf = async () => {
+    let res = await apiPdf();
+
+    const file = new Blob([res], { type: "application/pdf" });
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL);
+  };
+
+  const handleDowloadPdf = async (year, month, id) => {
+    let res = await downloadPdf(year, month, id);
+
+    const file = new Blob([res], { type: "application/pdf" });
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL);
+  };
+
+migration
+
+
+ php artisan make:migration add_manager_name_to_hierarchies_table --table=hierarchies
+up
+ $table->string('manager_name');
+
+ down
+ $table->dropColumn('manager_name');
+
+ php artisan migrate
+
+ php artisan make:migration drop_nb_enfant_to_ressources_table --table=ressources
+up
+  $table->string('rib')->nullable();
+
+ down
+ $table->dropColumn('rib');
+
+ php artisan migrate
+
+
+
+ role
+ User::find(4)->roles()->sync([3])
+

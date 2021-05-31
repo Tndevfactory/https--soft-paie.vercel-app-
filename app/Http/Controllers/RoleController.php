@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -46,9 +47,22 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
-        //
+      
+         // localize the user and update the role
+         User::find($id)->roles()->sync([$request->roleId]);
+               
+             return [
+                 'ok' => true,
+                 'employeeId'=> $id,
+                 'roleId'=> $request->roleId,
+                 'response'=> ' success role changed',
+                 'data' => "",
+               ];
+        
+         
+
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hierarchie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HierarchieController extends Controller
 {
@@ -40,15 +41,39 @@ class HierarchieController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 
+     * hierarchie modifier call from crud admin gestion employee
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Hierarchie  $hierarchie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Hierarchie $hierarchie)
+    public function update(Request $request,  $id)
+    
     {
-        //
+
+        // locate the record and update
+        $u=DB::table('hierarchies')->where('user_id', $id)->update(['manager_id'=> $request->managerId]);
+       
+        if( $u == 1){
+            return [
+                'ok' => true,
+                'employeeId'=> $id,
+                'managerId'=> $request->managerId,
+                'response'=> ' success manager id changed',
+                'data' => "",
+              ];
+        }else{
+            return [
+                'ok' => false,
+                'employeeId'=> $id,
+                'managerId'=> $request->managerId,
+                'response'=> 'impossible de modifier erreur',
+                'data' => "",
+              ];
+
+        }
+        
     }
 
     /**

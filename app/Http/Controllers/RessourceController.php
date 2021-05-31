@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ressource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RessourceController extends Controller
 {
@@ -46,9 +47,35 @@ class RessourceController extends Controller
      * @param  \App\Models\Ressource  $ressource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ressource $ressource)
+    public function update(Request $request, $id)
     {
-        //
+        // localize the record and update
+
+        if($id != 3){
+            $u=DB::table('ressources')->where('user_id', $id)->update(['actif'=> $request->actif]);
+        }
+
+           
+       
+        if( $u == 1){
+            return [
+                'ok' => true,
+                'employeeId'=> $id,
+                
+                'actif'=> $request->actif,
+                'response'=> ' success active state changed',
+                'data' => "",
+              ];
+        }else{
+            return [
+                'ok' => false,
+                'employeeId'=> $id,
+                'actif'=> $request->actif,
+                'response'=> 'impossible de modifier erreur',
+                'data' => "",
+              ];
+
+        }
     }
 
     /**

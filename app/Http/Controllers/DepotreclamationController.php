@@ -25,7 +25,15 @@ class DepotreclamationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //logique 
+        return [
+            'ok' => true,
+            'type reclamation'=> $request->reclamationType,
+            'corps reclamation '=> $request->reclamationCorps,
+            'response'=> ' demande reclamation recu ',
+            'data' => "",
+          ];
     }
 
     /**

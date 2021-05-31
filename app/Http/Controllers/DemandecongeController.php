@@ -25,7 +25,14 @@ class DemandecongeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return [
+            'ok' => true,
+            'corps demande'=> $request->corpsDemande,
+            'start date '=> $request->startDate,
+            'end date '=> $request->endDate,
+            'response'=> ' demande de congé sauvegardée',
+            'data' => "",
+          ];
     }
 
     /**
