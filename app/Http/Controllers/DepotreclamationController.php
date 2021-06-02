@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Depotreclamation;
 use Illuminate\Http\Request;
+use App\Models\Notificationapp;
+use App\Models\Depotreclamation;
 
 class DepotreclamationController extends Controller
 {
@@ -26,14 +27,39 @@ class DepotreclamationController extends Controller
     public function store(Request $request)
     {
 
-        //logique 
-        return [
-            'ok' => true,
-            'type reclamation'=> $request->reclamationType,
-            'corps reclamation '=> $request->reclamationCorps,
-            'response'=> ' demande reclamation recu ',
-            'data' => "",
-          ];
+                // return $request->all();
+
+
+                $u=Depotreclamation::create([
+                    'type_reclamation'=> $request->reclamationType,
+                     'content'=> $request->reclamationCorps,
+                    'user_id'=> $request->user_id,
+                    'active_state'=> 1,
+                   
+                    ]);
+
+
+                    $notif= Notificationapp::create([
+                        'active_time'=> 30,
+                        'content'=>$request->reclamationCorps,
+                        'user_id'=> $request->user_id,
+                        'active_state_employee'=> 1,
+                        'nature' => 'reclamation',
+                        
+                        ]);
+
+
+                return [
+                    'ok' => true,
+                    'content'=> $request->reclamationCorps,
+                    'type_reclamation'=> $request->reclamationType,
+                    'user_id'=> $request->user_id,
+                   
+                ];
+
+
+
+
     }
 
     /**

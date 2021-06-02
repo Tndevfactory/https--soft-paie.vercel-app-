@@ -11,6 +11,8 @@ use App\Http\Controllers\FichepaieController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\HierarchieController;
 use App\Http\Controllers\DemandecongeController;
+
+use App\Http\Controllers\NotificationappController;
 use App\Http\Controllers\DepotreclamationController;
 
 
@@ -26,6 +28,20 @@ Route::middleware("auth:api")->group(function () {
    Route::delete("/delete-user/{id}", [CheckerController::class, "deleteUser"])->name("deleteUser"); 
 
 });
+
+//NotificationappController
+//employee 
+Route::get('/notifications-employee/{id}', [NotificationappController::class, 'notificationCountEmployee']); 
+Route::get('/notifications-reset-employee/{id}', [NotificationappController::class, 'notificationResetEmployee']);
+Route::get('/notifications-data-employee/{id}', [NotificationappController::class, 'notificationDataEmployee']);
+
+// manager 
+Route::get('/notifications', [NotificationappController::class, 'notificationCount']); 
+Route::get('/notifications-data', [NotificationappController::class, 'notificationData']); 
+Route::get('/notifications-reset', [NotificationappController::class, 'notificationReset']); 
+
+Route::put('/notifications-validation-conge', [NotificationappController::class, 'notificationValidationConge']); 
+Route::put('/notifications-negation-conge', [NotificationappController::class, 'notificationNegationConge']); 
 
 //DepotreclamationController
 Route::post('/demande-reclamation', [DepotreclamationController::class, 'store']); 
@@ -60,7 +76,8 @@ Route::delete('/profiles/{id}', [ProfileController::class, 'destroy']);
 //services
 //api mail
 Route::post('simple-mail-api', [MailController::class, 'simpleMail']);
-Route::get('mail-pdf/{yearm}/{monthm}/', [MailController::class, 'SenderFichePaieFromPublic']);
+//Route::get('mail-pdf/{yearm}/{monthm}/', [MailController::class, 'SenderFichePaieFromPublic']);
+Route::get('mail-pdf/{yearm}/{monthm}/', [MailController::class, 'createSendMassFichePaieFromPublic']);
 
 //scheduler
 Route::get('/schedule', [CheckerController::class, 'testSchedule']);

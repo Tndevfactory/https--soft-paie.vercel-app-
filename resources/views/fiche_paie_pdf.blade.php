@@ -113,6 +113,7 @@ margin-top:35px;margin-bottom:30px}
    <div class="email"><span>Email:</span>ressource-humaine@soft-paie.com</div>
  </div>
  <div class="employe"><span>Employé:</span>Fekih Hfaied</div>
+ <div class="employe"><span>Employé:</span>{{$dataCorps['name']}}</div>
 <table id="info">
   <thead>
 

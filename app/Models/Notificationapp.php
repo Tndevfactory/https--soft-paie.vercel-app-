@@ -5,23 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Demandeconge extends Model
+class Notificationapp extends Model
 {
     use HasFactory;
 
-
-    
+       
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'start_date',
-        'end_date',
-       'user_id',
-       'content',
-       'active_state',
-       'validator_id',
-    ];
+        
+        'user_id',
+        'active_state_employee',
+        'active_state_manager',
+        'content',
+        'active_time',
+        'emitter_id',
+        'nature'
+     ];
 }

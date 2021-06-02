@@ -100,13 +100,32 @@ class MailController extends Controller
     {
         
 
-       $emails=User::pluck('email');
+     
 
         $msg["title"] = 'fiche-de-paie'.'-'.$monthm.'-'.$yearm ;
         $msg["body"] = 'Bonjour, ci-joint la fiche de paie de mois de'. $monthm. ' '. $yearm ;
-  
-        $location = public_path('uploads/users/employe/fekih-8/202101.pdf');
-      
+       
+        $path1='uploads/users/employe/';
+        $fiche_paie=$yearm.$monthm.'.pdf';
+       
+        $emails=User::pluck('email');
+        //$noms_id=collect(User::pluck('id','email'))->map(function ($v,$k) {return 'uploads/users/employe/'.$k.'-'.$v.'/'.'202101.pdf';})
+       // "bassem@soft-paie.tn" => "uploads/users/employe/bassem@soft-paie.tn-2/202101.pdf",
+        // $noms_id=collect(User::pluck('id','nom'))->map(function ($v,$k) {return 'uploads/users/employe/'.$k.'-'.$v.'/'.'202101.pdf';})
+
+        //$noms_id=collect(User::pluck('id','nom'))->map(function ($v,$k) {return $path1.$k.'-'.$v.'/'.$fiche_paie;})
+        // "belkahla" => "uploads/users/employe/belkahla-1/202101.pdf",
+        // "belkadi" => "uploads/users/employe/belkadi-2/202101.pdf",
+        $locations = [];
+        foreach($noms_id as $k=>$v){$locations[]=public_path($v);}
+      // "C:\Users\barho\Desktop\dev\https-soft-paie.vercel-app-\server\public\uploads/users/employe/fadlaoui-5/202101.pdf",
+
+      foreach($locations  as $location){echo $location;}
+      //C:\Users\barho\Desktop\dev\https-soft-paie.vercel-app-\server\public\uploads/users/employe/belkahla-1/202101.pdf
+      //C:\Users\barho\Desktop\dev\https-soft-paie.vercel-app-\server\public\uploads/users/employe/belkadi-2/202101.pdf
+     
+
+
         $failures = [];
         $success=[];
 
@@ -133,9 +152,67 @@ class MailController extends Controller
             
        
         $data=[
-            'failed recepients' => $failures,
+            'failed recepients' => $emails,
             'sent recepients' => $success,
           ];
         return $data;
+    }
+
+    public function createSendMassFichePaieFromPublic($yearm, $monthm)
+    {
+        
+
+        //$emails=User::pluck('email');
+       $emails='tndev8@gmail.com';
+
+        $data["email"] = "soft-paie@tndev3.tn-devfactory.com";
+        $data["title"] = "fiche-de-paie ".$yearm.'-'.$monthm;
+        $data["body"] = "Bonjour, ci-joint la fiche de paie du" .$yearm.'-'.$monthm;
+        $dataCorps = array('name'=>'tndev8');
+  
+        //$pdf = PDF::loadView('fiche_paie_pdf', $data);
+        $pdf = PDF::loadView('fiche_paie_pdf', compact('dataCorps'));
+
+                Mail::send('emails.corps_pdf_mail', $data, function($message) use($data, $pdf, $emails) {
+                    $message->to( $emails ,  'soft-paie' )
+                            ->subject($data["title"])
+                            ->attachData($pdf->output(), "fiche-de-paie.pdf");
+                });
+        return 'done';
+
+        $failures = [];
+        $success=[];
+
+//    foreach($emails as $email){
+//          try {
+
+//             $pdf = PDF::loadView('fiche_paie_pdf', compact('dataCorps'));
+
+//         Mail::send('emails.corps_pdf_mail', $data, function($message) use($data, $pdf, $emails) {
+//             $message->to( $emails ,  'soft-paie' )
+//                     ->subject($data["title"])
+//                     ->attachData($pdf->output(), "fiche-de-paie.pdf");
+//         });
+  
+
+//             $success[]=$email;
+
+//             } catch (\Exception $e) {
+
+//                 if (count(Mail::failures()) > 0) {
+//                     $failures[] = Mail::failures()[0];
+//                 }
+                
+//             }
+//         }
+            
+       
+        $data=[
+            'failed recepients' => $emails,
+            'sent recepients' => $success,
+          ];
+        return $data;
+
+        
     }
 }

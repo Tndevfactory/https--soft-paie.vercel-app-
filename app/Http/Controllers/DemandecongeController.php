@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Demandeconge;
+
 use Illuminate\Http\Request;
+use App\Models\Notificationapp;
 
 class DemandecongeController extends Controller
 {
@@ -25,6 +27,32 @@ class DemandecongeController extends Controller
      */
     public function store(Request $request)
     {
+
+           // return $request->all();
+
+
+        $u=Demandeconge::create([
+            'start_date'=> $request->startDate,
+             'end_date'=> $request->endDate,
+             'content'=> $request->corpsDemande,
+
+            'user_id'=> $request->user_id,
+            'active_state'=> $request->active_state,
+            'validator_id'=> $request->validator_id,
+            ]);
+
+
+            $notif= Notificationapp::create([
+                'active_time'=> 30,
+                'content'=>$request->corpsDemande,
+                'user_id'=> $request->user_id,
+                'active_state_manager'=> $request->active_state_manage,
+                 'active_state_employee'=> $request->active_state_employee,
+                 'nature'=> 'conge',
+                
+                ]);
+
+
         return [
             'ok' => true,
             'corps demande'=> $request->corpsDemande,

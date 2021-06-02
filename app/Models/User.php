@@ -49,4 +49,28 @@ class User extends Authenticatable
      public function roles(){
        return $this->belongsToMany(Role::class);
     }
+       
+    /**
+         * accessor return data on the fly
+         *
+         * @return string
+         */
+        public function getFullAttribute()
+        {
+           return "{$this->nom} {$this->prenom}";
+        }
+
+
+
+        //     /**
+        //  * will modify the data when create it and save it to  table usefull for haashing password
+        //  *
+        //  * @param  string  $value
+        //  * @return void
+        //  */
+        // public function setNomAttribute($value)
+        // {
+        //     $this->attributes['nom'] = strtoupper($value);
+        // }
+
 }
