@@ -27,6 +27,7 @@ import EditerProfil from "../../components/profile/EditerProfil";
 import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Default from "../../components/profile/Default";
+import NotificationEmployee from "../../components/notification/NotificationEmployee";
 
 import {
   FaShieldAlt,
@@ -50,7 +51,7 @@ const Desktop = styled(motion.div)`
     padding: 0.5rem 2rem;
 
     background: rgba(250, 250, 250, 0.9);
-    border: 2px #777 solid;
+    border: 1px #777 solid;
   }
 
   .fixed-drawer {
@@ -315,7 +316,9 @@ export default function Dashboard1() {
   const { id } = router.query;
 
   const [prodMethods, prodStates] = ProdCtx();
-  const { profilMethods } = prodMethods;
+  const { notificationMethods, profilMethods } = prodMethods;
+  const { apiNotificationCountEmployee, apiNotificationResetEmployee } =
+    notificationMethods;
   const {
     apiProfileShowAll,
     apiProfileStore,
@@ -337,6 +340,8 @@ export default function Dashboard1() {
   } = prodStates;
 
   const [selectSection, setSelectSection] = useState("");
+  const [notificationCountappEmployee, setNotificationCountappEmployee] =
+    useState();
 
   const [profilInfo, setProfilInfo] = useState({
     nom: "",
@@ -374,6 +379,54 @@ export default function Dashboard1() {
   if (isSuccess) {
   }
 
+  // query show notification count
+  const notificationCountEmployee = useQuery(
+    "notification-count-active-employee",
+    () => apiNotificationCountEmployee(id)
+  );
+
+  if (notificationCountEmployee.isLoading) {
+    console.log("notificationCount employee loading");
+  }
+  if (notificationCountEmployee.error) {
+    console.log("notificationCount error ");
+  }
+  if (notificationCountEmployee.data) {
+    console.log("notificationCount data  ");
+    console.log(notificationCountEmployee.data);
+  }
+
+  // reset all notification in one shot after  manager click
+
+  const updNotifStateEmployee = async () => {
+    let res = await apiNotificationResetEmployee(id);
+    queryClient.invalidateQueries("notification-count-active-employee");
+    // queryClient.resetQueries("crud-admin", { exact: true });
+    return res;
+  };
+
+  // handl view notification
+  const handleViewNotificationEmployee = (id) => {
+    // reset active state
+
+    updNotifStateEmployee(id)
+      .then((res) => {
+        if (res.ok) {
+          //  setUpdRes({ ok: res.ok, response1: res.response });
+          console.log(res.response, res.ok);
+          console.log(res);
+        } else {
+          //  setUpdRes({
+          //     ok: res.ok,
+          //     response2: "Impossible d'éffectuer la modification",
+          //   });
+        }
+      })
+      .catch((err) => console.log(err));
+
+    setSelectSection("notification");
+  };
+
   React.useEffect(() => {
     if (Number(check.cid) !== Number(id)) {
       Cookies.set("sp_token", "");
@@ -399,6 +452,16 @@ export default function Dashboard1() {
       console.log("purge use effect fill up setProfilInfo  ");
     };
   }, [data]);
+
+  // trigger data for notification
+
+  React.useEffect(() => {
+    setNotificationCountappEmployee(notificationCountEmployee.data);
+
+    return () => {
+      console.log("purge notification count ");
+    };
+  }, [notificationCountEmployee.data]);
 
   return (
     <>
@@ -446,12 +509,17 @@ export default function Dashboard1() {
 
           <div
             className="section editer_profil "
-            onClick={() => setSelectSection("notification")}
+            onClick={handleViewNotificationEmployee}
           >
+            {/* ------- change auto notification  ---------------------------------*/}
             <FaInfoCircle />
             <span className="notification">
               Notifications
-              <span className="notification_badge">22</span>
+              {/*  */}
+              <span className= {notificationCountappEmployee == 0 ? '' : 'notification_badge'} >
+                {" "}
+                {notificationCountappEmployee == 0 ? '' : notificationCountappEmployee}
+              </span>
             </span>
           </div>
           <div
@@ -497,6 +565,9 @@ export default function Dashboard1() {
             <span>Management</span>
           </div>
         </aside>
+
+        {/* dashboard content components */}
+
         <div className="dash-content">
           <div className="bread-crumb">
             <Breadcrumb1
@@ -513,6 +584,11 @@ export default function Dashboard1() {
             {selectSection === "informations" && (
               <div className="component component_informations">
                 <Information />
+              </div>
+            )}
+            {selectSection === "notification" && (
+              <div className="component component_informations">
+                <NotificationEmployee />
               </div>
             )}
             {selectSection === "conge" && (

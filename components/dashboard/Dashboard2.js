@@ -24,6 +24,9 @@ import DemandeConge from "../../components/profile/DemandeConge";
 import EditerProfil from "../../components/profile/EditerProfil";
 import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
+import Notification from "../../components/notification/Notification";
+import GestionEquipes from '../manager/GestionEquipes';
+ 
 import Default from "../../components/profile/Default";
 import {
   FaInfoCircle,
@@ -50,7 +53,7 @@ const Desktop = styled(motion.div)`
     padding: 0.5rem 2rem;
 
     background: rgba(240, 240, 240, 0.9);
-    border: 3px ForestGreen solid;
+    border: 1px ForestGreen solid;
   }
 
   .fixed-drawer {
@@ -69,7 +72,6 @@ const Desktop = styled(motion.div)`
     font-size: calc(1.2 * 1.2 * 100%);
     color: ${({ switchMode, ui }) =>
       switchMode ? chroma(ui.dark) : chroma(ui.light)};
-    
   }
 
   .manager_logo {
@@ -84,7 +86,7 @@ const Desktop = styled(motion.div)`
       bottom: 0;
       height: 5px;
       width: 100%;
-      background: red;
+      background: seagreen;
       border-right: 1px white;
       content: "";
     }
@@ -362,7 +364,9 @@ export default function Dashboard2() {
   const { id } = router.query;
 
   const [prodMethods, prodStates] = ProdCtx();
-  const { profilMethods } = prodMethods;
+  const { notificationMethods, profilMethods } = prodMethods;
+  const { apiNotificationCount, apiNotificationReset } = notificationMethods;
+
   const {
     apiProfileStore,
     apiProfileShowOne,
@@ -382,6 +386,7 @@ export default function Dashboard2() {
     DOMAIN,
   } = prodStates;
   const [selectSection, setSelectSection] = useState("");
+  const [notificationCountapp, setNotificationCountapp] = useState();
 
   const [profilManager, setProfilManager] = useState({
     nom: "",
@@ -393,29 +398,81 @@ export default function Dashboard2() {
     role: "",
   });
 
-  const { isLoading, error, data, isFetching } = useQuery(
-    ["dashboard2", id],
-    () => apiProfileShowOne(id),
+  //const { isLoading, error, data, isFetching }
+
+  // query zone
+  // query show profile
+  const profileShow = useQuery( ["dashboard2", id],  () => apiProfileShowOne(id),
     {
       initialData: initialDataHotssr1,
       initialStale: true,
     }
   );
 
-  if (isLoading) {
-    console.log("loading");
+  if (profileShow.isLoading) {
+    console.log("loading api show apiProfileShowOne");
   }
-  if (error) {
-    console.log("error");
+  if (profileShow.error) {
+    console.log("error apiProfileShowOne");
   }
+
+  // query show notification count
+  const notificationCount = useQuery("notification-count-active", () =>
+    apiNotificationCount()
+  );
+
+  if (notificationCount.isLoading) {
+    console.log("notificationCount loading");
+  }
+  if (notificationCount.error) {
+    console.log("notificationCount error ");
+  }
+  if (notificationCount.data) {
+    console.log("notificationCount data  ");
+    console.log(notificationCount.data);
+  }
+
+  // reset all notification in one shot after  manager click
+
+  const updNotifState = async () => {
+    let res = await apiNotificationReset();
+    queryClient.invalidateQueries("notification-count-active");
+    // queryClient.resetQueries("crud-admin", { exact: true });
+    return res;
+  };
+
+  // handl view notification
+  const handleViewNotification = () => {
+    // reset active state
+
+    updNotifState()
+      .then((res) => {
+        if (res.ok) {
+          //  setUpdRes({ ok: res.ok, response1: res.response });
+          console.log(res.response, res.ok);
+          console.log(res);
+        } else {
+          //  setUpdRes({
+          //     ok: res.ok,
+          //     response2: "Impossible d'éffectuer la modification",
+          //   });
+        }
+      })
+      .catch((err) => console.log(err));
+
+    setSelectSection("notification");
+  };
+
   //------------
-  console.log(data);
+  //  console.log(data);
   //-------------
   const [check, setCheck] = useState({
     cid: Cookies.get("sp_id") || 0,
     role: Cookies.get("sp_role") || 0,
     token: Cookies.get("sp_token") || 0,
   });
+
+  // security
   React.useEffect(() => {
     if (Number(check.cid) !== Number(id)) {
       Cookies.set("sp_token", "");
@@ -426,20 +483,33 @@ export default function Dashboard2() {
     return () => console.log("");
   }, [id]);
 
+  // trigger data for apiProfileShowOne
+
   React.useEffect(() => {
     setProfilManager({
-      nom: data?.user.nom,
-      prenom: data?.user.prenom,
-      email: data?.user.email,
-      telephone: data?.user.gsm,
-      adresse: data?.user.adresse,
-      file: data?.user.file,
-      role: data?.role,
+      nom: profileShow.data?.user.nom,
+      prenom: profileShow.data?.user.prenom,
+      email: profileShow.data?.user.email,
+      telephone: profileShow.data?.user.gsm,
+      adresse: profileShow.data?.user.adresse,
+      file: profileShow.data?.user.file,
+      role: profileShow.data?.role,
     });
     return () => {
       console.log("");
     };
-  }, [data]);
+  }, [profileShow.data]);
+
+  // trigger data for notification
+
+  React.useEffect(() => {
+    setNotificationCountapp(notificationCount.data);
+
+    return () => {
+      console.log("purge notification count ");
+    };
+  }, [notificationCount.data]);
+
   return (
     <>
       <Head>
@@ -490,15 +560,19 @@ export default function Dashboard2() {
           </div>
           <div
             className="section editer_profil "
-            onClick={() => setSelectSection("notification")}
+            onClick={handleViewNotification}
           >
             <FaInfoCircle />
+            {/* notification zone ---------------------------------- */}
             <span className="notification">
               Notifications
-              <span className="notification_badge">22</span>
+              <span className= {notificationCountapp == 0 ? '' : 'notification_badge'} >
+               
+                {notificationCountapp == 0 ? '' : notificationCountapp}
+              </span>
             </span>
           </div>
-
+          {/* notification zone ---------------------------------- */}
           <div
             className="section editer_profil "
             onClick={() => setSelectSection("profil")}
@@ -515,18 +589,18 @@ export default function Dashboard2() {
           </div>
           <div
             className="section conge "
-            onClick={() => setSelectSection("conge")}
+            onClick={() => setSelectSection("Gestion Equipes")}
           >
             <FaUserCog />
             <span>Gérer équipe</span>
           </div>
-          <div
+          {/* <div
             className="section reclamation "
             onClick={() => setSelectSection("reclamation")}
           >
             <FaRecycle />
             <span>Congés et reclamations</span>
-          </div>
+          </div> */}
           <div
             className="section planification "
             onClick={() => setSelectSection("planification")}
@@ -535,6 +609,9 @@ export default function Dashboard2() {
             <span>Planification</span>
           </div>
         </aside>
+
+        {/* dashboard content right side components  */}
+
         <div className="dash-content">
           <div className="bread-crumb">
             <Breadcrumb1
@@ -548,6 +625,17 @@ export default function Dashboard2() {
                 <Default setSelectSection={setSelectSection} />
               </div>
             )}
+            {selectSection === "notification" && (
+              <div className="component component_informations">
+                <Notification />
+              </div>
+            )}
+            {selectSection === "Gestion Equipes" && (
+              <div className="component component_informations">
+                <GestionEquipes />
+              </div>
+            )}
+
             {selectSection === "informations" && (
               <div className="component component_informations">
                 <Information />

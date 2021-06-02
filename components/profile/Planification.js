@@ -31,15 +31,18 @@ import {
 const Desktop = styled(motion.div)`
   min-width: 70vw;
   .row_plan1 {
-    padding: 1rem;
+    padding: .5rem;
     .form_plan {
       display: flex;
       gap: 5px;
     }
   }
   .row_fixed_plan {
+    font-family: ${({ ui }) => ui.navFont};
+    font-size:.9rem;
+    letter-spacing:1px;
     width: 100%;
-    padding: 1rem 4.3rem 1rem 0.5rem;
+    padding: .3rem ;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -56,22 +59,27 @@ const Desktop = styled(motion.div)`
         : chroma(ui.light).darken(3)};
   }
   .row_plan {
-    margin: 0.3rem 0rem 0.3rem 0rem;
+   // margin: 0.3rem 0rem 0.3rem 0rem;
     width: 100%;
-    padding: 0.6rem 0rem 0.6rem 0.6rem;
-    padding: 1rem 4.3rem 1rem 0.5rem;
+   // padding: 0.6rem 0rem 0.6rem 0.6rem;
+   // padding: 1rem 4.3rem 1rem 0.5rem;
     display: flex;
     align-items: center;
     flex-flow: column nowrap;
     background: rgba(0, 0, 0, 0.1);
+ 
 
     .visible {
       width: 100%;
       display: flex;
       justify-content: space-around;
       align-items: center;
+      border:.11px solid white;
+     
+
       .btn_switcher {
         cursor: pointer;
+        border:1px solid #888;
         padding: 0.1rem 0.3rem;
         border-radius: 3px;
         background: ${({ switchMode, ui }) =>
@@ -95,6 +103,7 @@ const Desktop = styled(motion.div)`
 
     .hidden {
       width: 80%;
+      margin:1rem;
       display: flex;
       justify-content: space-evenly;
       align-items: center;
@@ -102,7 +111,7 @@ const Desktop = styled(motion.div)`
 
       .day {
         width: 60%;
-        margin: 0.4rem 0rem 0.3rem 0rem;
+       // margin: 0.4rem 0rem 0.3rem 0rem;
         padding: 0.6rem 0.5rem 0.6rem 0.5rem;
         display: flex;
         justify-content: space-evenly;

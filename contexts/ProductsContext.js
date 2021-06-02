@@ -61,6 +61,53 @@ const authMethods = {
   apiDeleteUser,
 };
 
+// Notification NotificationController ------------------------------------------------------
+// section employee
+export const apiNotificationCountEmployee = async (id) => {
+  const { data } = await api.get(`/notifications-employee/${id}`);
+  return data;
+};
+export const apiNotificationResetEmployee = async (id) => {
+  const { data } = await api.get(`/notifications-reset-employee/${id}`);
+  return data;
+};
+export const apiNotificationDataEmployee = async (id) => {
+  const { data } = await api.get(`/notifications-data-employee/${id}`);
+  return data;
+};
+
+//section manager
+export const apiNotificationValidationConge = async (fd, cfg) => {
+  const { data } = await api.post(`/notifications-validation-conge/`, fd, cfg);
+  return data;
+};
+export const apiNotificationNegationConge = async (fd, cfg) => {
+  const { data } = await api.post(`/notifications-negation-conge/`, fd, cfg);
+  return data;
+};
+export const apiNotificationReset = async () => {
+  const { data } = await api.get(`/notifications-reset/`);
+  return data;
+};
+export const apiNotificationCount = async () => {
+  const { data } = await api.get(`/notifications/`);
+  return data;
+};
+export const apiNotificationData = async () => {
+  const { data } = await api.get(`/notifications-data/`);
+  return data;
+};
+const notificationMethods = {
+  apiNotificationDataEmployee,
+  apiNotificationResetEmployee,
+  apiNotificationCountEmployee,
+  apiNotificationCount,
+  apiNotificationData,
+  apiNotificationReset,
+  apiNotificationNegationConge,
+  apiNotificationValidationConge,
+};
+
 // DemandesReclamation------------------------------------------------------
 //DemandeReclamationController
 export const apiDemandeReclamationPost = async (fd, cfg) => {
@@ -288,6 +335,7 @@ export const ProductProvider = ({ children }) => {
   });
 
   const methods = {
+    notificationMethods,
     demandeReclamationMethods,
     demandeCongeMethods,
     ressourcesMethods,
