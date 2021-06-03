@@ -35,7 +35,7 @@ Route::get('/notifications-employee/{id}', [NotificationappController::class, 'n
 Route::get('/notifications-reset-employee/{id}', [NotificationappController::class, 'notificationResetEmployee']);
 Route::get('/notifications-data-employee/{id}', [NotificationappController::class, 'notificationDataEmployee']);
 
-// manager 
+// manager Notificationapp
 Route::get('/notifications', [NotificationappController::class, 'notificationCount']); 
 Route::get('/notifications-data', [NotificationappController::class, 'notificationData']); 
 Route::get('/notifications-reset', [NotificationappController::class, 'notificationReset']); 
@@ -53,6 +53,7 @@ Route::post('/demande-conge', [DemandecongeController::class, 'store']);
 //FichepaieController 
 Route::get('/downloadFile/{year}/{month}/{id}', [FichepaieController::class, 'downloadFile']); //download file from public storage
 Route::get('/pdf', [FichepaieController::class, 'createPDF']); //make pdf from db
+Route::get('/auto-pdf/{year}/{month}/{id}', [FichepaieController::class, 'autoPdf']); //make pdf from db
 
 //RessourceController
 Route::put('/ressources/{id}', [RessourceController::class, 'update']);
@@ -64,8 +65,14 @@ Route::put('/roles/{id}', [RoleController::class, 'update']);
 Route::put('/hierarchies/{id}', [HierarchieController::class, 'update']);
 
 //profiles
+//profile Manager
+Route::get('/profiles/crud-manager/{id}', [ProfileController::class, 'crudEmployeeManager']);
+
 //profile admin
+Route::get('/profile-crud-admin-show-one/{id}', [ProfileController::class, 'showAdminCrudOne']);
 Route::get('/profiles/crud-admin', [ProfileController::class, 'crudEmployeeAdmin']);
+
+//profile employee
 Route::get('/profiles', [ProfileController::class, 'index']);
 Route::post('/profiles', [ProfileController::class, 'store']);
 Route::get('/profiles/{id}', [ProfileController::class, 'show']);

@@ -88,6 +88,50 @@ class ProfileController extends Controller
       return response(["success" => "profil non existant"]);
     }
   }
+  /**
+   * Display detailsview admin crud for one employee
+   *
+   * @param  \App\Models\User  $User
+   * @return \Illuminate\Http\Response
+   */
+  public function showAdminCrudOne($id)
+  {
+
+
+   //tables
+   //users // hierarchie // role // resource
+   $employee = DB::table('users')
+   ->leftJoin('qualifications', 'users.id', '=', 'qualifications.user_id')
+   ->leftJoin('ressources', 'users.id', '=', 'ressources.user_id')
+   
+   
+   ->select(
+     'users.id', 
+     'users.nom',
+     'users.prenom',
+     'users.email',
+     'users.password',
+     'users.gsm',
+     'users.adresse',
+     'ressources.etat_civil',
+     'ressources.nb_enfants',
+     'ressources.num_cnss',
+     'ressources.type_contrat',
+     'ressources.rib',
+     'qualifications.qualification',
+    
+     )
+     ->where( 'users.id', '=', $id)
+     ->get();
+
+     return $employee;
+
+
+  }
+
+
+
+
 
   /**
    * Update the specified resource in storage.
@@ -226,6 +270,41 @@ class ProfileController extends Controller
      'roles.id as roleId'
      )->get()->toArray();	
   
+   return $employees;
+
+  }
+
+  /**
+   * crudEmployeeMANAGER  // gestiom employee crud MANAGER
+   *
+   * @param  \App\Models\User  $User
+   * @return \Illuminate\Http\Response
+   */
+  public function crudEmployeeManager($id)
+  {
+    
+   //tables
+   //users // hierarchie // role // resource
+   $employees = DB::table('users')
+   ->leftJoin('hierarchies', 'users.id', '=', 'hierarchies.user_id')
+   ->leftJoin('ressources', 'users.id', '=', 'ressources.user_id')
+   ->leftJoin('role_user', 'users.id', 'role_user.user_id')
+   ->leftJoin('roles', 'role_user.role_id', 'roles.id')
+   
+   ->select(
+     'users.id', 
+     'users.nom',
+     'users.prenom',
+     'users.file',
+     'hierarchies.manager_name',
+     'hierarchies.manager_id',
+     'ressources.actif', 
+     'roles.id as roleId'
+     )
+     ->where( 'hierarchies.manager_id', '=', $id)
+     ->get()->toArray();	
+     
+   
    return $employees;
 
   }

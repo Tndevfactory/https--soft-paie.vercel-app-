@@ -161,39 +161,116 @@ class MailController extends Controller
     public function createSendMassFichePaieFromPublic($yearm, $monthm)
     {
         
+         $failures = [];
+         $success=[];
+       
+       
+        switch ($monthm) {
+            case 1 :
+                $dt = collect(['Janvier', $yearm]);
+            break;
 
-        //$emails=User::pluck('email');
-       $emails='tndev8@gmail.com';
+            case 2 :
+                $dt = collect(['Fevrier', $yearm]);
+            break;
 
-        $data["email"] = "soft-paie@tndev3.tn-devfactory.com";
+            case 3 :
+                $dt = collect(['Mars', $yearm]);
+            break;
+            
+            case 4 :
+                $dt = collect(['Avril', $yearm]);
+            break;
+
+            case 5 :
+                $dt = collect(['Mai', $yearm]);
+            break;
+
+            case 6 :
+                $dt = collect(['Juin', $yearm]);
+            break;
+
+            case 7 :
+                $dt = collect(['Juillet', $yearm]);
+            break;
+
+            case 8:
+                $dt = collect(['Aout', $yearm]);
+            break;
+
+            case 9 :
+                $dt = collect(['Septembre', $yearm]);
+            break;
+
+            case 10 :
+                $dt = collect(['Octobre', $yearm]);
+            break;
+
+            case 11:
+                $dt = collect(['Novembre', $yearm]);
+            break;
+
+            case 12:
+                $dt = collect(['Decembre', $yearm]);
+            break;
+
+          
+        }
+
+       // corps du mail
+       $data["email"] = "soft-paie@tndev3.tn-devfactory.com";
         $data["title"] = "fiche-de-paie ".$yearm.'-'.$monthm;
-        $data["body"] = "Bonjour, ci-joint la fiche de paie du" .$yearm.'-'.$monthm;
-        $dataCorps = array('name'=>'tndev8');
+        $data["body"] = "Bonjour, ci-joint la fiche de paie du  " .$yearm.'-'.$monthm;
+
   
-        //$pdf = PDF::loadView('fiche_paie_pdf', $data);
-        $pdf = PDF::loadView('fiche_paie_pdf', compact('dataCorps'));
+        $border=User::count();
 
-                Mail::send('emails.corps_pdf_mail', $data, function($message) use($data, $pdf, $emails) {
-                    $message->to( $emails ,  'soft-paie' )
-                            ->subject($data["title"])
-                            ->attachData($pdf->output(), "fiche-de-paie.pdf");
-                });
-        return 'done';
+      //  $dt = collect([$monthm, $yearm]);
+       
+       for ($x = 1; $x <= $border + 1 ; $x++) {
+        try {
+            $user = User::find($x);
 
-        $failures = [];
-        $success=[];
+            //attachment creation
+            $pdf = PDF::loadView('fiche_paie_pdf', compact('user', 'dt'));
+
+            $email = $user->email;
+
+            Mail::send('emails.corps_pdf_mail', $data, function($message) use($data, $pdf, $email) {
+                $message->to( $email ,  'soft-paie' )
+                        ->subject($data["title"])
+                        ->attachData($pdf->output(), "fiche-de-paie.pdf");
+            });
+          
+            //  echo 'good recepient   '  . $email . '<br>';
+
+          
+             $success[$x]=$email;
+
+        } catch (\Exception $e) {
+            //echo 'bad recepient   '  . $email . '<br>';
+            $failures[$x]=$email;
+
+
+        }
+      
+    }
+
+     $infos=[
+           
+            'failed' => collect($failures),
+            'sent' => collect($success)
+            
+          ];
+        return  $infos;
+             
+        // return 'done';
+
+        // $failures = [];
+        // $success=[];
 
 //    foreach($emails as $email){
 //          try {
-
-//             $pdf = PDF::loadView('fiche_paie_pdf', compact('dataCorps'));
-
-//         Mail::send('emails.corps_pdf_mail', $data, function($message) use($data, $pdf, $emails) {
-//             $message->to( $emails ,  'soft-paie' )
-//                     ->subject($data["title"])
-//                     ->attachData($pdf->output(), "fiche-de-paie.pdf");
-//         });
-  
 
 //             $success[]=$email;
 
@@ -207,11 +284,11 @@ class MailController extends Controller
 //         }
             
        
-        $data=[
-            'failed recepients' => $emails,
-            'sent recepients' => $success,
-          ];
-        return $data;
+        // $data=[
+        //     'failed recepients' => $emails,
+        //     'sent recepients' => $success,
+        //   ];
+        // return $data;
 
         
     }

@@ -112,8 +112,8 @@ margin-top:35px;margin-bottom:30px}
    <div class="telephone"><span>GSM:</span>+216 79 10 00 00</div>
    <div class="email"><span>Email:</span>ressource-humaine@soft-paie.com</div>
  </div>
- <div class="employe"><span>Employé:</span>Fekih Hfaied</div>
- <div class="employe"><span>Employé:</span>{{$dataCorps['name']}}</div>
+
+ <div class="employe"><span>Employé:</span>{{$user['nom'] ?? 'Ben Ahmed'}} {{$user['prenom'] ?? 'Fethi'}}</div>
 <table id="info">
   <thead>
 
@@ -127,7 +127,7 @@ margin-top:35px;margin-bottom:30px}
   </thead>
   <tbody>
     <tr>
-      <td class='bulletin'> mai-2021</td>
+      <td class='bulletin'>  {{$dt[0] ?? 'mars'}} {{$dt[1] ?? '2021'}}</td>
       <td>8</td>
       <td>22/03/2019</td>
       <td>5.450</td>
