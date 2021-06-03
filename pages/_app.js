@@ -7,7 +7,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ProductProvider } from "../contexts/ProductsContext";
-import Layout from "../components/layout/Layout";
+
 
 const queryClient = new QueryClient();
 
