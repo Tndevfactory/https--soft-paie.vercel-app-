@@ -7,10 +7,8 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import Loader from "react-loader-spinner";
-import Link from "next/link";
-import chroma from "chroma-js";
-import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+
+
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
 const Desktop = styled(motion.div)`
@@ -59,7 +57,7 @@ export default function LoaderUtil({ setLoaderRun }) {
         color={switchMode ? ui.dark : ui.light}
         height={70}
         width={70}
-        timeout={2000} //3 secs controle based on state of mutation to be real
+        //timeout={2000} //3 secs controle based on state of mutation to be real
         className="loader_info"
       />
     </Mobile>

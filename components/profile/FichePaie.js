@@ -1,7 +1,7 @@
 /** @format */
 import { motion } from "framer-motion";
 import Button1 from "../buttons/Button1";
-
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Head from "next/head";
 import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
@@ -80,13 +80,22 @@ const Desktop = styled(motion.div)`
     align-items: center;
     background: rgba(0, 0, 0, 0.1);
     transition: all 0.2s;
-    cursor: pointer;
+    
     & > * {
       width: 8%;
     }
     &:hover {
       box-shadow: 0.31px 1px 0.5px 1px rgba(0, 0, 0, 0.2);
     }
+  }
+  .btn_paie{
+    padding:.3rem;
+    background-color:seagreen;
+    color:white;
+    border: 1px solid #888;
+    border-radius:4px;
+    cursor: pointer;
+
   }
 `;
 
@@ -115,10 +124,15 @@ const Mobile = styled(Desktop)`
   }
 `;
 
-const FichePaie = ({ data }) => {
+const FichePaie = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const { id } = router.query;
+  console.log(id);
+
   const [prodMethods, prodStates] = ProdCtx();
   const { pdfMethods } = prodMethods;
-  const { apiPdf, downloadPdf } = pdfMethods;
+  const { autoPdf, apiPdf, downloadPdf } = pdfMethods;
 
   const { ui, notification, setNotification, switchMode } = prodStates;
 
@@ -126,6 +140,16 @@ const FichePaie = ({ data }) => {
   const breadcrumb = {
     root: "Employee",
     active: "Fiche de paie",
+  };
+
+  const handleAutoPdf = async (year, month, id) => {
+    console.log("aut0 pdf");
+
+    let res = await autoPdf(year, month, id);
+
+    const file = new Blob([res], { type: "application/pdf" });
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL);
   };
 
   const handlePdf = async () => {
@@ -142,6 +166,9 @@ const FichePaie = ({ data }) => {
     const file = new Blob([res], { type: "application/pdf" });
     const fileURL = URL.createObjectURL(file);
     window.open(fileURL);
+  };
+  const test = () => {
+    console.log("inside test");
   };
   return (
     <Mobile ui={ui} switchMode={switchMode}>
@@ -164,15 +191,7 @@ const FichePaie = ({ data }) => {
         <div>2021</div>
 
         <div>
-          <Button1
-            proceed={() => handleDowloadPdf("2021", "05", data?.user.id)}
-            type="submit"
-            disabled={false}
-            width={1.8}
-            height={1.3}
-          >
-            <FaDownload />
-          </Button1>
+             <button className='btn_paie' onClick={()=> handleAutoPdf('2021', '05' , id)}>  <FaDownload /></button>
         </div>
       </div>
       <div className="row">
@@ -180,15 +199,7 @@ const FichePaie = ({ data }) => {
         <div>2021</div>
 
         <div>
-          <Button1
-            proceed={() => handleDowloadPdf("2021", "04", data?.user.id)}
-            type="submit"
-            disabled={false}
-            width={1.8}
-            height={1.3}
-          >
-            <FaDownload />
-          </Button1>
+             <button className='btn_paie' onClick={()=> handleAutoPdf('2021', '04' , id)}>  <FaDownload /></button>
         </div>
       </div>
       <div className="row">
@@ -196,32 +207,15 @@ const FichePaie = ({ data }) => {
         <div>2021</div>
 
         <div>
-          <Button1
-            proceed={() => handleDowloadPdf("2021", "03", data?.user.id)}
-            type="submit"
-            disabled={false}
-            width={1.8}
-            height={1.3}
-          >
-            <FaDownload />
-          </Button1>
+             <button className='btn_paie' onClick={()=> handleAutoPdf('2021', '03' , id)}>  <FaDownload /></button>
         </div>
       </div>
-
       <div className="row">
         <div>Fevrier</div>
         <div>2021</div>
 
         <div>
-          <Button1
-            proceed={() => handleDowloadPdf("2021", "02", data?.user.id)}
-            type="submit"
-            disabled={false}
-            width={1.8}
-            height={1.3}
-          >
-            <FaDownload />
-          </Button1>
+             <button className='btn_paie' onClick={()=> handleAutoPdf('2021', '02' , id)}>  <FaDownload /></button>
         </div>
       </div>
       <div className="row">
@@ -229,15 +223,7 @@ const FichePaie = ({ data }) => {
         <div>2021</div>
 
         <div>
-          <Button1
-            proceed={() => handleDowloadPdf("2021", "01", data?.user.id)}
-            type="submit"
-            disabled={false}
-            width={1.8}
-            height={1.3}
-          >
-            <FaDownload />
-          </Button1>
+             <button className='btn_paie' onClick={()=> handleAutoPdf('2021', '01' , id)}>  <FaDownload /></button>
         </div>
       </div>
     </Mobile>

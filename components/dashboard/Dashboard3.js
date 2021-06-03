@@ -7,27 +7,23 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 import { Device } from "../../components/devices/Device";
-import Register1 from "../../components/registers/Register1";
-import Alert1 from "../../components/alerts/Alert1";
-import Loader from "../../components/loader/Loader1";
-import Footer from "../../components/footer/Footer";
-import Navbar from "../../components/navbar/Navbar";
+
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { format, compareAsc } from "date-fns";
-import FichePaie from "../../components/profile/FichePaie";
-import Information from "../../components/profile/Information";
+
 import DemandeConge from "../../components/profile/DemandeConge";
 import EditerProfil from "../../components/profile/EditerProfil";
 import MassMail from "../../components/mail/MassMail";
 import Planification from "../../components/profile/Planification";
-import Reclamation from "../../components/profile/Reclamation";
-import Default from "../../components/profile/Default";
+
+import DefaultAdmin from "../../components/admin/DefaultAdmin";
 import GestionEmployees from "../admin/GestionEmployees";
 import DetailsView from "../admin/DetailsView";
+import Statistiques from "../admin/Statistiques";
 
 import {
   FaInfoCircle,
@@ -35,11 +31,8 @@ import {
   FaUserTie,
   FaUser,
   FaSignal,
-  FaUserClock,
-  FaRegMoneyBillAlt,
-  FaRecycle,
-  FaParking,
-  FaSkating,
+  
+  
   FaShieldAlt,
   FaMailBulk,
 } from "react-icons/fa";
@@ -54,7 +47,7 @@ const Desktop = styled(motion.div)`
     border-radius: 5px;
     padding: 0.5rem 2rem;
     background: rgba(230, 230, 230, 0.9);
-    border: 2px crimson solid;
+    border: 1px crimson solid;
   }
 
   .fixed-drawer {
@@ -382,6 +375,7 @@ export default function Dashboard3() {
     switchMode,
     DOMAIN,
   } = prodStates;
+
   const [selectSection, setSelectSection] = useState("");
 
   const [profilAdmin, setProfilAdmin] = useState({
@@ -488,7 +482,7 @@ export default function Dashboard3() {
             <span className="profil_role_label">Role: </span>
             <span className="profil_role_value">{profilAdmin.role}</span>
           </div>
-          <div
+          {/* <div
             className="section editer_profil "
             onClick={() => setSelectSection("notification")}
           >
@@ -497,7 +491,7 @@ export default function Dashboard3() {
               Notifications
               <span className="notification_badge">22</span>
             </span>
-          </div>
+          </div> */}
           <div
             className="section editer_profil "
             onClick={() => setSelectSection("profil")}
@@ -515,11 +509,12 @@ export default function Dashboard3() {
 
           <div
             className="section reclamation "
-            onClick={() => setSelectSection("reclamation")}
+            onClick={() => setSelectSection("Statistiques")}
           >
             <FaSignal />
             <span>Statistiques</span>
           </div>
+
           <div
             className="section planification "
             onClick={() => setSelectSection("planification")}
@@ -549,7 +544,7 @@ export default function Dashboard3() {
           <div className="dash-content-place">
             {selectSection === "" && (
               <div className="component_default">
-                <Default setSelectSection={setSelectSection} />
+                <DefaultAdmin setSelectSection={setSelectSection} />
               </div>
             )}
             {selectSection === "mail salaire" && (
@@ -562,9 +557,9 @@ export default function Dashboard3() {
                 <DemandeConge />
               </div>
             )}
-            {selectSection === "reclamation" && (
+            {selectSection === "Statistiques" && (
               <div className="component component_reclamation">
-                <Reclamation />
+                <Statistiques />
               </div>
             )}
             {selectSection === "Gestion Employees" && (

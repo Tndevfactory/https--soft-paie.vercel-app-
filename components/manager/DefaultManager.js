@@ -106,18 +106,21 @@ const Defaultss = ({ setSelectSection }) => {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
+
       <div className="editer_profil" onClick={() => setSelectSection("profil")}>
         <span className="editer_profil_logo">
           <FaUser className="icon" />
         </span>
-        <span className="editer_profil_title">Editer Profil</span>
+        <span className="editer_profil_title">Profil</span>
       </div>
+
       <div className="fiche_paie" onClick={() => setSelectSection("paie")}>
         <span className="editer_profil_logo">
           <FaRegListAlt className="icon" />
         </span>
         <span className="editer_profil_title">Fiche de Paie</span>
       </div>
+
       <div
         className="calcul_salaire"
         onClick={() => setSelectSection("informations")}
@@ -127,21 +130,24 @@ const Defaultss = ({ setSelectSection }) => {
         </span>
         <span className="editer_profil_title">Information</span>
       </div>
+
       <div className="demande_conge" onClick={() => setSelectSection("conge")}>
         <span className="editer_profil_logo">
           <FaSkating className="icon" />
         </span>
         <span className="editer_profil_title">Demande de Conge</span>
       </div>
+
       <div
         className="gestion_reclamation"
-        onClick={() => setSelectSection("reclamation")}
+        onClick={() => setSelectSection("Gestion Equipes")}
       >
         <span className="editer_profil_logo">
           <FaRecycle className="icon" />
         </span>
-        <span className="editer_profil_title">Gestion de Reclamation</span>
+        <span className="editer_profil_title">Gerer equipe</span>
       </div>
+
       <div
         className="consulter_planification"
         onClick={() => setSelectSection("planification")}
@@ -151,6 +157,7 @@ const Defaultss = ({ setSelectSection }) => {
         </span>
         <span className="editer_profil_title">Consulter Planification</span>
       </div>
+      
     </Mobile>
   );
 };

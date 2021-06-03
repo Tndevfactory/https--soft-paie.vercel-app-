@@ -3,14 +3,14 @@ import "../styles/home.module.css";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import Head from "next/head";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../contexts/ProductsContext";
 
-import Cookies from "js-cookie";
+import styled, { css } from "styled-components";
+import { ProdCtx } from "../contexts/ProductsContext";
+
+
 import { useRouter } from "next/router";
 import Login1 from "../components/logins/Login1";
-import chroma from "chroma-js";
+
 import Loader1 from "../components/loader/Loader1";
 import Footer from "../components/footer/Footer";
 import Navbar from "../components/navbar/Navbar";
@@ -49,7 +49,7 @@ const Mobile = styled(Desktop)``;
 // }
 
 export default function Home() {
-  const queryClient = useQueryClient();
+  
   const router = useRouter();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;

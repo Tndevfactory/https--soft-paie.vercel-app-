@@ -2,9 +2,9 @@
 import { motion } from "framer-motion";
 import React from "react";
 import Head from "next/head";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+
 import styled, { css } from "styled-components";
-import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
+import { ProdCtx,  } from "../../contexts/ProductsContext";
 import Register1 from "../../components/registers/Register1";
 import Loader1 from "../../components/loader/Loader1";
 import Footer from "../../components/footer/Footer";
@@ -64,7 +64,7 @@ const Mobile = styled(Desktop)`
 // };{ dt }
 
 export default function Register() {
-  const queryClient = useQueryClient();
+  
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
   const {

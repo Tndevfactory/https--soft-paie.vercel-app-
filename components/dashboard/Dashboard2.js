@@ -6,12 +6,7 @@ import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
-import { Device } from "../../components/devices/Device";
-import Register1 from "../../components/registers/Register1";
-import Alert1 from "../../components/alerts/Alert1";
-import Loader from "../../components/loader/Loader1";
-import Footer from "../../components/footer/Footer";
-import Navbar from "../../components/navbar/Navbar";
+
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
@@ -25,9 +20,9 @@ import EditerProfil from "../../components/profile/EditerProfil";
 import Planification from "../../components/profile/Planification";
 import Reclamation from "../../components/profile/Reclamation";
 import Notification from "../../components/notification/Notification";
-import GestionEquipes from '../manager/GestionEquipes';
- 
-import Default from "../../components/profile/Default";
+import GestionEquipes from "../manager/GestionEquipes";
+import DetailsViewEquipe from "../manager/DetailsViewEquipe";
+import DefaultManager from "../../components/manager/DefaultManager";
 import {
   FaInfoCircle,
   FaUserShield,
@@ -385,6 +380,7 @@ export default function Dashboard2() {
     switchMode,
     DOMAIN,
   } = prodStates;
+
   const [selectSection, setSelectSection] = useState("");
   const [notificationCountapp, setNotificationCountapp] = useState();
 
@@ -402,7 +398,9 @@ export default function Dashboard2() {
 
   // query zone
   // query show profile
-  const profileShow = useQuery( ["dashboard2", id],  () => apiProfileShowOne(id),
+  const profileShow = useQuery(
+    ["dashboard2", id],
+    () => apiProfileShowOne(id),
     {
       initialData: initialDataHotssr1,
       initialStale: true,
@@ -566,9 +564,12 @@ export default function Dashboard2() {
             {/* notification zone ---------------------------------- */}
             <span className="notification">
               Notifications
-              <span className= {notificationCountapp == 0 ? '' : 'notification_badge'} >
-               
-                {notificationCountapp == 0 ? '' : notificationCountapp}
+              <span
+                className={
+                  notificationCountapp == 0 ? "" : "notification_badge"
+                }
+              >
+                {notificationCountapp == 0 ? "" : notificationCountapp}
               </span>
             </span>
           </div>
@@ -622,7 +623,7 @@ export default function Dashboard2() {
           <div className="dash-content-place">
             {selectSection === "" && (
               <div className="component_default">
-                <Default setSelectSection={setSelectSection} />
+                <DefaultManager setSelectSection={setSelectSection} />
               </div>
             )}
             {selectSection === "notification" && (
@@ -632,10 +633,14 @@ export default function Dashboard2() {
             )}
             {selectSection === "Gestion Equipes" && (
               <div className="component component_informations">
-                <GestionEquipes />
+                <GestionEquipes setSelectSection={setSelectSection} />
               </div>
             )}
-
+            {selectSection === "Details-View-Equipe" && (
+              <div className="component component_paie">
+                <DetailsViewEquipe setSelectSection={setSelectSection} />
+              </div>
+            )}
             {selectSection === "informations" && (
               <div className="component component_informations">
                 <Information />

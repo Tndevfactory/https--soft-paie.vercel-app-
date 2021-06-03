@@ -4,20 +4,17 @@ import Button1 from "../buttons/Button1";
 import Select from "react-select";
 import React, { useState, useRef } from "react";
 import Head from "next/head";
-import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
+
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
-import { Device } from "../devices/Device";
-import Register1 from "../registers/Register1";
-import Alert1 from "../alerts/Alert1";
-import Loader from "../loader/Loader1";
-import Footer from "../footer/Footer";
-import Navbar from "../navbar/Navbar";
+import { useRouter } from "next/router";
+import { ProdCtx } from "../../contexts/ProductsContext";
+
+
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
-import { format, compareAsc } from "date-fns";
+
 
 import { FaSearch, FaRegEdit, FaTrashAlt } from "react-icons/fa";
 
@@ -241,6 +238,8 @@ const Mobile = styled(Desktop)`
 // crudEmployeeAdmin  method == component react
 const GestionEquipes = ({ setSelectSection }) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const { id } = router.query;
   const [prodMethods, prodStates] = ProdCtx();
 
   const {
@@ -253,7 +252,7 @@ const GestionEquipes = ({ setSelectSection }) => {
   } = prodMethods;
 
   const { apiPdf, downloadPdf } = pdfMethods;
-  const { apiProfileCrudAdminShowAll } = profilMethods;
+  const { apiProfileCrudManagerShowAll , apiProfileCrudAdminShowAll } = profilMethods;
   const { apiHierarchieUpdate } = hierarchieMethods;
   const { apiRoleUpdate } = roleMethods;
   const { apiRessourceUpdate } = ressourcesMethods;
@@ -269,6 +268,7 @@ const GestionEquipes = ({ setSelectSection }) => {
     DOMAIN,
   } = prodStates;
 
+  
   const [sectionSelector, setSectionSelector] = useState("");
   const [employees, setEmployees] = useState();
 
@@ -290,10 +290,10 @@ const GestionEquipes = ({ setSelectSection }) => {
   const options = [
     { value: "1", label: "belkahla iheb" },
     { value: "2", label: "belkadi bassem" },
-    { value: "3", label: "maala abdelhamid" },
+    
   ];
   const optionsRole = [
-    { value: "1", label: "Admin" },
+    
     { value: "2", label: "Manager" },
     { value: "3", label: "Employe" },
   ];
@@ -304,8 +304,8 @@ const GestionEquipes = ({ setSelectSection }) => {
 
   // query city
   const { isSuccess, isLoading, refetch, error, data, isFetching } = useQuery(
-    ["crud-admin"],
-    () => apiProfileCrudAdminShowAll()
+    ["crud-manager"],
+    () => apiProfileCrudManagerShowAll(id)
   );
 
   // query test
@@ -330,27 +330,27 @@ const GestionEquipes = ({ setSelectSection }) => {
 
   const updHierarchie = async (id, fd, cfg) => {
     let res = await apiHierarchieUpdate(id, fd, cfg);
-    queryClient.invalidateQueries("crud-admin");
+    queryClient.invalidateQueries("crud-manager");
     // queryClient.resetQueries("crud-admin", { exact: true });
     return res;
   };
 
   const updRole = async (id, fd, cfg) => {
     let res = await apiRoleUpdate(id, fd, cfg);
-    queryClient.invalidateQueries("crud-admin");
+    queryClient.invalidateQueries("crud-manager");
     // queryClient.resetQueries("crud-admin", { exact: true });
     return res;
   };
 
   const updRessource = async (id, fd, cfg) => {
     let res = await apiRessourceUpdate(id, fd, cfg);
-    queryClient.invalidateQueries("crud-admin");
+    queryClient.invalidateQueries("crud-manager");
     // queryClient.resetQueries("crud-admin", { exact: true });
     return res;
   };
   const deleteUser = async (id) => {
     let res = await apiDeleteUser(id);
-    queryClient.invalidateQueries("crud-admin");
+    queryClient.invalidateQueries("crud-manager");
     // queryClient.resetQueries("crud-admin", { exact: true });
     return res;
   };
@@ -438,7 +438,7 @@ const GestionEquipes = ({ setSelectSection }) => {
 
   const handleEdit = (e) => {
     setStal(e.currentTarget.id);
-    setSelectSection("DetailsView");
+    setSelectSection("Details-View-Equipe");
   };
   React.useEffect(() => {
     setEmployees(data);

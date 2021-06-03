@@ -197,11 +197,11 @@ const Navbar = () => {
     <Mobile ui={ui} switchMode={switchMode}>
       <div className="brand-zone">
         <Drawer />
-        <Link href="/">
-          <a title="index" className="brand">
+       
+          <span title="index" className="brand">
             soft-paie
-          </a>
-        </Link>
+          </span>
+       
 
         <Image
           src="/img/logos/logo.png"

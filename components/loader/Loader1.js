@@ -10,7 +10,7 @@ import Loader from "react-loader-spinner";
 import Link from "next/link";
 import chroma from "chroma-js";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
 const Loader_st = styled(motion.div)`
@@ -47,7 +47,7 @@ const Loader1 = () => {
   React.useEffect(() => {
     setTimeout(() => {
       setLoader(false);
-    }, 500);
+    }, 1500);
   }, []);
 
   return (
@@ -57,7 +57,7 @@ const Loader1 = () => {
         color={switchMode ? ui.dark : ui.light}
         height={70}
         width={70}
-        timeout={500} //3 secs
+        timeout={1000} //3 secs
         className="loader_1"
       />
     </Loader_st>

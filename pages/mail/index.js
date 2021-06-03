@@ -27,7 +27,6 @@ const Mobile = styled(Desktop)`
 `;
 
 export default function SendMailPage() {
-  const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
   const {

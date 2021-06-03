@@ -5,11 +5,11 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import axios from "axios";
+
 import Button1 from "../buttons/Button1";
-import DatePicker from "react-datepicker";
+
 import React, { useState } from "react";
-import Head from "next/head";
+
 import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
 import { useRouter } from "next/router";
 import { queryCache, useQuery, useMutation, useQueryClient } from "react-query";
@@ -19,9 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
 import FormData from "form-data";
-import AlertUtil from "../alerts/AlertUtil";
-import LoaderUtil from "../loader/LoaderUtil";
-import Alert2 from "../alerts/Alert2";
+
 
 import {
   FaInfoCircle,
@@ -215,10 +213,11 @@ export default function DetailsView({ setSelectSection }) {
   const [prodMethods, prodStates] = ProdCtx();
   const { mailMethods, profilMethods } = prodMethods;
   const {
+    apiProfileShowOneAdminCrud,
+    apiProfileShowOne,
     apiProfileUpdateMutation,
     apiProfileShowAll,
     apiProfileStore,
-    apiProfileShowOne,
     apiProfileUpdate,
     apiProfileDelete,
   } = profilMethods;
@@ -239,15 +238,11 @@ export default function DetailsView({ setSelectSection }) {
     setSwitchMode,
   } = prodStates;
 
-  // query city
+  // query city  ["editerProfil1"],
   const { isSuccess, isLoading, refetch, error, data, isFetching } = useQuery(
-    ["editerProfil1"],
-    () => apiProfileShowOne(stal),
-    {
-      initialData: initialDataHotssr,
-      initialStale: true,
-      // enabled: false,
-    }
+    ["crud-admin-show-one"],
+    // () => apiProfileShowOne(stal)
+    () => apiProfileShowOneAdminCrud(stal)
   );
 
   // query test
@@ -271,7 +266,13 @@ export default function DetailsView({ setSelectSection }) {
     email: "",
     password: "",
     telephone: "",
-    adresse: "",
+    gsm: "",
+    nb_enfants: "",
+    num_cnss: "",
+    qualification: "",
+    rib: "",
+    type_contrat: "",
+    etat_civil: "",
 
     nomError: "",
     prenomError: "",
@@ -431,12 +432,25 @@ export default function DetailsView({ setSelectSection }) {
   // sync data
 
   React.useEffect(() => {
+    // setCredentialP({
+    //   nom: data?.user.nom,
+    //   prenom: data?.user.prenom,
+    //   email: data?.user.email,
+    //   telephone: data?.user.gsm,
+    //   adresse: data?.user.adresse,
+    // });
     setCredentialP({
-      nom: data?.user.nom,
-      prenom: data?.user.prenom,
-      email: data?.user.email,
-      telephone: data?.user.gsm,
-      adresse: data?.user.adresse,
+      nom: data ? data[0]?.nom : "",
+      prenom: data ? data[0]?.prenom : "",
+      email: data ? data[0]?.email : "",
+      telephone: data ? data[0]?.gsm : "",
+      adresse: data ? data[0]?.adresse : "",
+      nb_enfants: data ? data[0]?.nb_enfants : "",
+      num_cnss: data ? data[0]?.num_cnss : "",
+      qualification: data ? data[0]?.qualification : "",
+      rib: data ? data[0]?.rib : "",
+      type_contrat: data ? data[0]?.type_contrat : "",
+      etat_civil: data ? data[0]?.etat_civil : "",
     });
 
     return () => {
@@ -541,7 +555,7 @@ export default function DetailsView({ setSelectSection }) {
               <label htmlFor="email">etat_civil</label>
               <input
                 autoComplete="false"
-                value={credentialP.email}
+                value={credentialP.etat_civil}
                 type="email"
                 name="email"
                 onChange={handleOnChange}
@@ -554,7 +568,7 @@ export default function DetailsView({ setSelectSection }) {
               <label htmlFor="email">nb_enfant</label>
               <input
                 autoComplete="false"
-                value={credentialP.email}
+                value={credentialP.nb_enfants}
                 type="email"
                 name="email"
                 onChange={handleOnChange}
@@ -567,7 +581,7 @@ export default function DetailsView({ setSelectSection }) {
               <label htmlFor="email">num_cnss</label>
               <input
                 autoComplete="false"
-                value={credentialP.email}
+                value={credentialP.num_cnss}
                 type="email"
                 name="email"
                 onChange={handleOnChange}
@@ -635,7 +649,7 @@ export default function DetailsView({ setSelectSection }) {
               </label>
               <input
                 autoComplete="false"
-                value={credentialP.adresse}
+                value={credentialP.type_contrat}
                 type="text"
                 name="adresse"
                 onChange={handleOnChange}
@@ -650,7 +664,7 @@ export default function DetailsView({ setSelectSection }) {
               </label>
               <input
                 autoComplete="false"
-                value={credentialP.adresse}
+                value={credentialP.rib}
                 type="text"
                 name="adresse"
                 onChange={handleOnChange}
@@ -665,7 +679,7 @@ export default function DetailsView({ setSelectSection }) {
               </label>
               <input
                 autoComplete="false"
-                value={credentialP.adresse}
+                value={credentialP.qualification}
                 type="text"
                 name="adresse"
                 onChange={handleOnChange}

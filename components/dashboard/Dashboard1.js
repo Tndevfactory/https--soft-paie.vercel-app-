@@ -516,9 +516,15 @@ export default function Dashboard1() {
             <span className="notification">
               Notifications
               {/*  */}
-              <span className= {notificationCountappEmployee == 0 ? '' : 'notification_badge'} >
+              <span
+                className={
+                  notificationCountappEmployee == 0 ? "" : "notification_badge"
+                }
+              >
                 {" "}
-                {notificationCountappEmployee == 0 ? '' : notificationCountappEmployee}
+                {notificationCountappEmployee == 0
+                  ? ""
+                  : notificationCountappEmployee}
               </span>
             </span>
           </div>
@@ -557,13 +563,13 @@ export default function Dashboard1() {
             <FaParking />
             <span>Planification</span>
           </div>
-          <div
+          {/* <div
             className="section information "
             onClick={() => setSelectSection("informations")}
           >
             <FaShieldAlt />
             <span>Management</span>
-          </div>
+          </div> */}
         </aside>
 
         {/* dashboard content components */}
@@ -603,7 +609,7 @@ export default function Dashboard1() {
             )}
             {selectSection === "paie" && (
               <div className="component component_paie">
-                <FichePaie data={data} />
+                <FichePaie />
               </div>
             )}
             {selectSection === "planification" && (

@@ -43,10 +43,10 @@ const Desktop = styled(motion.div)`
       background-color: #fff;
       font-family: ${({ ui }) => ui.navFont};
       margin-bottom: 1rem;
-      border:1px solid #ddd;
-      padding:.3rem;
-      border-radius:4px;
-      box-shadow:1px 1px 6px 0.1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd;
+      padding: 0.3rem;
+      border-radius: 4px;
+      box-shadow: 1px 1px 6px 0.1px rgba(0, 0, 0, 0.1);
     }
   }
   .date_choice {
@@ -85,7 +85,7 @@ const Desktop = styled(motion.div)`
     position: absolute;
     // margin: auto;
     top: 23rem;
-    left: 70rem;
+    left: 20rem;
     border-radius: 6px;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
     width: 30%;
@@ -171,11 +171,9 @@ const DemandeConges = () => {
     postDemandeConge(fd, cfg)
       .then((res) => {
         if (res.ok) {
-       
           console.log(res.response, res.ok);
           console.log(res);
         } else {
-         
         }
       })
       .catch((err) => console.log(err));
@@ -258,7 +256,6 @@ const DemandeConges = () => {
           name="cp"
           rows="9"
           cols="6"
-         
         ></textarea>
         <Button1 type="submit" disabled={false} width={5} height={2.2}>
           valider

@@ -3,18 +3,9 @@ import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import chroma from "chroma-js";
-import Image from "next/image";
-import {
-  FaUser,
-  FaRegListAlt,
-  FaRegMoneyBillAlt,
-  FaMugHot,
-  FaRecycle,
-  FaParking,
-  FaSkating,
-} from "react-icons/fa";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
+
+
+import { ProdCtx,  } from "../../contexts/ProductsContext";
 
 const device = {
   mobile: `(max-width: 600px)`,

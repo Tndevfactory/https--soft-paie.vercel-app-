@@ -2,35 +2,18 @@
 import { motion } from "framer-motion";
 import React from "react";
 import Head from "next/head";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+
 import styled, { css } from "styled-components";
 import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
-import { Device } from "../../components/devices/Device";
-import Register1 from "../../components/registers/Register1";
+
 
 import Loader1 from "../../components/loader/Loader1";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
-import Image from "next/image";
-import Link from "next/link";
-import chroma from "chroma-js";
+
 import { format, compareAsc } from "date-fns";
 import Dashboard2 from "../../components/dashboard/Dashboard2";
-import FichePaie from "../../components/profile/FichePaie";
-import Information from "../../components/profile/Information";
-import DemandeConge from "../../components/profile/DemandeConge";
-import EditerProfil from "../../components/profile/EditerProfil";
-import Planification from "../../components/profile/Planification";
-import Reclamation from "../../components/profile/Reclamation";
-import Default from "../../components/profile/Default";
-import {
-  FaUser,
-  FaRegListAlt,
-  FaRegMoneyBillAlt,
-  FaRecycle,
-  FaParking,
-  FaSkating,
-} from "react-icons/fa";
+
 
 const Desktop = styled(motion.div)`
   min-width: 100%;
@@ -56,7 +39,7 @@ export async function getServerSideProps({ params: { id } }) {
   return { props: { initialData } };
 }
 export default function Manager({ initialData }) {
-  const queryClient = useQueryClient();
+ 
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;
   const {

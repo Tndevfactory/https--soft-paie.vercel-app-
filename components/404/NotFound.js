@@ -1,14 +1,14 @@
 /** @format */
 import { motion } from "framer-motion";
 import Head from "next/head";
-import Link from "next/link";
+
 import styled, { css } from "styled-components";
 
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import chroma from "chroma-js";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
-import Cookies from "js-cookie";
+
 import { FaChevronLeft, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`

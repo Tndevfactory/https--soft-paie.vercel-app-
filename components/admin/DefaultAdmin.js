@@ -1,19 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import chroma from "chroma-js";
-import Image from "next/image";
-import {
-  FaUser,
-  FaRegListAlt,
-  FaRegMoneyBillAlt,
-  FaMugHot,
-  FaRecycle,
-  FaParking,
-  FaSkating,
-} from "react-icons/fa";
 
+import chroma from "chroma-js";
+
+import {
+  FaShieldAlt,
+  FaUser,
+ 
+  FaParking,
+  
+  FaUserCog,
+  FaSignal,
+  FaMailBulk,
+} from "react-icons/fa";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
 
 const easing = [0.04, 0.62, 0.23, 0.98];
@@ -106,42 +107,48 @@ const Defaultss = ({ setSelectSection }) => {
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
+
       <div className="editer_profil" onClick={() => setSelectSection("profil")}>
         <span className="editer_profil_logo">
           <FaUser className="icon" />
         </span>
         <span className="editer_profil_title">Editer Profil</span>
       </div>
-      <div className="fiche_paie" onClick={() => setSelectSection("paie")}>
+      
+      <div className="fiche_paie" onClick={() => setSelectSection("mail salaire")}>
         <span className="editer_profil_logo">
-          <FaRegListAlt className="icon" />
+          <FaMailBulk className="icon" />
         </span>
-        <span className="editer_profil_title">Fiche de Paie</span>
+        <span className="editer_profil_title">Mail Salaire</span>
       </div>
+
       <div
         className="calcul_salaire"
         onClick={() => setSelectSection("informations")}
       >
         <span className="editer_profil_logo">
-          <FaRegMoneyBillAlt className="icon" />
+          <FaShieldAlt className="icon" />
         </span>
-        <span className="editer_profil_title">Information</span>
+        <span className="editer_profil_title">Management</span>
       </div>
-      <div className="demande_conge" onClick={() => setSelectSection("conge")}>
+
+      <div className="demande_conge" onClick={() => setSelectSection("Statistiques")}>
         <span className="editer_profil_logo">
-          <FaSkating className="icon" />
+          <FaSignal className="icon" />
         </span>
-        <span className="editer_profil_title">Demande de Conge</span>
+        <span className="editer_profil_title">Statistiques</span>
       </div>
+
       <div
         className="gestion_reclamation"
-        onClick={() => setSelectSection("reclamation")}
+        onClick={() => setSelectSection("Gestion Employees")}
       >
         <span className="editer_profil_logo">
-          <FaRecycle className="icon" />
+          <FaUserCog className="icon" />
         </span>
-        <span className="editer_profil_title">Gestion de Reclamation</span>
+        <span className="editer_profil_title">Gérer employée</span>
       </div>
+
       <div
         className="consulter_planification"
         onClick={() => setSelectSection("planification")}
@@ -151,6 +158,7 @@ const Defaultss = ({ setSelectSection }) => {
         </span>
         <span className="editer_profil_title">Consulter Planification</span>
       </div>
+
     </Mobile>
   );
 };

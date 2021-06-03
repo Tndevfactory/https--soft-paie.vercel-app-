@@ -1,17 +1,17 @@
 /** @format */
 import { motion } from "framer-motion";
 import React from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+
 import styled, { css } from "styled-components";
 import { ProdCtx, apiProfileShowOne } from "../../contexts/ProductsContext";
 import { Device } from "../../components/devices/Device";
 import chroma from "chroma-js";
 import Config from "../../components/config/Config1";
 
-import Loader from "../../components/loader/Loader1";
+
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
-import Loader1 from "../../components/loader/Loader1";
+
 
 const Desktop = styled(motion.div)`
   min-height: 100vh;
@@ -51,7 +51,7 @@ const Mobile = styled(Desktop)`
 `;
 
 export default function Config_page() {
-  const queryClient = useQueryClient();
+  
 
   const [prodMethods, prodStates] = ProdCtx();
   const { apiGet } = prodMethods;

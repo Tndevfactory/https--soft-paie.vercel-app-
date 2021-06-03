@@ -76,7 +76,7 @@ export const apiNotificationDataEmployee = async (id) => {
   return data;
 };
 
-//section manager
+//section manager notification
 export const apiNotificationValidationConge = async (fd, cfg) => {
   const { data } = await api.post(`/notifications-validation-conge/`, fd, cfg);
   return data;
@@ -138,7 +138,7 @@ const ressourcesMethods = {
   apiRessourceUpdate,
 };
 
-// role------------------------------------------------------
+// role- ADMIN ADMIN-----------------------------------------------------
 // Role crudadmin RoleController
 export const apiRoleUpdate = async (id, fd, cfg) => {
   const { data } = await api.post(`/roles/${id}`, fd, cfg);
@@ -160,7 +160,13 @@ const hierarchieMethods = {
   apiHierarchieUpdate,
 };
 
-//profil -----------------------------------------------------------------
+//profil --MANAGER-------------------------------------------------------------
+// profil component crudmanager Manager
+export const apiProfileCrudManagerShowAll = async (id) => {
+  const { data } = await api.get(`/profiles/crud-manager/${id}`);
+  return data;
+};
+//profil ---ADMIN ADMIN--------------------------------------------------------------
 // profil component crudadmin  controller ProfileController
 export const apiProfileCrudAdminShowAll = async () => {
   const { data } = await api.get(`/profiles/crud-admin`);
@@ -176,6 +182,11 @@ export const apiProfileStore = async (fd, cfg) => {
 };
 export const apiProfileShowOne = async (id) => {
   const { data } = await api.get(`/profiles/${id}`);
+  return data;
+};
+
+export const apiProfileShowOneAdminCrud = async (id) => {
+  const { data } = await api.get(`/profile-crud-admin-show-one/${id}`);
   return data;
 };
 
@@ -197,6 +208,8 @@ export const apiProfileDelete = async (id) => {
 };
 
 const profilMethods = {
+  apiProfileShowOneAdminCrud,
+  apiProfileCrudManagerShowAll,
   apiProfileCrudAdminShowAll,
   apiProfileUpdateMutation,
   apiProfileShowAll,
@@ -220,7 +233,14 @@ export const downloadPdf = async (year, month, id) => {
   });
   return data;
 };
-const pdfMethods = { apiPdf, downloadPdf };
+// create auto pdf on the fly one clivbbbbbbbbbbbbbbbbbbb
+export const autoPdf = async (year, month, id) => {
+  const { data } = await api.get(`/auto-pdf/${year}/${month}/${id}`, {
+    responseType: "blob",
+  });
+  return data;
+};
+const pdfMethods = { apiPdf, downloadPdf , autoPdf};
 
 //sendMail----------------------------------------------------------
 export const apiSendMail = async (fd, cfg) => {

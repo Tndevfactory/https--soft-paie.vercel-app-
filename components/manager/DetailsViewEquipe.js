@@ -486,10 +486,7 @@ export default function DetailsViewEquipe({ setSelectSection }) {
         </AnimatePresence>
       </motion.div>
 
-      <h3
-        className="back"
-        onClick={() => setSelectSection("Gestion Employees")}
-      >
+      <h3 className="back" onClick={() => setSelectSection("Gestion Equipes")}>
         <FaRegArrowAltCircleLeft className="back_icon" />
         <span className="back_text">Retour Gestion employes </span>
       </h3>

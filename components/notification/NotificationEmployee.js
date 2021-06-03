@@ -8,16 +8,9 @@ import Breadcrumb1 from "../breadcrumbs/Breadcrumb1";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import styled, { css } from "styled-components";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
-import { Device } from "../../components/devices/Device";
-import Register1 from "../../components/registers/Register1";
-import Alert1 from "../../components/alerts/Alert1";
-import Loader from "../../components/loader/Loader1";
-import Footer from "../../components/footer/Footer";
-import Navbar from "../../components/navbar/Navbar";
-import Image from "next/image";
-import Link from "next/link";
+
 import chroma from "chroma-js";
-import { format, compareAsc } from "date-fns";
+
 
 import {
   FaDownload,

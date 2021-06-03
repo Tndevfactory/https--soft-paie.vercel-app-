@@ -8,8 +8,7 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import chroma from "chroma-js";
-import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+
 
 const Desktop = styled(motion.div)`
   position: absolute;

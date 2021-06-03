@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import styled, { css } from "styled-components";
 import chroma from "chroma-js";
 import { ProdCtx, apiGet } from "../../contexts/ProductsContext";
-import { Device } from "../devices/Device";
+
 import { SketchPicker } from "react-color";
 import Cookies from "js-cookie";
 
