@@ -10,14 +10,12 @@ import styled, { css } from "styled-components";
 import { useRouter } from "next/router";
 import { ProdCtx } from "../../contexts/ProductsContext";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
 
-
 import { FaSearch, FaRegEdit, FaTrashAlt } from "react-icons/fa";
-import Dashboard2 from './../dashboard/Dashboard2';
+import Dashboard2 from "./../dashboard/Dashboard2";
 
 const Desktop = styled(motion.div)`
   min-width: 70vw;
@@ -253,8 +251,9 @@ const GestionEquipes = ({ setSelectSection }) => {
   } = prodMethods;
 
   const { apiPdf, downloadPdf } = pdfMethods;
-  const { apiProfileCrudManagerShowAll , apiProfileCrudAdminShowAll } = profilMethods;
-  const { apiHierarchieUpdate , apiHierarchiegetDistinct} = hierarchieMethods;
+  const { apiProfileCrudManagerShowAll, apiProfileCrudAdminShowAll } =
+    profilMethods;
+  const { apiHierarchieUpdate, apiHierarchiegetDistinct } = hierarchieMethods;
   const { apiRoleUpdate } = roleMethods;
   const { apiRessourceUpdate } = ressourcesMethods;
   const { apiDeleteUser } = authMethods;
@@ -269,7 +268,6 @@ const GestionEquipes = ({ setSelectSection }) => {
     DOMAIN,
   } = prodStates;
 
-  
   const [sectionSelector, setSectionSelector] = useState("");
   const [employees, setEmployees] = useState();
 
@@ -289,10 +287,8 @@ const GestionEquipes = ({ setSelectSection }) => {
   const options = [
     { value: "1", label: "belkahla iheb" },
     { value: "2", label: "belkadi bassem" },
-    
   ];
   const optionsRole = [
-    
     // { value: "2", label: "Manager" },
     { value: "3", label: "Employe" },
   ];
@@ -327,10 +323,10 @@ const GestionEquipes = ({ setSelectSection }) => {
     },
   };
 
-
   // query manager distinct
-  const managersDistinctD2 = useQuery(["crud-manager-distinct-Dashboard2"], () =>
-    apiHierarchiegetDistinct()
+  const managersDistinctD2 = useQuery(
+    ["crud-manager-distinct-Dashboard2"],
+    () => apiHierarchiegetDistinct()
   );
 
   if (managersDistinctD2.isLoading) {
@@ -456,6 +452,8 @@ const GestionEquipes = ({ setSelectSection }) => {
 
   const handleEdit = (e) => {
     setStal(e.currentTarget.id);
+    console.log(" stal from gestion equipe");
+    console.log(stal);
     setSelectSection("Details-View-Equipe");
   };
   React.useEffect(() => {
@@ -494,104 +492,109 @@ const GestionEquipes = ({ setSelectSection }) => {
         <div>Supprimer</div>
       </div>
 
-      {employees && employees?.map((employee) => (
-        // start row
-        <div
-          key={employee.id}
-          className={`row ${employee.actif == 0 ? "inactif" : "null"}`}
-          // className={`row `}
-        >
-          <div className="photo_id   row_desktop">
-            <Image
-              src={`${DOMAIN}/${
-                employee.file === null
-                  ? "uploads/users/default/user.jpg"
-                  : employee.file
-              }`}
-              alt="employee"
-              layout="responsive"
-              quality={75}
-              height={30}
-              width={30}
-              className="photo_id_img"
-            />
-          </div>
-          <div className="employee_name">
-            {employee.nom} {employee.prenom}
-          </div>
-          <div className={`manager_name row_desktop `}>
-            <select
-              className="manager_name_select"
-              name="managerName"
-              id={employee.id}
-              ref={(ref) => managerRefs.current.push(ref)}
-              value={employee.id == "3" ? 3 : employee.manager_id}
-              //value={managerName ? managerName : employee.manager_id}
-              onChange={handleManagerName}
-            >
-              {managersDistinctStateD2 && managersDistinctStateD2.map((item) => (
-                
-               item.id != 3 ? (<option key={item.id} value={item.id}> {item.nom} {item.prenom} </option>): null
+      {employees &&
+        employees?.map((employee) => (
+          // start row
+          <div
+            key={employee.id}
+            className={`row ${employee.actif == 0 ? "inactif" : "null"}`}
+            // className={`row `}
+          >
+            <div className="photo_id   row_desktop">
+              <Image
+                src={`${DOMAIN}/${
+                  employee.file === null
+                    ? "uploads/users/default/user.jpg"
+                    : employee.file
+                }`}
+                alt="employee"
+                layout="responsive"
+                quality={75}
+                height={30}
+                width={30}
+                className="photo_id_img"
+              />
+            </div>
+            <div className="employee_name">
+              {employee.nom} {employee.prenom}
+            </div>
+            <div className={`manager_name row_desktop `}>
+              <select
+                className="manager_name_select"
+                name="managerName"
+                id={employee.id}
+                ref={(ref) => managerRefs.current.push(ref)}
+                value={employee.id == "3" ? 3 : employee.manager_id}
+                //value={managerName ? managerName : employee.manager_id}
+                onChange={handleManagerName}
+              >
+                {managersDistinctStateD2 &&
+                  managersDistinctStateD2.map((item) =>
+                    item.id != 3 ? (
+                      <option key={item.id} value={item.id}>
+                        {" "}
+                        {item.nom} {item.prenom}{" "}
+                      </option>
+                    ) : null
+                  )}
+              </select>
+            </div>
+            <div className="role_name  row_desktop">
+              <select
+                className="role_name_select"
+                name="roleName"
+                id={employee.id}
+                ref={(ref) => roleRefs.current.push(ref)}
+                value={employee.id == "3" ? 1 : employee.roleId}
+                onChange={handleRoleName}
+              >
+                {optionsRole.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {" "}
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="active_state row_desktop">
+              <select
+                className="active_state_select"
+                name="activeState"
+                id={employee.id}
+                value={employee.id == "3" ? 1 : employee.actif}
+                onChange={handleActif}
+              >
+                {optionsActif.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {" "}
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-              ))}
-            </select>
-          </div>
-          <div className="role_name  row_desktop">
-            <select
-              className="role_name_select"
-              name="roleName"
-              id={employee.id}
-              ref={(ref) => roleRefs.current.push(ref)}
-              value={employee.id == "3" ? 1 : employee.roleId}
-              onChange={handleRoleName}
-            >
-              {optionsRole.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {" "}
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="active_state row_desktop">
-            <select
-              className="active_state_select"
-              name="activeState"
-              id={employee.id}
-              value={employee.id == "3" ? 1 : employee.actif}
-              onChange={handleActif}
-            >
-              {optionsActif.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {" "}
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="editer">
+              <button
+                onClick={handleEdit}
+                id={employee.id}
+                className="editer_button"
+              >
+                <FaRegEdit />
+              </button>
+            </div>
 
-          <div className="editer">
-            <button
-              onClick={handleEdit}
-              id={employee.id}
-              className="editer_button"
-            >
-              <FaRegEdit />
-            </button>
+            <div className="supprimer">
+              <button
+                onClick={handleDelete}
+                id={employee.id}
+                className="supprimer_button"
+              >
+                <FaTrashAlt />
+              </button>
+            </div>
           </div>
-
-          <div className="supprimer">
-            <button
-              onClick={handleDelete}
-              id={employee.id}
-              className="supprimer_button"
-            >
-              <FaTrashAlt />
-            </button>
-          </div>
-        </div>
-        // end row
-      ))}
+          // end row
+        ))}
     </Mobile>
   );
 };

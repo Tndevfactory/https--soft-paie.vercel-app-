@@ -288,18 +288,7 @@ const Register1 = () => {
         password_confirmation: credentialR.password_confirmation,
       });
 
-      // setCredentialR({
-      //   nom: "",
-      //   prenom: "",
-      //   email: "",
-      //   password: "",
-      //   password_confirmation: "",
-      //   nomError: "",
-      //   prenomError: "",
-      //   emailError: "",
-      //   passwordError: "",
-      //   password_confirmationError: "",
-      // });
+   
     } else {
       console.log("registered  data not completed");
       RegisterMutation.reset();
@@ -313,19 +302,17 @@ const Register1 = () => {
   }
 
   if (RegisterMutation.isError) {
-    // console.log("RegisterMutation.error.message");
-    //console.log(RegisterMutation.status);
-    // errorRegister = RegisterMutation.error.message;
+    
     errorRegister =
       "adresse email deja utilisée ou reseau backend non disponible";
   }
 
   if (RegisterMutation.isSuccess) {
-    //console.log(RegisterMutation.data);
+  
     Cookies.set("sp_token", RegisterMutation.data.access_token);
     Cookies.set("sp_role", RegisterMutation.data.role);
     Cookies.set("sp_id", RegisterMutation.data.user.id);
-    //console.log(LoginMutation.data);
+    
     RegisterMutation.reset();
 
     router.push(`/employee/${RegisterMutation.data.user.id}`);

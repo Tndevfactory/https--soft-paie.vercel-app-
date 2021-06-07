@@ -215,6 +215,8 @@ export default function DetailsViewEquipe({ setSelectSection }) {
   const [prodMethods, prodStates] = ProdCtx();
   const { mailMethods, profilMethods } = prodMethods;
   const {
+    apiProfileUpdateDashboard2,
+    apiProfileShowOneDahboard2,
     apiProfileUpdateMutation,
     apiProfileShowAll,
     apiProfileStore,
@@ -241,28 +243,18 @@ export default function DetailsViewEquipe({ setSelectSection }) {
 
   // query city
   const { isSuccess, isLoading, refetch, error, data, isFetching } = useQuery(
-    ["editerProfil1"],
-    () => apiProfileShowOne(stal),
-    {
-      initialData: initialDataHotssr,
-      initialStale: true,
-      // enabled: false,
-    }
-  );
-
-  // query test
+    ["manager-employee-details"],() => apiProfileShowOneDahboard2(stal) );
+ 
 
   if (isLoading) {
     loader_spy = true;
   }
 
   if (error) {
-    // alert_spy_content = error.message;
-    // alert_spy_type = "fail";
+   
   }
   if (isSuccess) {
-    // alert_spy_content = "action reussite";
-    // alert_spy_type = "success";
+    
   }
 
   const [credentialP, setCredentialP] = useState({
@@ -272,6 +264,17 @@ export default function DetailsViewEquipe({ setSelectSection }) {
     password: "",
     telephone: "",
     adresse: "",
+
+    nb_enfants: "",
+    num_cnss: "",
+    rib: "",
+    type_contrat: "",
+    etat_civil: "",
+
+    qualification: "",
+
+   
+   
 
     nomError: "",
     prenomError: "",
@@ -297,9 +300,7 @@ export default function DetailsViewEquipe({ setSelectSection }) {
     });
   };
 
-  const handleFile = (e) => {
-    setFile(e.target.files[0]);
-  };
+ 
 
   const handleValidate = () => {
     let errorFlag = false;
@@ -357,24 +358,17 @@ export default function DetailsViewEquipe({ setSelectSection }) {
 
   let cfg = {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/x-www-form-urlencoded",
     },
   };
-  // use when no file to handle
-  // const mutationU = useMutation(() => apiProfileUpdateMutation(id, values), {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries("dashboard1");
-  //     queryClient.invalidateQueries("editerProfil1");
-  //   },
-  // });
-
+  
   //----used traditionnal axios with file--img formData--used for update only------------
   const [updRes, setUpdRes] = useState({ ok: "", response: "" });
 
-  const upd = async (id, fd, cfg) => {
-    let res = await apiProfileUpdate(id, fd, cfg);
-    queryClient.invalidateQueries("dashboard1");
-    queryClient.resetQueries("dashboard1", { exact: true });
+  const upd = async (stal, fd, cfg) => {
+    let res = await apiProfileUpdateDashboard2(stal, fd, cfg);
+    queryClient.invalidateQueries("manager-employee-details");
+    //queryClient.resetQueries("dashboard1", { exact: true });
     return res;
   };
 
@@ -389,13 +383,11 @@ export default function DetailsViewEquipe({ setSelectSection }) {
         fd.append(key, credentialP[key]);
       }
     });
-
-    fd.append("file", file);
+    
     fd.append("_method", "put"); // spoof method laravel
 
-    // upd(id, fd, cfg);
-
-    upd(id, fd, cfg)
+    
+    upd(stal, fd, cfg)
       .then((res) => {
         if (res.ok) {
           setUpdRes({ ok: res.ok, response1: res.response });
@@ -409,34 +401,26 @@ export default function DetailsViewEquipe({ setSelectSection }) {
         }
       })
       .catch((err) => console.log(err));
-
-    // //-------------------------------------------
-    // values = {
-    //   nom: "hfaied",
-    //   prenom: "abdkerim",
-    //   email: "hfaied@soft-paie.tn",
-    //   password: "password",
-    //   telephone: "55 345 567",
-    //   adresse: "tunis",
-    // };
-
-    // console.log(values);
-    // mutationU.mutate(fd, cfg);
-    // queryClient.invalidateQueries("dashboard1");
-    // queryClient.resetQueries("dashboard1", { exact: true });
-    // mutationCache.clear();
-    // queryCache.clear();
   };
 
-  // sync data
+ 
+
+   // sync data
 
   React.useEffect(() => {
+  
     setCredentialP({
-      nom: data?.user.nom,
-      prenom: data?.user.prenom,
-      email: data?.user.email,
-      telephone: data?.user.gsm,
-      adresse: data?.user.adresse,
+      nom: data ? data[0]?.nom : "",
+      prenom: data ? data[0]?.prenom : "",
+      email: data ? data[0]?.email : "",
+      telephone: data ? data[0]?.gsm : "",
+      adresse: data ? data[0]?.adresse : "",
+      nb_enfants: data ? data[0]?.nb_enfants : "",
+      num_cnss: data ? data[0]?.num_cnss : "",
+      qualification: data ? data[0]?.qualification : "",
+      rib: data ? data[0]?.rib : "",
+      type_contrat: data ? data[0]?.type_contrat : "",
+      etat_civil: data ? data[0]?.etat_civil : "",
     });
 
     return () => {
@@ -451,12 +435,14 @@ export default function DetailsViewEquipe({ setSelectSection }) {
       console.log("unsubscribe  loader spy");
     };
   }, [loader_spy]);
+
   React.useEffect(() => {
     setTimeout(() => setUpdRes({ ok: "", response: "" }), 2800);
     return () => {
       console.log("unsubscribe  information message");
     };
   }, [updRes.ok]);
+
 
   //animation
   const x = useMotionValue(-500);
@@ -488,7 +474,7 @@ export default function DetailsViewEquipe({ setSelectSection }) {
 
       <h3 className="back" onClick={() => setSelectSection("Gestion Equipes")}>
         <FaRegArrowAltCircleLeft className="back_icon" />
-        <span className="back_text">Retour Gestion employes </span>
+        <span className="back_text">Retour Gestion employés </span>
       </h3>
 
       <form className="form_profil" onSubmit={handleSubmit}>
@@ -535,12 +521,12 @@ export default function DetailsViewEquipe({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_email">
-              <label htmlFor="email">etat_civil</label>
+              <label htmlFor="etat_civil">etat_civil</label>
               <input
                 autoComplete="false"
-                value={credentialP.email}
-                type="email"
-                name="email"
+                value={credentialP.etat_civil}
+                type="text"
+                name="etat_civil"
                 onChange={handleOnChange}
               />
               <div className="error">
@@ -548,12 +534,12 @@ export default function DetailsViewEquipe({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_email">
-              <label htmlFor="email">nb_enfant</label>
+              <label htmlFor="nb_enfants">nb_enfant</label>
               <input
                 autoComplete="false"
-                value={credentialP.email}
-                type="email"
-                name="email"
+                value={credentialP.nb_enfants}
+                type="text"
+                name="nb_enfants"
                 onChange={handleOnChange}
               />
               <div className="error">
@@ -561,12 +547,12 @@ export default function DetailsViewEquipe({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_email">
-              <label htmlFor="email">num_cnss</label>
+              <label htmlFor="num_cnss">num_cnss</label>
               <input
                 autoComplete="false"
-                value={credentialP.email}
-                type="email"
-                name="email"
+                value={credentialP.num_cnss}
+                type="text"
+                name="num_cnss"
                 onChange={handleOnChange}
               />
               <div className="error">
@@ -579,7 +565,7 @@ export default function DetailsViewEquipe({ setSelectSection }) {
           {/* form_profil_section_right start */}
           <div className="form_profil_section_right">
             <div className="zone_password">
-              <label htmlFor="email">Mot de passe:</label>
+              <label htmlFor="password">Mot de passe:</label>
               <input
                 autoComplete="false"
                 value={credentialP.password}
@@ -627,14 +613,14 @@ export default function DetailsViewEquipe({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_adresse">
-              <label className="label_adresse" htmlFor="adresse">
-                type_contrat
+              <label className="label_adresse" htmlFor="type_contrat">
+                Type_contrat
               </label>
               <input
                 autoComplete="false"
-                value={credentialP.adresse}
+                value={credentialP.type_contrat}
                 type="text"
-                name="adresse"
+                name="type_contrat"
                 onChange={handleOnChange}
               />
               <div className="error">
@@ -642,14 +628,14 @@ export default function DetailsViewEquipe({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_adresse">
-              <label className="label_adresse" htmlFor="adresse">
-                rib
+              <label className="label_adresse" htmlFor="rib">
+                Rib
               </label>
               <input
                 autoComplete="false"
-                value={credentialP.adresse}
+                value={credentialP.rib}
                 type="text"
-                name="adresse"
+                name="rib"
                 onChange={handleOnChange}
               />
               <div className="error">
@@ -657,14 +643,14 @@ export default function DetailsViewEquipe({ setSelectSection }) {
               </div>
             </div>
             <div className="profil_adresse">
-              <label className="label_adresse" htmlFor="adresse">
-                qualification
+              <label className="label_adresse" htmlFor="qualification">
+                Qualification
               </label>
               <input
                 autoComplete="false"
-                value={credentialP.adresse}
+                value={credentialP.qualification}
                 type="text"
-                name="adresse"
+                name="qualification"
                 onChange={handleOnChange}
               />
               <div className="error">

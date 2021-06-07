@@ -187,8 +187,14 @@ export const apiProfileStore = async (fd, cfg) => {
   const { data } = await api.post(`/profiles/`, fd, cfg);
   return data;
 };
+
 export const apiProfileShowOne = async (id) => {
   const { data } = await api.get(`/profiles/${id}`);
+  return data;
+};
+// manager edit one employee
+export const apiProfileShowOneDahboard2 = async (id) => {
+  const { data } = await api.get(`/profiles-dashboard2/${id}`);
   return data;
 };
 
@@ -208,6 +214,11 @@ export const apiProfileUpdate = async (id, fd, cfg) => {
   const { data } = await api.post(`/profiles/${id}`, fd, cfg);
   return data;
 };
+//used only with axios in different components formData--> voir editer profil employee
+export const apiProfileUpdateDashboard2 = async (id, fd, cfg) => {
+  const { data } = await api.post(`/profiles-Dashboard2/${id}`, fd, cfg);
+  return data;
+};
 
 export const apiProfileDelete = async (id) => {
   const { data } = await api.delete(`/profiles/${id}`);
@@ -215,6 +226,8 @@ export const apiProfileDelete = async (id) => {
 };
 
 const profilMethods = {
+  apiProfileUpdateDashboard2 ,
+  apiProfileShowOneDahboard2,
   apiProfileShowOneAdminCrud,
   apiProfileCrudManagerShowAll,
   apiProfileCrudAdminShowAll,

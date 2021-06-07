@@ -412,7 +412,7 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
         if (res.ok) {
           //  setUpdRes({ ok: res.ok, response1: res.response });
           //console.log(res.response, res.ok);
-          //console.log(res);
+        
         } else {
           // setUpdRes({
           //   ok: res.ok,
