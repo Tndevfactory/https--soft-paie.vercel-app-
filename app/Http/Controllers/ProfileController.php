@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Ressource;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Qualification;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -226,6 +228,76 @@ class ProfileController extends Controller
     ];
   }
 
+
+
+
+  /**
+   * manager update one profile
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Models\User  $User
+   * @return \Illuminate\Http\Response
+   */
+  public function profileUpdateDashboard2(Request $request, $id)
+  {
+   // return $request->all();
+      
+    $validatedData = $request->validate([
+      "prenom" => "nullable|required|max:55",
+      "nom" => "nullable|required|max:55",
+      "adresse" => "nullable|required|max:130",
+      "telephone" => "nullable",
+      "password" => "nullable",
+      "email" => "unique:users,email," . $request->id,
+    
+    ]);
+    
+      
+// update table user 
+    $users = User::where("id", $id)->update([
+      "nom" => Str::lower($request->nom),
+      "prenom" => Str::lower($request->prenom),
+      "gsm" => Str::lower($request->telephone),
+      "email" => Str::lower($request->email),
+      "adresse" => Str::lower($request->adresse),
+      "password" => bcrypt($request->password),
+      
+    ]);
+
+// update table ressources
+    $ressources = Ressource::where("user_id", $id)->update([
+      "etat_civil" => Str::lower($request->etat_civil),
+      "rib" => $request->rib,
+      "nb_enfants" => $request->nb_enfants,
+      "type_contrat" => $request->type_contrat,
+      "num_cnss" => $request->num_cnss,
+     
+    ]);
+
+// update table qualification
+
+    $qualification = Qualification::where("user_id", $id)->update([
+      "qualification" => $request->qualification,
+      
+    ]);
+
+    if ($users) {
+      $ok = true;
+      $response = "modifier avec succes";
+      $data = "";
+    } else {
+      $ok = false;
+      $response = "erreur modification impossibe";
+      $data = "";
+    }
+
+    return [
+      "ok" => $ok,
+      "response" => $response,
+      "data" => $data,
+    ];
+  }
+
   /**
    * Remove the specified resource from storage.
    *
@@ -275,7 +347,7 @@ class ProfileController extends Controller
   }
 
   /**
-   * crudEmployeeMANAGER  // gestiom employee crud MANAGER
+   * crudEmployeeMANAGER  // gestiom employee crud MANAGER 
    *
    * @param  \App\Models\User  $User
    * @return \Illuminate\Http\Response
@@ -308,4 +380,48 @@ class ProfileController extends Controller
    return $employees;
 
   }
+
+ 
+
+  /**
+   * Display detailsview manager crud for one employee
+   *
+   * @param  \App\Models\User  $User
+   * @return \Illuminate\Http\Response
+   */
+  public function profileShowOneDahboard2($id)
+  {
+
+
+   //tables
+   //users // hierarchie // role // resource
+   $employee = DB::table('users')
+   ->leftJoin('qualifications', 'users.id', '=', 'qualifications.user_id')
+   ->leftJoin('ressources', 'users.id', '=', 'ressources.user_id')
+   
+   
+   ->select(
+     'users.id', 
+     'users.nom',
+     'users.prenom',
+     'users.email',
+     'users.password',
+     'users.gsm',
+     'users.adresse',
+     'ressources.etat_civil',
+     'ressources.nb_enfants',
+     'ressources.num_cnss',
+     'ressources.type_contrat',
+     'ressources.rib',
+     'qualifications.qualification',
+    
+     )
+     ->where( 'users.id', '=', $id)
+     ->get();
+
+     return $employee;
+
+
+  }
+
 }

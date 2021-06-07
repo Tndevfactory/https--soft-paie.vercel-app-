@@ -73,11 +73,18 @@ Route::get('/profiles/crud-manager/{id}', [ProfileController::class, 'crudEmploy
 Route::get('/profile-crud-admin-show-one/{id}', [ProfileController::class, 'showAdminCrudOne']);
 Route::get('/profiles/crud-admin', [ProfileController::class, 'crudEmployeeAdmin']);
 
+//profile manager update employee
+Route::get('/profiles-dashboard2/{id}', [ProfileController::class, 'profileShowOneDahboard2']);
+
 //profile employee
 Route::get('/profiles', [ProfileController::class, 'index']);
 Route::post('/profiles', [ProfileController::class, 'store']);
 Route::get('/profiles/{id}', [ProfileController::class, 'show']);
 Route::put('/profiles/{id}', [ProfileController::class, 'update']);
+
+// manager crud update one employee
+Route::put('/profiles-Dashboard2/{id}', [ProfileController::class, 'profileUpdateDashboard2']);
+
 Route::delete('/profiles/{id}', [ProfileController::class, 'destroy']);
 
 
