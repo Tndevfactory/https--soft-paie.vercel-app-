@@ -12,7 +12,6 @@ import Image from "next/image";
 import Link from "next/link";
 import chroma from "chroma-js";
 
-
 import { FaSearch, FaRegEdit, FaTrashAlt } from "react-icons/fa";
 
 const Desktop = styled(motion.div)`
@@ -231,8 +230,10 @@ const Mobile = styled(Desktop)`
   @media (max-width: 360px) {
   }
 `;
+
 // controlleur server ProfileController
 // crudEmployeeAdmin  method == component react
+
 const crudEmployeeAdmin = ({ setSelectSection }) => {
   const queryClient = useQueryClient();
   const [prodMethods, prodStates] = ProdCtx();
@@ -248,7 +249,7 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
 
   const { apiPdf, downloadPdf } = pdfMethods;
   const { apiProfileCrudAdminShowAll } = profilMethods;
-  const { apiHierarchieUpdate } = hierarchieMethods;
+  const { apiHierarchieUpdate, apiHierarchiegetDistinct } = hierarchieMethods;
   const { apiRoleUpdate } = roleMethods;
   const { apiRessourceUpdate } = ressourcesMethods;
   const { apiDeleteUser } = authMethods;
@@ -266,14 +267,9 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
   const [sectionSelector, setSectionSelector] = useState("");
   const [employees, setEmployees] = useState();
 
-  // const breadcrumb = {
-  //   root: "Employee",
-  //   active: "Fiche de paie",
-  // };
+  const [managerId, setManagerId] = useState({ value: "" });
+  const [managersDistinctState, setManagerDistinctState] = useState();
 
-  const [managerId, setManagerId] = useState({
-    value: "",
-  });
   const [roleName, setRoleName] = useState();
   const [actif, setActif] = useState();
 
@@ -281,30 +277,20 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
   const roleRefs = useRef([]);
   const actifRefs = useRef([]);
 
-  const options = [
-    { value: "1", label: "belkahla iheb" },
-    { value: "2", label: "belkadi bassem" },
-    { value: "3", label: "maala abdelhamid" },
-  ];
-  const optionsRole = [
-    { value: "1", label: "Admin" },
-    { value: "2", label: "Manager" },
-    { value: "3", label: "Employe" },
-  ];
-  const optionsActif = [
-    { value: "1", label: "Actif" },
-    { value: "0", label: "Non Actif" },
-  ];
+  let cfg = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
 
-  // query city
+  // query crudadmin show all
   const { isSuccess, isLoading, refetch, error, data, isFetching } = useQuery(
     ["crud-admin"],
     () => apiProfileCrudAdminShowAll()
   );
 
-  // query test
   if (isLoading) {
-    console.log("loading");
+    // console.log("loading");
   }
 
   if (error) {
@@ -316,15 +302,38 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
     // console.log(data);
   }
 
-  let cfg = {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  };
+  // query manager distinct
+  const managersDistinct = useQuery(["crud-manager-distinct"], () =>
+    apiHierarchiegetDistinct()
+  );
+
+  if (managersDistinct.isLoading) {
+    console.log("ManagersDistinct loading");
+  }
+
+  if (managersDistinct.error) {
+    //console.log("error");
+    // console.log(error.message);
+  }
+  if (managersDistinct.isSuccess) {
+    // console.log("error");
+    console.log(managersDistinct.data);
+  }
+
+  const optionsRole = [
+    { value: "1", label: "Admin" },
+    { value: "2", label: "Manager" },
+    { value: "3", label: "Employe" },
+  ];
+  const optionsActif = [
+    { value: "1", label: "Actif" },
+    { value: "0", label: "Non Actif" },
+  ];
 
   const updHierarchie = async (id, fd, cfg) => {
     let res = await apiHierarchieUpdate(id, fd, cfg);
     queryClient.invalidateQueries("crud-admin");
+    queryClient.invalidateQueries("crud-manager-distinct");
     // queryClient.resetQueries("crud-admin", { exact: true });
     return res;
   };
@@ -332,6 +341,7 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
   const updRole = async (id, fd, cfg) => {
     let res = await apiRoleUpdate(id, fd, cfg);
     queryClient.invalidateQueries("crud-admin");
+    queryClient.invalidateQueries("crud-manager-distinct");
     // queryClient.resetQueries("crud-admin", { exact: true });
     return res;
   };
@@ -339,12 +349,14 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
   const updRessource = async (id, fd, cfg) => {
     let res = await apiRessourceUpdate(id, fd, cfg);
     queryClient.invalidateQueries("crud-admin");
+    queryClient.invalidateQueries("crud-manager-distinct");
     // queryClient.resetQueries("crud-admin", { exact: true });
     return res;
   };
   const deleteUser = async (id) => {
     let res = await apiDeleteUser(id);
     queryClient.invalidateQueries("crud-admin");
+    queryClient.invalidateQueries("crud-manager-distinct");
     // queryClient.resetQueries("crud-admin", { exact: true });
     return res;
   };
@@ -359,8 +371,8 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
       .then((res) => {
         if (res.ok) {
           //  setUpdRes({ ok: res.ok, response1: res.response });
-          console.log(res.response, res.ok);
-          console.log(res);
+          // console.log(res.response, res.ok);
+          //console.log(res);
         } else {
           //  setUpdRes({
           //     ok: res.ok,
@@ -379,8 +391,8 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
       .then((res) => {
         if (res.ok) {
           //  setUpdRes({ ok: res.ok, response1: res.response });
-          console.log(res.response, res.ok);
-          console.log(res);
+          // console.log(res.response, res.ok);
+          //console.log(res);
         } else {
           // setUpdRes({
           //   ok: res.ok,
@@ -399,8 +411,8 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
       .then((res) => {
         if (res.ok) {
           //  setUpdRes({ ok: res.ok, response1: res.response });
-          console.log(res.response, res.ok);
-          console.log(res);
+          //console.log(res.response, res.ok);
+          //console.log(res);
         } else {
           // setUpdRes({
           //   ok: res.ok,
@@ -412,7 +424,7 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
   };
 
   const handleDelete = (e) => {
-    console.log(e.currentTarget.id);
+    //console.log(e.currentTarget.id);
 
     deleteUser(e.currentTarget.id)
       .then((res) => {
@@ -434,6 +446,7 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
     setStal(e.currentTarget.id);
     setSelectSection("DetailsView");
   };
+
   React.useEffect(() => {
     setEmployees(data);
 
@@ -441,6 +454,14 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
       console.log("");
     };
   }, [data]);
+
+  React.useEffect(() => {
+    setManagerDistinctState(managersDistinct.data);
+
+    return () => {
+      console.log("");
+    };
+  }, [managersDistinct.data]);
 
   return (
     <Mobile ui={ui} switchMode={switchMode}>
@@ -462,105 +483,108 @@ const crudEmployeeAdmin = ({ setSelectSection }) => {
         <div>Supprimer</div>
       </div>
 
-      {employees?.map((employee) => (
-        // start row
-        <div
-          key={employee.id}
-          className={`row ${employee.actif == 0 ? "inactif" : "null"}`}
-          // className={`row `}
-        >
-          <div className="photo_id   row_desktop">
-            <Image
-              src={`${DOMAIN}/${
-                employee.file === null
-                  ? "uploads/users/default/user.jpg"
-                  : employee.file
-              }`}
-              alt="employee"
-              layout="responsive"
-              quality={75}
-              height={30}
-              width={30}
-              className="photo_id_img"
-            />
-          </div>
-          <div className="employee_name">
-            {employee.nom} {employee.prenom}
-          </div>
-          <div className={`manager_name row_desktop `}>
-            <select
-              className="manager_name_select"
-              name="managerName"
-              id={employee.id}
-              ref={(ref) => managerRefs.current.push(ref)}
-              value={employee.id == "3" ? 3 : employee.manager_id}
-              //value={managerName ? managerName : employee.manager_id}
-              onChange={handleManagerName}
-            >
-              {options.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {" "}
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="role_name  row_desktop">
-            <select
-              className="role_name_select"
-              name="roleName"
-              id={employee.id}
-              ref={(ref) => roleRefs.current.push(ref)}
-              value={employee.id == "3" ? 1 : employee.roleId}
-              onChange={handleRoleName}
-            >
-              {optionsRole.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {" "}
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="active_state row_desktop">
-            <select
-              className="active_state_select"
-              name="activeState"
-              id={employee.id}
-              value={employee.id == "3" ? 1 : employee.actif}
-              onChange={handleActif}
-            >
-              {optionsActif.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {" "}
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </div>
+      {employees &&
+        employees?.map((employee) => (
+          // start row
+          <div
+            key={employee.id}
+            className={`row ${employee.actif == 0 ? "inactif" : "null"}`}
+            // className={`row `}
+          >
+            <div className="photo_id   row_desktop">
+              <Image
+                src={`${DOMAIN}/${
+                  employee.file === null
+                    ? "uploads/users/default/user.jpg"
+                    : employee.file
+                }`}
+                alt="employee"
+                layout="responsive"
+                quality={75}
+                height={30}
+                width={30}
+                className="photo_id_img"
+              />
+            </div>
 
-          <div className="editer">
-            <button
-              onClick={handleEdit}
-              id={employee.id}
-              className="editer_button"
-            >
-              <FaRegEdit />
-            </button>
-          </div>
+            <div className="employee_name">
+              {employee.nom} {employee.prenom}
+            </div>
+            <div className={`manager_name row_desktop `}>
+              <select
+                className="manager_name_select"
+                name="managerName"
+                id={employee.id}
+                ref={(ref) => managerRefs.current.push(ref)}
+                value={employee.id == "3" ? 3 : employee.manager_id}
+                //value={managerName ? managerName : employee.manager_id}
+                onChange={handleManagerName}
+              >
+                {managersDistinctState &&
+                  managersDistinctState.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {" "}
+                      {item.nom} {item.prenom}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="role_name  row_desktop">
+              <select
+                className="role_name_select"
+                name="roleName"
+                id={employee.id}
+                ref={(ref) => roleRefs.current.push(ref)}
+                value={employee.id == "3" ? 1 : employee.roleId}
+                onChange={handleRoleName}
+              >
+                {optionsRole.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {" "}
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="active_state row_desktop">
+              <select
+                className="active_state_select"
+                name="activeState"
+                id={employee.id}
+                value={employee.id == "3" ? 1 : employee.actif}
+                onChange={handleActif}
+              >
+                {optionsActif.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {" "}
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="supprimer">
-            <button
-              onClick={handleDelete}
-              id={employee.id}
-              className="supprimer_button"
-            >
-              <FaTrashAlt />
-            </button>
+            <div className="editer">
+              <button
+                onClick={handleEdit}
+                id={employee.id}
+                className="editer_button"
+              >
+                <FaRegEdit />
+              </button>
+            </div>
+
+            <div className="supprimer">
+              <button
+                onClick={handleDelete}
+                id={employee.id}
+                className="supprimer_button"
+              >
+                <FaTrashAlt />
+              </button>
+            </div>
           </div>
-        </div>
-        // end row
-      ))}
+          // end row
+        ))}
     </Mobile>
   );
 };

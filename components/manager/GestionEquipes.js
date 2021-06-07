@@ -17,6 +17,7 @@ import chroma from "chroma-js";
 
 
 import { FaSearch, FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import Dashboard2 from './../dashboard/Dashboard2';
 
 const Desktop = styled(motion.div)`
   min-width: 70vw;
@@ -253,7 +254,7 @@ const GestionEquipes = ({ setSelectSection }) => {
 
   const { apiPdf, downloadPdf } = pdfMethods;
   const { apiProfileCrudManagerShowAll , apiProfileCrudAdminShowAll } = profilMethods;
-  const { apiHierarchieUpdate } = hierarchieMethods;
+  const { apiHierarchieUpdate , apiHierarchiegetDistinct} = hierarchieMethods;
   const { apiRoleUpdate } = roleMethods;
   const { apiRessourceUpdate } = ressourcesMethods;
   const { apiDeleteUser } = authMethods;
@@ -272,15 +273,13 @@ const GestionEquipes = ({ setSelectSection }) => {
   const [sectionSelector, setSectionSelector] = useState("");
   const [employees, setEmployees] = useState();
 
-  // const breadcrumb = {
-  //   root: "Employee",
-  //   active: "Fiche de paie",
-  // };
-
   const [managerId, setManagerId] = useState({
     value: "",
   });
+
   const [roleName, setRoleName] = useState();
+  const [managersDistinctStateD2, setManagerDistinctStateD2] = useState();
+
   const [actif, setActif] = useState();
 
   const managerRefs = useRef([]);
@@ -294,7 +293,7 @@ const GestionEquipes = ({ setSelectSection }) => {
   ];
   const optionsRole = [
     
-    { value: "2", label: "Manager" },
+    // { value: "2", label: "Manager" },
     { value: "3", label: "Employe" },
   ];
   const optionsActif = [
@@ -327,6 +326,25 @@ const GestionEquipes = ({ setSelectSection }) => {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   };
+
+
+  // query manager distinct
+  const managersDistinctD2 = useQuery(["crud-manager-distinct-Dashboard2"], () =>
+    apiHierarchiegetDistinct()
+  );
+
+  if (managersDistinctD2.isLoading) {
+    console.log("ManagersDistinct loading");
+  }
+
+  if (managersDistinctD2.error) {
+    //console.log("error");
+    // console.log(error.message);
+  }
+  if (managersDistinctD2.isSuccess) {
+    // console.log("error");
+    console.log(managersDistinctD2.data);
+  }
 
   const updHierarchie = async (id, fd, cfg) => {
     let res = await apiHierarchieUpdate(id, fd, cfg);
@@ -448,6 +466,14 @@ const GestionEquipes = ({ setSelectSection }) => {
     };
   }, [data]);
 
+  React.useEffect(() => {
+    setManagerDistinctStateD2(managersDistinctD2.data);
+
+    return () => {
+      console.log("");
+    };
+  }, [managersDistinctD2.data]);
+
   return (
     <Mobile ui={ui} switchMode={switchMode}>
       <div className="row_search">
@@ -468,7 +494,7 @@ const GestionEquipes = ({ setSelectSection }) => {
         <div>Supprimer</div>
       </div>
 
-      {employees?.map((employee) => (
+      {employees && employees?.map((employee) => (
         // start row
         <div
           key={employee.id}
@@ -503,11 +529,10 @@ const GestionEquipes = ({ setSelectSection }) => {
               //value={managerName ? managerName : employee.manager_id}
               onChange={handleManagerName}
             >
-              {options.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {" "}
-                  {item.label}
-                </option>
+              {managersDistinctStateD2 && managersDistinctStateD2.map((item) => (
+                
+               item.id != 3 ? (<option key={item.id} value={item.id}> {item.nom} {item.prenom} </option>): null
+
               ))}
             </select>
           </div>

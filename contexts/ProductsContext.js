@@ -150,6 +150,12 @@ const roleMethods = {
 
 // Hierarchie ------------------------------------------------------
 // Hierarchie crudadmin HierarchieController
+//get hierarchie distinct
+export const apiHierarchiegetDistinct = async () => {
+  const { data } = await api.get(`/hierarchies-distinct/`);
+  return data;
+};
+
 //used only with axios in different components formData--> voir editer profil employee
 export const apiHierarchieUpdate = async (id, fd, cfg) => {
   const { data } = await api.post(`/hierarchies/${id}`, fd, cfg);
@@ -158,6 +164,7 @@ export const apiHierarchieUpdate = async (id, fd, cfg) => {
 
 const hierarchieMethods = {
   apiHierarchieUpdate,
+  apiHierarchiegetDistinct
 };
 
 //profil --MANAGER-------------------------------------------------------------
