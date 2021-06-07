@@ -7,5 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Hierarchie extends Model
 {
+    
     use HasFactory;
+    /**
+    * The attributes that are mass assignable.
+    *
+    * @var array
+    */
+   protected $fillable = [
+       'user_id',
+       'manager_id',
+       'validator_id',
+       'manager_name',
+      
+   ];
 }

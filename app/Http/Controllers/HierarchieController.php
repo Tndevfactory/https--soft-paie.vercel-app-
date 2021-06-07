@@ -9,6 +9,18 @@ use Illuminate\Support\Facades\DB;
 class HierarchieController extends Controller
 {
     /**
+     * hierarchie Get Distinct to view in crud admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function hierarchieGetDistinct()
+    {
+        $managersDistinct = DB::table('users')->join('role_user', 'users.id', 'role_user.user_id')->join('roles', 'role_user.role_id', 'roles.id')->whereIn('role_user.role_id', [1, 2])->select('users.id','users.nom','users.prenom')->distinct()->get()->toArray();
+        
+        return $managersDistinct;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

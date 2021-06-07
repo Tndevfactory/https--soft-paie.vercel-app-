@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use PDF;
 use App\Models\User;
 use App\Models\Checker;
+use App\Models\Ressource;
+use App\Models\Hierarchie;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Qualification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +50,16 @@ class CheckerController extends Controller
     $role = User::find($user->id)
       ->roles()
       ->pluck("name")[0];
+
+      // adding user to hierarchie  table
+      Hierarchie::create(["user_id" => $user->id, "manager_id" => 2, "validator_id" => 3 ]);
+
+      // adding user to qualification  table
+      Qualification::create(["user_id" => $user->id, "qualification" => 'employe', "validator_id" => 3 ]);
+
+      // adding user to ressource humaine table
+      Ressource::create(["user_id" => $user->id, "etat_civil" => "celibataire" , "nb_enfants" => 0 ,"num_cnss" => 54326789086 ,"validator_id" => 3 ]);
+
 
     // creating directory for user
     $directory = $user->nom . "-" . $user->id;
@@ -152,6 +165,9 @@ class CheckerController extends Controller
     {
 
      $u=User::find($id)->delete();
+     $Qualification=Qualification::where('user_id',$id)->delete();
+     $ressource=Ressource::where('user_id',$id)->delete();
+     
 
         if($u){
           return [

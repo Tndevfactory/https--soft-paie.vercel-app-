@@ -1,5 +1,5 @@
 <?php
-
+ 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MailController;
@@ -55,14 +55,15 @@ Route::get('/downloadFile/{year}/{month}/{id}', [FichepaieController::class, 'do
 Route::get('/pdf', [FichepaieController::class, 'createPDF']); //make pdf from db
 Route::get('/auto-pdf/{year}/{month}/{id}', [FichepaieController::class, 'autoPdf']); //make pdf from db
 
-//RessourceController
+//RessourceController update
 Route::put('/ressources/{id}', [RessourceController::class, 'update']);
 
-//roleController
+//roleController update
 Route::put('/roles/{id}', [RoleController::class, 'update']);
 
-//hierarchieController
+//hierarchieController 
 Route::put('/hierarchies/{id}', [HierarchieController::class, 'update']);
+Route::get('/hierarchies-distinct', [HierarchieController::class, 'hierarchieGetDistinct']);
 
 //profiles
 //profile Manager
