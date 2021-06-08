@@ -154,7 +154,7 @@ const roleMethods = {
 // Hierarchie crudadmin HierarchieController
 //get hierarchie distinct
 export const apiHierarchiegetDistinct = async () => {
-  const { data } = await api.get(`/hierarchies-distinct/`);
+  const { data } = await api.get(`/hierarchies-distinct`);
   return data;
 };
 
