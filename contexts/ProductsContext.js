@@ -26,6 +26,8 @@ const api = axios.create({
 
 api.interceptors.request.use(function (config) {
   // config.headers = { "X-Requested-With": "XMLHttpRequest" };
+  // config.headers = { "Accept": "application/json" };
+  // config.headers = { "content-type": "application/json" };
 
   const token = Cookies.get("sp_token") ? Cookies.get("sp_token") : null;
   config.headers.Authorization = token ? `Bearer ${token}` : "";
