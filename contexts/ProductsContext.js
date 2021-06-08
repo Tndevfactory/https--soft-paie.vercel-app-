@@ -25,9 +25,9 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-  // config.headers = { "X-Requested-With": "XMLHttpRequest" };
-  // config.headers = { "Accept": "application/json" };
-  // config.headers = { "content-type": "application/json" };
+  config.headers = { "X-Requested-With": "XMLHttpRequest" };
+  config.headers = { Accept: "application/json" };
+  config.headers = { "content-type": "application/json" };
 
   const token = Cookies.get("sp_token") ? Cookies.get("sp_token") : null;
   config.headers.Authorization = token ? `Bearer ${token}` : "";
@@ -166,7 +166,7 @@ export const apiHierarchieUpdate = async (id, fd, cfg) => {
 
 const hierarchieMethods = {
   apiHierarchieUpdate,
-  apiHierarchiegetDistinct
+  apiHierarchiegetDistinct,
 };
 
 //profil --MANAGER-------------------------------------------------------------
@@ -228,7 +228,7 @@ export const apiProfileDelete = async (id) => {
 };
 
 const profilMethods = {
-  apiProfileUpdateDashboard2 ,
+  apiProfileUpdateDashboard2,
   apiProfileShowOneDahboard2,
   apiProfileShowOneAdminCrud,
   apiProfileCrudManagerShowAll,
@@ -262,7 +262,7 @@ export const autoPdf = async (year, month, id) => {
   });
   return data;
 };
-const pdfMethods = { apiPdf, downloadPdf , autoPdf};
+const pdfMethods = { apiPdf, downloadPdf, autoPdf };
 
 //sendMail----------------------------------------------------------
 export const apiSendMail = async (fd, cfg) => {
